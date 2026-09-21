@@ -282,17 +282,30 @@ export default async function decorate(block) {
     if (utilList) {
       const utils = document.createElement('div');
       utils.className = 'nav-utility';
-      utilList.querySelectorAll('a').forEach((a) => {
-        const link = a.cloneNode(true);
-        link.classList.add('nav-utility-link');
-        const img = link.querySelector('img');
-        const alt = (img && img.getAttribute('alt')) || '';
-        if (alt) link.setAttribute('aria-label', alt);
-        // the user/profile control renders inside a grey circle
-        if (/account/.test(link.getAttribute('href') || '') || /user|profile/i.test(alt)) {
-          link.classList.add('nav-utility-avatar');
+      // Render every list item — an item may be a linked icon (Saves,
+      // Shopping List) or a bare image an author dropped into the cell
+      // (e.g. a profile picture with no anchor).
+      const items = [...utilList.querySelectorAll(':scope > li')];
+      items.forEach((li, i) => {
+        const anchor = li.querySelector('a');
+        let item;
+        if (anchor) {
+          item = anchor.cloneNode(true);
+        } else {
+          item = document.createElement('span');
+          [...li.cloneNode(true).childNodes].forEach((n) => item.append(n));
         }
-        utils.append(link);
+        item.classList.add('nav-utility-link');
+        const img = item.querySelector('img');
+        const alt = (img && img.getAttribute('alt')) || '';
+        if (alt) item.setAttribute('aria-label', alt);
+        // the profile control (matched by link/alt, or the last icon in the
+        // row) renders inside a grey circle
+        const href = item.getAttribute('href') || '';
+        if (/account/.test(href) || /user|profile/i.test(alt) || i === items.length - 1) {
+          item.classList.add('nav-utility-avatar');
+        }
+        utils.append(item);
       });
       tools.append(utils);
     }

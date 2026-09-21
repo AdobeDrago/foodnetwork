@@ -368,12 +368,19 @@ header nav .nav-utility-avatar {
   height: 34px;
   border-radius: 50%;
   background: #ededed;
+  overflow: hidden;
   justify-content: center;
 }
 
+header nav .nav-utility-avatar picture {
+  width: 100%;
+  height: 100%;
+}
+
 header nav .nav-utility-avatar img {
-  width: 30px;
-  height: 30px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* --- Hamburger menu (drops down below the bar) --- */
