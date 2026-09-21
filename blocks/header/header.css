@@ -64,7 +64,12 @@ header nav .nav-logo {
   align-items: center;
 }
 
-header nav .nav-logo .icon-logo {
+header nav .nav-logo picture,
+header nav .nav-logo img {
+  display: block;
+}
+
+header nav .nav-logo img {
   width: 50px;
   height: 50px;
 }
@@ -222,6 +227,10 @@ header nav .nav-cards a {
   display: block;
 }
 
+header nav .nav-cards picture {
+  display: block;
+}
+
 header nav .nav-cards img {
   width: 100%;
   height: auto;
@@ -332,9 +341,15 @@ header nav .nav-utility-link {
   color: var(--fn-ink-2);
 }
 
-header nav .nav-utility-link .icon {
+header nav .nav-utility-link picture {
+  display: inline-flex;
+  align-items: center;
+}
+
+header nav .nav-utility-link img {
   width: 22px;
   height: 22px;
+  display: block;
 }
 
 header nav .nav-utility-avatar {
@@ -345,7 +360,7 @@ header nav .nav-utility-avatar {
   justify-content: center;
 }
 
-header nav .nav-utility-avatar .icon {
+header nav .nav-utility-avatar img {
   width: 30px;
   height: 30px;
 }
@@ -412,9 +427,14 @@ header nav .nav-flyout-social a {
   color: var(--fn-ink-2);
 }
 
-header nav .nav-flyout-social .icon {
+header nav .nav-flyout-social picture {
+  display: inline-flex;
+}
+
+header nav .nav-flyout-social img {
   width: 22px;
   height: 22px;
+  display: block;
 }
 
 /* --- Tablet: reveal search --- */
