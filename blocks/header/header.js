@@ -1,18 +1,40 @@
+import { decorateIcons } from '../../scripts/aem.js';
+
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
 /**
  * Fetch the nav fragment. Metadata-independent dual-fetch:
  * /content first (localhost / aem up), then root (DA/EDS production).
+ * All imagery (logo, utility + social icons, megamenu thumbnails) is
+ * authored in the DA document and delivered here — the block only decorates
+ * the structure, it does not supply any image sources itself.
  */
 async function fetchNav() {
   let resp = await fetch('/content/nav.plain.html');
   if (!resp.ok) resp = await fetch('/nav.plain.html');
   if (!resp.ok) return null;
+  const base = new URL(resp.url, window.location.href);
   const html = await resp.text();
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
+  // Resolve the fragment's relative media URLs (./media_*) against the nav
+  // document so they keep working when injected into any host page.
+  tmp.querySelectorAll('img[src], source[srcset]').forEach((el) => {
+    const attr = el.tagName === 'SOURCE' ? 'srcset' : 'src';
+    const val = el.getAttribute(attr);
+    if (val && !/^(https?:|data:|\/)/.test(val)) {
+      el.setAttribute(attr, new URL(val, base).href);
+    }
+  });
   return tmp;
+}
+
+/** Build an EDS icon span (decorateIcons injects the SVG afterwards). */
+function iconSpan(name) {
+  const span = document.createElement('span');
+  span.className = `icon icon-${name}`;
+  return span;
 }
 
 /** Close all open megamenu panels within a container. */
@@ -59,6 +81,9 @@ function buildNavItem(heading, panelNodes) {
 
   const panel = document.createElement('div');
   panel.className = 'nav-panel';
+  const inner = document.createElement('div');
+  inner.className = 'nav-panel-inner';
+  panel.append(inner);
 
   // Group panel content into columns. Each H3 starts a new column; lists
   // before the first H3 form a default column.
@@ -71,7 +96,7 @@ function buildNavItem(heading, panelNodes) {
       h.textContent = title;
       currentCol.append(h);
     }
-    panel.append(currentCol);
+    inner.append(currentCol);
   };
 
   panelNodes.forEach((node) => {
@@ -81,13 +106,31 @@ function buildNavItem(heading, panelNodes) {
       if (!currentCol) startColumn(null);
       const hasImg = node.querySelector('img');
       const list = node.cloneNode(true);
-      list.className = hasImg ? 'nav-cards' : 'nav-links';
+      if (hasImg) {
+        const isAvatar = !!list.querySelector('a[href*="/profiles/talent/"]');
+        list.className = isAvatar ? 'nav-cards nav-cards-avatar' : 'nav-cards';
+        // Talent avatars show the person's name (from the image alt) beneath.
+        if (isAvatar) {
+          list.querySelectorAll('a').forEach((a) => {
+            const img = a.querySelector('img');
+            const name = img && img.getAttribute('alt');
+            if (name) {
+              const caption = document.createElement('span');
+              caption.className = 'nav-card-caption';
+              caption.textContent = name;
+              a.append(caption);
+            }
+          });
+        }
+      } else {
+        list.className = 'nav-links';
+      }
       currentCol.append(list);
       if (hasImg) currentCol = null;
     } else if (node.tagName === 'P') {
       const footer = node.cloneNode(true);
       footer.className = 'nav-panel-footer';
-      panel.append(footer);
+      inner.append(footer);
       currentCol = null;
     }
   });
@@ -134,14 +177,14 @@ function buildSearch() {
   submit.type = 'submit';
   submit.className = 'nav-search-submit';
   submit.setAttribute('aria-label', 'submit site search');
-  submit.innerHTML = '<span class="icon-search" aria-hidden="true"></span>';
+  submit.append(iconSpan('search'));
 
   form.append(input, submit);
   return form;
 }
 
 /**
- * Build the hamburger slide-out flyout from a "Main Menu" section:
+ * Build the hamburger menu drawer from a "Main Menu" section:
  * a link list plus (optionally) a social-icon row.
  */
 function buildFlyout(section) {
@@ -154,6 +197,14 @@ function buildFlyout(section) {
       const hasImg = node.querySelector('img');
       const list = node.cloneNode(true);
       list.className = hasImg ? 'nav-flyout-social' : 'nav-flyout-links';
+      if (hasImg) {
+        // give each icon link an accessible label from its image alt
+        list.querySelectorAll('a').forEach((a) => {
+          const img = a.querySelector('img');
+          const alt = img && img.getAttribute('alt');
+          if (alt) a.setAttribute('aria-label', alt);
+        });
+      }
       flyout.append(list);
     }
   });
@@ -181,7 +232,7 @@ export default async function decorate(block) {
   nav.setAttribute('aria-label', 'Main navigation');
   nav.setAttribute('data-open', 'false');
 
-  // --- Brand: hamburger + logo ---
+  // --- Brand: hamburger + logo (logo image comes from the DA document) ---
   const brand = document.createElement('div');
   brand.className = 'nav-brand';
   const hamburger = document.createElement('button');
@@ -195,20 +246,9 @@ export default async function decorate(block) {
     const logo = logoSection.querySelector('a');
     if (logo) {
       logo.classList.add('nav-logo');
+      logo.setAttribute('aria-label', 'Food Network home');
       brand.append(logo);
     }
-  }
-
-  // --- Hamburger flyout ---
-  let flyout = null;
-  if (flyoutSection) {
-    flyout = buildFlyout(flyoutSection);
-    hamburger.addEventListener('click', () => {
-      const open = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', open ? 'false' : 'true');
-      flyout.setAttribute('aria-hidden', open ? 'true' : 'false');
-      nav.setAttribute('data-flyout', open ? 'false' : 'true');
-    });
   }
 
   // --- Megamenu sections ---
@@ -233,7 +273,7 @@ export default async function decorate(block) {
     }
   }
 
-  // --- Tools: search + utility icons ---
+  // --- Tools: search + utility icons (icons come from the DA document) ---
   const tools = document.createElement('div');
   tools.className = 'nav-tools';
   tools.append(buildSearch());
@@ -242,19 +282,61 @@ export default async function decorate(block) {
     if (utilList) {
       const utils = document.createElement('div');
       utils.className = 'nav-utility';
-      utilList.querySelectorAll('a').forEach((a) => {
-        const link = a.cloneNode(true);
-        link.classList.add('nav-utility-link');
-        const img = link.querySelector('img');
-        if (img) link.setAttribute('aria-label', img.getAttribute('alt') || '');
-        utils.append(link);
+      // Render every list item — an item may be a linked icon (Saves,
+      // Shopping List) or a bare image an author dropped into the cell
+      // (e.g. a profile picture with no anchor).
+      const items = [...utilList.querySelectorAll(':scope > li')];
+      items.forEach((li, i) => {
+        const anchor = li.querySelector('a');
+        let item;
+        if (anchor) {
+          item = anchor.cloneNode(true);
+        } else {
+          item = document.createElement('span');
+          [...li.cloneNode(true).childNodes].forEach((n) => item.append(n));
+        }
+        item.classList.add('nav-utility-link');
+        const img = item.querySelector('img');
+        const alt = (img && img.getAttribute('alt')) || '';
+        if (alt) item.setAttribute('aria-label', alt);
+        // the profile control (matched by link/alt, or the last icon in the
+        // row) renders inside a grey circle
+        const href = item.getAttribute('href') || '';
+        if (/account/.test(href) || /user|profile/i.test(alt) || i === items.length - 1) {
+          item.classList.add('nav-utility-avatar');
+        }
+        utils.append(item);
       });
       tools.append(utils);
     }
   }
 
+  // --- Hamburger menu drawer ---
+  let flyout = null;
+  if (flyoutSection) {
+    flyout = buildFlyout(flyoutSection);
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', open ? 'false' : 'true');
+      flyout.setAttribute('aria-hidden', open ? 'true' : 'false');
+      nav.setAttribute('data-flyout', open ? 'false' : 'true');
+    });
+  }
+
   nav.append(brand, navSections, tools);
   if (flyout) nav.append(flyout);
+
+  // On mobile the megamenu accordions live inside the slide-in drawer; on
+  // desktop they sit in the bar. Re-parent when the breakpoint is crossed.
+  const placeSections = () => {
+    if (!flyout) return;
+    if (isDesktop.matches) {
+      if (navSections.parentElement !== nav) nav.insertBefore(navSections, tools);
+    } else if (navSections.parentElement !== flyout) {
+      flyout.prepend(navSections);
+    }
+  };
+  placeSections();
 
   // Close panels/flyout when focus leaves the nav (desktop keyboard support).
   nav.addEventListener('focusout', (e) => {
@@ -278,7 +360,9 @@ export default async function decorate(block) {
     nav.setAttribute('data-flyout', 'false');
     hamburger.setAttribute('aria-expanded', 'false');
     if (flyout) flyout.setAttribute('aria-hidden', 'true');
+    placeSections();
   });
 
+  decorateIcons(nav);
   block.append(nav);
 }

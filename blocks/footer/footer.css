@@ -7,9 +7,9 @@
 }
 
 footer {
-  background-color: #fff;
+  background-color: #292929;
   border-top: 1px solid var(--footer-border);
-  color: var(--footer-ink);
+  color: #fff;
   font-size: 15px;
   font-family: var(--body-font-family, Helvetica, Arial, sans-serif);
 }
@@ -28,7 +28,7 @@ footer .footer-legal ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px 16px;
+  gap: 12px 26px;
 }
 
 footer .footer-legal li {
@@ -36,9 +36,9 @@ footer .footer-legal li {
 }
 
 footer .footer-legal a {
-  color: var(--footer-ink);
+  color: #fff;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 /* --- Meta row: dropdowns + copyright --- */
@@ -66,8 +66,8 @@ footer .footer-dropdown {
 footer .footer-dropdown-toggle {
   border: 0;
   background: transparent;
-  color: var(--footer-ink);
-  font-size: 14px;
+  color: #a8a8a8;
+  font-size: 13px;
   font-family: inherit;
   cursor: pointer;
   padding: 4px 16px 4px 0;
@@ -75,15 +75,16 @@ footer .footer-dropdown-toggle {
 }
 
 footer .footer-dropdown-toggle::after {
-  content: '▾';
+  content: '⌃';
   position: absolute;
   right: 0;
-  font-size: 11px;
+  top: 5px;
+  font-size: 12px;
   transition: transform 0.2s ease;
 }
 
 footer .footer-dropdown.is-open .footer-dropdown-toggle {
-  color: var(--fn-red);
+  color: #fff;
 }
 
 footer .footer-dropdown.is-open .footer-dropdown-toggle::after {
@@ -121,11 +122,11 @@ footer .footer-dropdown-panel a:hover {
 footer .footer-copyright {
   margin: 0;
   font-size: 13px;
-  color: #666;
+  color: #a8a8a8;
 }
 
 footer .footer-legal a:hover {
-  color: var(--fn-red);
+  color: #fff;
   text-decoration: underline;
 }
 

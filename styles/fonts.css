@@ -1,4 +1,38 @@
 /* stylelint-disable max-line-length */
+
+/* Franklin Gothic URW — the type family used on foodnetwork.com */
+@font-face {
+  font-family: franklin-gothic;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/franklin-gothic-urw-book.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: franklin-gothic;
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('../fonts/franklin-gothic-urw-medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: franklin-gothic-med;
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/franklin-gothic-urw-medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: franklin-gothic-cond;
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/franklin-gothic-urw-cond-medium.woff') format('woff');
+}
+
 @font-face {
   font-family: roboto-condensed;
   font-style: normal;
