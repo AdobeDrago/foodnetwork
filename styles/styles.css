@@ -19,9 +19,10 @@
   --link-color: #3b63fb;
   --link-hover-color: #1d3ecf;
 
-  /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  /* fonts (Franklin Gothic URW — matches foodnetwork.com) */
+  --body-font-family: 'franklin-gothic', helvetica, arial, sans-serif;
+  --heading-font-family: 'franklin-gothic-med', helvetica, arial, sans-serif;
+  --nav-font-family: 'franklin-gothic-cond', helvetica, arial, sans-serif;
 
   /* body sizes */
   --body-font-size-m: 22px;

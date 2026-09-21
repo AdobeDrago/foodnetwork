@@ -11,7 +11,7 @@
 }
 
 .header.block {
-  box-shadow: 0 0 10px 1px hsla(0, 0%, 84%, .5);
+  box-shadow: 0 0 10px 1px hsl(0deg 0% 84% / 50%);
 }
 
 header .nav-wrapper {
@@ -163,7 +163,7 @@ header nav .nav-trigger {
   color: var(--fn-ink-2);
   cursor: pointer;
   text-decoration: none;
-  font-family: inherit;
+  font-family: var(--nav-font-family, inherit);
   text-align: left;
 }
 
