@@ -350,25 +350,29 @@ header nav .nav-utility-avatar .icon {
   height: 30px;
 }
 
-/* --- Hamburger flyout (left slide-out drawer) --- */
+/* --- Hamburger menu (drops down below the bar) --- */
 header nav .nav-flyout {
   position: absolute;
   top: 100%;
   left: 0;
-  width: min(370px, 92vw);
+  right: 0;
   max-height: calc(100vh - var(--nav-height));
   overflow-y: auto;
   background: #fff;
-  box-shadow: 2px 8px 24px rgb(0 0 0 / 15%);
-  border-right: 1px solid var(--fn-border);
-  padding: 20px 28px 32px;
-  transform: translateX(-110%);
-  transition: transform 0.25s ease;
+  box-shadow: 0 18px 24px rgb(0 0 0 / 12%);
+  border-top: 1px solid var(--fn-border);
+  padding: 8px 24px 28px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
   z-index: 40;
 }
 
 header nav[data-flyout='true'] .nav-flyout {
-  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 header nav .nav-flyout-links {
@@ -542,7 +546,16 @@ header nav .nav-flyout-social .icon {
     margin-top: 16px;
   }
 
-  /* Flyout stays a left slide-out on desktop; sections remain in the bar */
+  /* Desktop: menu drops as a fixed-width panel under the hamburger;
+     sections stay in the bar rather than in the drawer. */
+  header nav .nav-flyout {
+    left: 16px;
+    right: auto;
+    width: min(360px, 92vw);
+    border: 1px solid var(--fn-border);
+    padding: 16px 28px 28px;
+  }
+
   header nav .nav-flyout .nav-sections {
     display: none;
   }
