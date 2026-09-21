@@ -3,7 +3,10 @@
 :root {
   --fn-red: #e6003d;
   --fn-ink: #1a1a1a;
+  --fn-ink-2: #1c1c1c;
+  --fn-muted: #767676;
   --fn-border: #e2e2e2;
+  --fn-search-border: #c9c9c9;
   --nav-height: 68px;
 }
 
@@ -36,11 +39,24 @@ header nav {
   font-family: var(--body-font-family, Helvetica, Arial, sans-serif);
 }
 
+/* Icons render as <span class="icon"><img src="/icons/x.svg"></span> */
+header nav .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header nav .icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 /* --- Brand: hamburger + logo --- */
 header nav .nav-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 header nav .nav-logo {
@@ -48,10 +64,9 @@ header nav .nav-logo {
   align-items: center;
 }
 
-header nav .nav-logo img {
-  height: 46px;
-  width: 46px;
-  display: block;
+header nav .nav-logo .icon-logo {
+  width: 50px;
+  height: 50px;
 }
 
 /* --- Hamburger --- */
@@ -72,9 +87,10 @@ header nav .nav-hamburger-icon::before,
 header nav .nav-hamburger-icon::after {
   content: '';
   display: block;
-  width: 24px;
+  width: 22px;
   height: 2px;
-  background: var(--fn-ink);
+  border-radius: 2px;
+  background: var(--fn-ink-2);
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
@@ -84,12 +100,12 @@ header nav .nav-hamburger-icon {
 
 header nav .nav-hamburger-icon::before {
   position: absolute;
-  top: -7px;
+  top: -6px;
 }
 
 header nav .nav-hamburger-icon::after {
   position: absolute;
-  top: 7px;
+  top: 6px;
 }
 
 header nav[data-flyout='true'] .nav-hamburger-icon {
@@ -113,7 +129,7 @@ header nav .nav-sections {
   width: 100%;
 }
 
-header nav[data-flyout='true'] .nav-sections {
+header nav .nav-flyout .nav-sections {
   display: flex;
 }
 
@@ -123,6 +139,7 @@ header nav .nav-item {
 }
 
 header nav .nav-trigger {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -130,18 +147,19 @@ header nav .nav-trigger {
   padding: 14px 4px;
   border: 0;
   background: transparent;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  color: var(--fn-ink);
+  color: var(--fn-ink-2);
   cursor: pointer;
   text-decoration: none;
   font-family: inherit;
+  text-align: left;
 }
 
 header nav .nav-trigger:not(.nav-link)::after {
   content: '+';
   font-weight: 400;
-  font-size: 20px;
+  font-size: 22px;
   color: var(--fn-red);
 }
 
@@ -160,11 +178,12 @@ header nav .nav-item[aria-expanded='true'] .nav-panel {
 }
 
 header nav .nav-col h3 {
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #777;
-  margin: 12px 0 6px;
+  letter-spacing: 0.08em;
+  color: var(--fn-muted);
+  margin: 14px 0 6px;
 }
 
 header nav .nav-links {
@@ -179,19 +198,24 @@ header nav .nav-links li {
 
 header nav .nav-links a {
   display: block;
-  padding: 7px 0;
-  color: var(--fn-ink);
+  padding: 8px 0;
+  color: var(--fn-ink-2);
   text-decoration: none;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 header nav .nav-cards {
   list-style: none;
-  margin: 8px 0;
+  margin: 10px 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 12px;
+}
+
+header nav .nav-cards li {
+  margin: 0;
 }
 
 header nav .nav-cards a {
@@ -201,14 +225,40 @@ header nav .nav-cards a {
 header nav .nav-cards img {
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   border-radius: 4px;
   display: block;
+  background: #f2f2f2;
+}
+
+/* Circular red talent avatars (Chefs menu) */
+header nav .nav-cards-avatar {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+header nav .nav-cards-avatar img {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: var(--fn-red);
+}
+
+header nav .nav-card-caption {
+  display: block;
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fn-ink-2);
+  line-height: 1.2;
+}
+
+header nav .nav-cards-avatar a {
+  text-decoration: none;
 }
 
 header nav .nav-panel-footer {
-  margin: 10px 0 0;
+  margin: 12px 0 0;
 }
 
 header nav .nav-panel-footer a {
@@ -219,22 +269,25 @@ header nav .nav-panel-footer a {
   letter-spacing: 0.04em;
   color: var(--fn-red);
   text-decoration: none;
+  border: 1.5px solid var(--fn-red);
+  border-radius: 22px;
+  padding: 9px 22px;
 }
 
 /* --- Tools: search + utility --- */
 header nav .nav-tools {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   margin-left: auto;
 }
 
 header nav .nav-search {
   display: none;
   align-items: center;
-  border: 1px solid #c9c9c9;
-  border-radius: 24px;
-  padding: 6px 8px 6px 18px;
+  border: 1px solid var(--fn-search-border);
+  border-radius: 22px;
+  padding: 8px 8px 8px 18px;
   background: #fff;
 }
 
@@ -244,49 +297,71 @@ header nav .nav-search input {
   outline: none;
   font-size: 15px;
   width: 220px;
-  color: var(--fn-ink);
+  color: var(--fn-ink-2);
+  font-family: inherit;
+}
+
+header nav .nav-search input::placeholder {
+  color: #8a8a8a;
 }
 
 header nav .nav-search-submit {
   border: 0;
   background: transparent;
   cursor: pointer;
-  color: var(--fn-ink);
-  padding: 2px 6px;
+  color: var(--fn-ink-2);
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
 }
 
-header nav .nav-search-submit .icon-search::before {
-  content: '⌕';
-  font-size: 22px;
+header nav .nav-search-submit .icon {
+  width: 20px;
+  height: 20px;
 }
 
 header nav .nav-utility {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 header nav .nav-utility-link {
   display: inline-flex;
   align-items: center;
+  color: var(--fn-ink-2);
 }
 
-header nav .nav-utility-link img {
-  width: 24px;
-  height: 24px;
-  display: block;
+header nav .nav-utility-link .icon {
+  width: 22px;
+  height: 22px;
 }
 
-/* --- Hamburger flyout (left slide-out) --- */
+header nav .nav-utility-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ededed;
+  justify-content: center;
+}
+
+header nav .nav-utility-avatar .icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* --- Hamburger flyout (left slide-out drawer) --- */
 header nav .nav-flyout {
   position: absolute;
   top: 100%;
   left: 0;
-  width: min(360px, 90vw);
+  width: min(370px, 92vw);
+  max-height: calc(100vh - var(--nav-height));
+  overflow-y: auto;
   background: #fff;
   box-shadow: 2px 8px 24px rgb(0 0 0 / 15%);
   border-right: 1px solid var(--fn-border);
-  padding: 20px 28px 28px;
+  padding: 20px 28px 32px;
   transform: translateX(-110%);
   transition: transform 0.25s ease;
   z-index: 40;
@@ -309,35 +384,33 @@ header nav .nav-flyout-links li {
 header nav .nav-flyout-links a {
   display: block;
   padding: 10px 0;
-  color: var(--fn-ink);
+  color: var(--fn-ink-2);
   text-decoration: none;
   font-size: 17px;
-}
-
-header nav .nav-flyout-links a:hover {
-  color: var(--fn-red);
+  font-weight: 700;
 }
 
 header nav .nav-flyout-social {
   list-style: none;
   margin: 0;
-  padding: 12px 0 0;
+  padding: 16px 0 0;
   display: flex;
-  gap: 18px;
+  gap: 20px;
+  border-top: 1px solid var(--fn-border);
 }
 
 header nav .nav-flyout-social li {
   margin: 0;
 }
 
-header nav .nav-flyout-social img {
-  width: 22px;
-  height: 22px;
-  display: block;
+header nav .nav-flyout-social a {
+  display: inline-flex;
+  color: var(--fn-ink-2);
 }
 
-header nav .nav-links a:hover {
-  color: var(--fn-red);
+header nav .nav-flyout-social .icon {
+  width: 22px;
+  height: 22px;
 }
 
 /* --- Tablet: reveal search --- */
@@ -347,10 +420,14 @@ header nav .nav-links a:hover {
   }
 }
 
-/* --- Desktop: horizontal left-grouped nav + dropdown megamenus --- */
+/* --- Desktop: horizontal left-grouped nav + full-width megamenus --- */
 @media (width >= 900px) {
+  :root {
+    --nav-height: 80px;
+  }
+
   header nav {
-    gap: 18px;
+    gap: 20px;
   }
 
   header nav .nav-sections {
@@ -358,20 +435,21 @@ header nav .nav-links a:hover {
     flex-direction: row;
     align-items: center;
     width: auto;
-    gap: 4px;
+    gap: 2px;
   }
 
+  /* static so the panel positions against <nav> (full-bleed dropdown) */
   header nav .nav-item {
     border-top: 0;
     width: auto;
-    position: relative;
+    position: static;
   }
 
   header nav .nav-trigger {
     width: auto;
-    padding: 22px 12px;
-    font-size: 15px;
-    font-weight: 400;
+    padding: 28px 12px;
+    font-size: 16px;
+    font-weight: 500;
     white-space: nowrap;
   }
 
@@ -385,66 +463,108 @@ header nav .nav-links a:hover {
     color: var(--fn-red);
   }
 
-  /* Desktop panel: full-width dropdown below the bar */
+  /* short red underline bar under the active/hovered item */
+  header nav .nav-item:hover .nav-trigger::before,
+  header nav .nav-item[aria-expanded='true'] .nav-trigger::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 20px;
+    height: 3px;
+    background: var(--fn-red);
+  }
+
+  /* Desktop panel: full-viewport-width dropdown below the bar */
   header nav .nav-item .nav-panel {
-    display: flex;
+    display: block;
     position: absolute;
     top: 100%;
-    left: 0;
-    min-width: 620px;
-    max-width: 92vw;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    padding: 0;
     background: #fff;
-    border: 1px solid var(--fn-border);
-    box-shadow: 0 12px 24px rgb(0 0 0 / 12%);
-    padding: 24px 28px;
+    border-top: 1px solid var(--fn-border);
+    box-shadow: 0 18px 24px rgb(0 0 0 / 8%);
     z-index: 30;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.15s ease;
-    flex-wrap: wrap;
-    gap: 28px;
-    animation: none;
   }
 
   header nav .nav-item[aria-expanded='true'] .nav-panel {
-    display: flex;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+  }
+
+  header nav .nav-panel-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px 40px 40px 116px;
   }
 
   header nav .nav-col {
     min-width: 150px;
   }
 
+  header nav .nav-links a {
+    padding: 6px 0;
+  }
+
   header nav .nav-cards {
-    grid-template-columns: repeat(5, 92px);
-    gap: 14px;
+    grid-template-columns: repeat(5, 116px);
+    gap: 16px;
   }
 
   header nav .nav-cards img {
-    width: 92px;
-    height: 92px;
+    width: 116px;
+    height: auto;
+  }
+
+  header nav .nav-cards-avatar {
+    grid-template-columns: repeat(8, 108px);
+    gap: 16px;
+  }
+
+  header nav .nav-cards-avatar img {
+    width: 108px;
+    height: 108px;
   }
 
   header nav .nav-panel-footer {
     flex-basis: 100%;
-    border-top: 1px solid var(--fn-border);
-    padding-top: 12px;
+    margin-top: 16px;
   }
 
   /* Flyout stays a left slide-out on desktop; sections remain in the bar */
-  header nav[data-flyout='true'] .nav-sections {
-    display: flex;
-    flex-direction: row;
+  header nav .nav-flyout .nav-sections {
+    display: none;
   }
 }
 
 /* --- Large desktop --- */
 @media (width >= 1200px) {
   header nav .nav-trigger {
-    font-size: 16px;
-    padding: 22px 14px;
+    font-size: 17px;
   }
+}
+
+/* Link hover states last (keeps specificity ascending for stylelint). */
+header nav .nav-links a:hover {
+  color: var(--fn-red);
+}
+
+header nav .nav-flyout-links a:hover {
+  color: var(--fn-red);
+}
+
+header nav .nav-panel-footer a:hover {
+  background: var(--fn-red);
+  color: #fff;
 }
