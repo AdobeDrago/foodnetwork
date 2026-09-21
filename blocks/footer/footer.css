@@ -1,20 +1,163 @@
+/* Food Network footer — mobile-first */
+
+:root {
+  --fn-red: #e6003d;
+  --footer-ink: #1c1c1c;
+  --footer-border: #e2e2e2;
+}
+
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: #fff;
+  border-top: 1px solid var(--footer-border);
+  color: var(--footer-ink);
+  font-size: 15px;
+  font-family: var(--body-font-family, Helvetica, Arial, sans-serif);
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+footer .footer-inner {
+  max-width: 1252px;
+  margin: 0 auto;
+  padding: 24px 16px;
 }
 
-footer .footer p {
+/* --- Legal links row --- */
+footer .footer-legal ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 16px;
+}
+
+footer .footer-legal li {
   margin: 0;
 }
 
+footer .footer-legal a {
+  color: var(--footer-ink);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* --- Meta row: dropdowns + copyright --- */
+footer .footer-meta {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+footer .footer-dropdowns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+footer .footer-dropdown {
+  position: relative;
+}
+
+footer .footer-dropdown-toggle {
+  border: 0;
+  background: transparent;
+  color: var(--footer-ink);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 4px 16px 4px 0;
+  position: relative;
+}
+
+footer .footer-dropdown-toggle::after {
+  content: '▾';
+  position: absolute;
+  right: 0;
+  font-size: 11px;
+  transition: transform 0.2s ease;
+}
+
+footer .footer-dropdown.is-open .footer-dropdown-toggle {
+  color: var(--fn-red);
+}
+
+footer .footer-dropdown.is-open .footer-dropdown-toggle::after {
+  transform: rotate(180deg);
+}
+
+footer .footer-dropdown-panel {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: none;
+}
+
+footer .footer-dropdown.is-open .footer-dropdown-panel {
+  display: block;
+}
+
+footer .footer-dropdown-panel li {
+  margin: 0;
+}
+
+footer .footer-dropdown-panel a {
+  display: block;
+  padding: 6px 0;
+  color: var(--footer-ink);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+footer .footer-dropdown-panel a:hover {
+  color: var(--fn-red);
+  text-decoration: underline;
+}
+
+footer .footer-copyright {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+footer .footer-legal a:hover {
+  color: var(--fn-red);
+  text-decoration: underline;
+}
+
+/* --- Desktop --- */
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer-inner {
+    padding: 24px 32px;
+  }
+
+  footer .footer-meta {
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+
+  footer .footer-dropdowns {
+    flex-direction: row;
+    width: auto;
+    gap: 24px;
+  }
+
+  footer .footer-dropdown-panel {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    min-width: 200px;
+    background: #fff;
+    border: 1px solid var(--footer-border);
+    box-shadow: 0 -4px 16px rgb(0 0 0 / 10%);
+    padding: 8px 16px;
+    margin: 0 0 6px;
+    z-index: 5;
   }
 }
