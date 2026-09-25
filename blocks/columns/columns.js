@@ -14,5 +14,20 @@ export default function decorate(block) {
         }
       }
     });
+
+    // wrap the row in the heading's link so image + text are clickable
+    const link = row.querySelector('a[href]');
+    if (link) {
+      const { href } = link;
+      const label = link.textContent.trim();
+      // unwrap the heading anchor, keeping its text (avoid nested links)
+      link.replaceWith(...link.childNodes);
+      const anchor = document.createElement('a');
+      anchor.className = 'columns-link';
+      anchor.href = href;
+      anchor.setAttribute('aria-label', label);
+      while (row.firstElementChild) anchor.append(row.firstElementChild);
+      row.append(anchor);
+    }
   });
 }
