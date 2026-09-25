@@ -1,37 +1,75 @@
 .hero-container .hero-wrapper {
-  max-width: unset;
-  padding: 0;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 24px 16px 0;
 }
 
 .hero {
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  padding: 0;
+
+  /* allow the caption box to overhang the image's bottom edge */
+  overflow: visible;
 }
 
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
+/* whole-block link wrapper */
+.hero .hero-link {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 360px;
+  color: inherit;
+  text-decoration: none;
 }
 
 .hero picture {
   position: absolute;
   z-index: -1;
   inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
 }
 
 .hero img {
-  object-fit: cover;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+/* white caption box, bottom-left, overlapping the lower edge */
+.hero .hero-caption {
+  box-sizing: border-box;
+  max-width: 90%;
+  margin: 0 0 26px 26px;
+  padding: 22px 24px;
+  background-color: var(--background-color);
+}
+
+.hero .hero-title {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: var(--heading-font-size-l);
+  line-height: 1.1;
+
+  /* keep space for the underline so it never clips on hover */
+  text-decoration: underline solid transparent 3px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.1s ease-in-out;
+}
+
+/* hover anywhere on the block reveals the red underline */
+.hero .hero-link:hover .hero-title {
+  text-decoration-color: #e6003d;
 }
 
 @media (width >= 900px) {
-  .hero {
-    padding: 40px 32px;
+  .hero .hero-link {
+    min-height: 400px;
+  }
+
+  .hero .hero-caption {
+    max-width: 450px;
+    margin: 0 0 26px 26px;
+    padding: 28px 32px;
   }
 }
