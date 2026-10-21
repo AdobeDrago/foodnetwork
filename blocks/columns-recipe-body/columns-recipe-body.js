@@ -214,6 +214,35 @@ function setPackage(footer, item) {
 }
 
 /**
+ * The title sits in the default content above the info block, after the chef
+ * photo. When that heading was cleared in authoring, create it.
+ * @param {HTMLElement} scope
+ * @param {HTMLElement} block
+ * @returns {HTMLElement|null}
+ */
+function summaryWrapper(scope, block) {
+  const bodyWrap = block.parentElement;
+  const before = [];
+  let sibling = scope.firstElementChild;
+  while (sibling && sibling !== bodyWrap) {
+    before.push(sibling);
+    sibling = sibling.nextElementSibling;
+  }
+  const chef = [...before].reverse().find((el) => (
+    el.classList.contains('default-content-wrapper') && el.querySelector('picture')
+  ));
+  if (chef) return chef;
+
+  const info = before.find((el) => el.classList.contains('columns-recipe-info-wrapper'));
+  const wrapper = document.createElement('div');
+  wrapper.className = 'default-content-wrapper';
+  const anchor = info || bodyWrap;
+  if (anchor) anchor.before(wrapper);
+  else scope.append(wrapper);
+  return wrapper;
+}
+
+/**
  * Title, rating, credit, categories, package, and show/episode sit in default
  * content. The recipe-detail CSS keys off that markup, so the text is swapped
  * in place. The chef avatar and prev/next bar are left as authored.
@@ -222,9 +251,14 @@ function setPackage(footer, item) {
  */
 function applyRecipeChrome(block, recipe) {
   const scope = block.closest('.section-main') || block.closest('main');
-  const h1 = scope?.querySelector('.default-content-wrapper h1');
-  if (h1 && typeof recipe.title === 'string' && recipe.title.trim()) {
-    h1.textContent = recipe.title.trim();
+  const title = typeof recipe.title === 'string' ? recipe.title.trim() : '';
+  if (scope && title) {
+    let h1 = scope.querySelector('.default-content-wrapper h1');
+    if (!h1) {
+      h1 = document.createElement('h1');
+      summaryWrapper(scope, block).append(h1);
+    }
+    h1.textContent = title;
     const rating = recipeRatingText(recipe);
     if (rating) {
       let ratingP = h1.nextElementSibling;
