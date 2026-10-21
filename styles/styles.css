@@ -41,8 +41,7 @@
   --heading-font-size-s: 24px;
   --heading-font-size-xs: 22px;
 
-  /* nav heights */
-  --nav-height: 64px;
+  /* nav heights — 80px comes from brand.css so the Food Network header bar matches */
   --breadcrumbs-height: 34px;
   --header-height: var(--nav-height);
 }
