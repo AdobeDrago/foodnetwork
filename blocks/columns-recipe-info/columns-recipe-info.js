@@ -1,3 +1,5 @@
+import { capitalize, formatMinutes, loadRecipe } from '../../scripts/recipe-data.js';
+
 const LABEL_RE = /^([^:]{1,40}:)\s*([\s\S]*)$/;
 
 let popoverCount = 0;
@@ -119,14 +121,56 @@ function decoratePopover(cell) {
   return true;
 }
 
+function textCell(text) {
+  const cell = document.createElement('div');
+  if (!text) return cell;
+  const p = document.createElement('p');
+  p.textContent = text;
+  cell.append(p);
+  return cell;
+}
+
+function timeLine(times, key, label) {
+  const formatted = formatMinutes(times?.[key]?.minutes);
+  return formatted ? `${label}: ${formatted}` : '';
+}
+
+/**
+ * Three groups matching the authored table: Level+Total, the prep times, Yield.
+ * Nutrition Info is not in the recipe JSON, so it is left off.
+ * @param {object} recipe
+ * @returns {HTMLDivElement[]|null}
+ */
+function infoRows(recipe) {
+  const level = capitalize(recipe.difficulty);
+  const yieldText = typeof recipe.recipeYield === 'string' ? recipe.recipeYield.trim() : '';
+  const columns = [
+    [level ? `Level: ${level}` : '', timeLine(recipe.times, 'total', 'Total')].filter(Boolean),
+    ['prep', 'inactive', 'cook']
+      .map((key) => timeLine(recipe.times, key, capitalize(key)))
+      .filter(Boolean),
+    yieldText ? [`Yield: ${yieldText}`] : [],
+  ];
+  if (columns.every((column) => !column.length)) return null;
+  const count = Math.max(...columns.map((column) => column.length));
+  const rows = [];
+  for (let i = 0; i < count; i += 1) {
+    const row = document.createElement('div');
+    columns.forEach((column) => row.append(textCell(column[i])));
+    rows.push(row);
+  }
+  return rows;
+}
+
 /**
  * Columns Recipe Info block
  * Label/value recipe summary shown as side-by-side groups between rules.
  * Each authored column is one group (e.g. Level+Total | Prep+Cook |
  * Yield+Nutrition Info); each row adds one item to every group. A cell that
  * holds a list becomes a toggle button revealing that list in a popover.
+ * On a recipe detail URL the groups are rebuilt from `.sni.json` first.
  */
-export default function decorate(block) {
+function decorateInfo(block) {
   // snapshot cells first: moving a cell into its group shifts row.children
   const rows = [...block.children].map((row) => [...row.children]);
   const groupCount = Math.max(0, ...rows.map((cells) => cells.length));
@@ -154,4 +198,11 @@ export default function decorate(block) {
 
   block.classList.add(`columns-recipe-info-${wrapper.children.length}-cols`);
   block.replaceChildren(wrapper);
+}
+
+export default async function decorate(block) {
+  const recipe = await loadRecipe();
+  const rows = recipe ? infoRows(recipe) : null;
+  if (rows) block.replaceChildren(...rows);
+  decorateInfo(block);
 }
