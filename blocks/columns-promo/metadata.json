@@ -1,0 +1,34 @@
+{
+  "variantName": "columns-promo",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Large 4x3 image about 55% left, headline + description + red uppercase CTA right, vertically centred",
+  "contentPattern": {
+    "columns": 2,
+    "rows": "One row",
+    "cells": [
+      "Image",
+      "H2 headline link, description paragraph, CTA link"
+    ],
+    "structure": "two cells: the image alone, then an H2 headline (optionally linked), a description and a final paragraph holding only the CTA link. With the Wide option, a paragraph before the H2 is a kicker label and the description/CTA may be left out"
+  },
+  "options": [
+    {
+      "class": "wide",
+      "label": "Wide"
+    }
+  ],
+  "memberVariantIds": [
+    "columns-promo"
+  ],
+  "usage": {
+    "description": "Editorial promo that pairs a large image with a headline, short description and an uppercase call-to-action link, e.g. '30-Minute Dinners' or 'Our Recipe Testing and Editing Process'.",
+    "pagesUsing": [
+      "/recipes",
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-20"
+  },
+  "reuseGuidance": "Use for a single featured promo between card grids. Put the image alone in the first cell; put the H2 headline (optionally linked), description and a final paragraph containing only the CTA link in the second cell."
+}

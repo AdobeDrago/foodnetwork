@@ -1,0 +1,251 @@
+/* columns-recipe-info: source .recipeInfo .o-RecipeInfo -- three label/value
+   groups between 1px #e0e0e0 rules, Nutrition Info popover (.m-Popover) */
+
+.columns-recipe-info {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-s);
+  line-height: 27px;
+  color: var(--text-color);
+}
+
+.columns-recipe-info .columns-recipe-info-groups {
+  display: flex;
+  flex-direction: column;
+}
+
+/* source ul.o-RecipeInfo__m-* */
+.columns-recipe-info .columns-recipe-info-group {
+  min-width: 0;
+  padding: 20px 0 5px;
+}
+
+.columns-recipe-info .columns-recipe-info-group + .columns-recipe-info-group {
+  border-top: 1px solid var(--border-color);
+}
+
+/* source li */
+.columns-recipe-info .columns-recipe-info-item {
+  position: relative;
+  margin: 0 0 10px;
+}
+
+/* source .o-RecipeInfo__a-Description (FranklinGothicURW-Dem; Med is the bundled stand-in) */
+.columns-recipe-info .columns-recipe-info-item p {
+  margin: 0;
+  font-family: var(--heading-med-font-family);
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* source .o-RecipeInfo__a-Headline */
+.columns-recipe-info .columns-recipe-info-item .columns-recipe-info-label {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+}
+
+/* Nutrition Info toggle: red text button (resets the global pill button).
+   Source button is 18px/18px inside a 27px line; 27px here keeps that row
+   height without relying on the line-box strut. */
+.columns-recipe-info button.columns-recipe-info-toggle {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-s);
+  line-height: 27px;
+  text-align: left;
+  white-space: normal;
+  color: #e6003d;
+}
+
+.columns-recipe-info button.columns-recipe-info-toggle:hover,
+.columns-recipe-info button.columns-recipe-info-toggle:focus,
+.columns-recipe-info button.columns-recipe-info-toggle[aria-expanded='true'] {
+  background: none;
+  color: var(--text-color);
+}
+
+.columns-recipe-info button.columns-recipe-info-toggle:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+}
+
+/* popover: source .m-Popover.popover; in flow below the toggle on small screens */
+.columns-recipe-info .columns-recipe-info-popover {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 315px;
+  margin-top: 22px;
+  padding: 30px 24px 20px;
+  border-radius: 7px;
+  background-color: var(--surface-color);
+  box-shadow: 0 0 19px 0 rgb(0 0 0 / 25%);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-m);
+  line-height: 27px;
+  text-align: left;
+  color: var(--text-color);
+}
+
+.columns-recipe-info .columns-recipe-info-popover[hidden] {
+  display: none;
+}
+
+/* source [data-type="close-popover"]: 33px dark disc with a white x */
+.columns-recipe-info .columns-recipe-info-popover button.columns-recipe-info-close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 33px;
+  height: 33px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--dark-color);
+  color: var(--surface-color);
+}
+
+.columns-recipe-info .columns-recipe-info-popover button.columns-recipe-info-close:hover,
+.columns-recipe-info .columns-recipe-info-popover button.columns-recipe-info-close:focus {
+  background-color: var(--dark-color);
+}
+
+.columns-recipe-info .columns-recipe-info-popover button.columns-recipe-info-close:focus-visible {
+  outline: 2px solid var(--dark-color);
+  outline-offset: 2px;
+}
+
+.columns-recipe-info .columns-recipe-info-close::before,
+.columns-recipe-info .columns-recipe-info-close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 3px;
+  border-radius: 2px;
+  background-color: currentcolor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.columns-recipe-info .columns-recipe-info-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.columns-recipe-info .columns-recipe-info-popover ul,
+.columns-recipe-info .columns-recipe-info-popover ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* source .m-NutritionTable__a-Content dt/dd pairs */
+.columns-recipe-info .columns-recipe-info-popover li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 5px;
+  padding: 15px 0 0;
+  border-top: 1px solid var(--border-color);
+  font-size: var(--body-font-size-m);
+  line-height: 20.25px;
+}
+
+.columns-recipe-info .columns-recipe-info-popover .columns-recipe-info-label {
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+}
+
+.columns-recipe-info .columns-recipe-info-popover .columns-recipe-info-value {
+  text-align: right;
+}
+
+/* source "Nutritional Analysis / Per Serving" header row */
+.columns-recipe-info .columns-recipe-info-popover li:first-child {
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-m);
+  line-height: 27px;
+}
+
+.columns-recipe-info .columns-recipe-info-popover li:first-child + li {
+  margin-top: 12px;
+  border-top: 0;
+}
+
+.columns-recipe-info .columns-recipe-info-popover dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 10px;
+  margin: 0;
+  font-size: var(--body-font-size-m);
+  line-height: 20.25px;
+}
+
+.columns-recipe-info .columns-recipe-info-popover dt {
+  font-family: var(--heading-font-family);
+}
+
+.columns-recipe-info .columns-recipe-info-popover dd {
+  margin: 0;
+  text-align: right;
+}
+
+@media (width >= 600px) {
+  .columns-recipe-info .columns-recipe-info-groups {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .columns-recipe-info .columns-recipe-info-group {
+    flex: 1 1 0;
+    padding: 20px 15px 5px;
+  }
+
+  .columns-recipe-info .columns-recipe-info-group + .columns-recipe-info-group {
+    border-top: 0;
+    border-left: 1px solid var(--border-color);
+  }
+
+  /* columns too narrow for the panel: float it below the toggle, right-aligned */
+  .columns-recipe-info .columns-recipe-info-popover {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1010;
+    width: 315px;
+    max-width: none;
+    margin: 22px 0 0;
+  }
+}
+
+@media (width >= 900px) {
+  .columns-recipe-info {
+    margin-top: 30px;
+  }
+
+  .columns-recipe-info .columns-recipe-info-group {
+    padding: 20px 30px 5px;
+  }
+
+  /* source placement "left": right edge on the toggle, centred on its row */
+  .columns-recipe-info .columns-recipe-info-popover {
+    top: 50%;
+    right: 100%;
+    margin: 0;
+    transform: translateY(-50%);
+  }
+}

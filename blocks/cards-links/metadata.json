@@ -1,0 +1,27 @@
+{
+  "variantName": "cards-links",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Text-only link tiles, centred, 3 per row on desktop (2 on tablet, 1 on mobile)",
+  "contentPattern": {
+    "columns": 1,
+    "rows": "One row per link",
+    "cells": [
+      "Link"
+    ],
+    "structure": "One link per row (or per cell); each link becomes one centred tile"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "cards-links"
+  ],
+  "usage": {
+    "description": "Related Pages list of text links at the bottom of recipe pages.",
+    "pagesUsing": [
+      "/recipes/winner-aarti-sequeira1/baked-samosas-with-mint-chutney-recipe-1952533"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-20"
+  },
+  "reuseGuidance": "Use for a list of related links without images. Put a heading (e.g. 'Related Pages') before the block as default content; one link per row."
+}

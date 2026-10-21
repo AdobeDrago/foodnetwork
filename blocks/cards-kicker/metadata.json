@@ -1,0 +1,28 @@
+{
+  "variantName": "cards-kicker",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "White promo cards: 4x3 image on top, small uppercase kicker above a condensed title; columns follow the card count (2-up, 3-up or 4-up); an image-less card renders as a TV schedule card with a red label, listings, a dark 'Watch Live TV' pill and a bottom link",
+  "contentPattern": {
+    "columns": 2,
+    "rows": "One row per card",
+    "cells": [
+      "4x3 image (leave empty for a text-only schedule card)",
+      "Kicker paragraph, then H3 title link. Schedule card: label paragraph (SCHEDULE), then per listing an eyebrow paragraph (UP NEXT), bold show name paragraph and time paragraph ('3pm | 2c'); link-only paragraphs are actions, the last one is pinned to the bottom"
+    ],
+    "structure": "two cells: a 4x3 image, then a kicker paragraph and an H3 title link. Leave the image cell empty for a text-only TV schedule card (label, eyebrow/bold show/time lines, link-only paragraphs as actions)"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "cards-kicker"
+  ],
+  "usage": {
+    "description": "Homepage promo rows such as 'Recipes and Shows You Don't Want to Miss' (3 cards + schedule) and 'Shop With Us' (2 cards).",
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 0,
+    "lastUsed": "2026-10-20"
+  },
+  "reuseGuidance": "Use for promo cards that need a kicker label above the title. Author 2, 3 or 4 cards per row set; more than 4 wrap 4-up (3-up when the count divides by 3 but not 4). For image + title only, use cards-gallery."
+}

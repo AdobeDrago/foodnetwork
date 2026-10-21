@@ -1,0 +1,34 @@
+{
+  "variantName": "cards-gallery",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "3-up grid, image on top, bold title below, no description",
+  "contentPattern": {
+    "columns": 2,
+    "rows": "One row per card",
+    "cells": [
+      "4x3 image",
+      "H3 title linked to the gallery/topic page"
+    ],
+    "structure": "two cells: a 4x3 image, then an H3 title linked to the gallery or topic page"
+  },
+  "options": [
+    {
+      "class": "panel",
+      "label": "Panel"
+    }
+  ],
+  "memberVariantIds": [
+    "cards-gallery"
+  ],
+  "usage": {
+    "description": "Grid of gallery or topic tiles under a section heading (What's Trending, Cook Smarter, Go Meatless, Just Dinner).",
+    "pagesUsing": [
+      "/recipes",
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-20"
+  },
+  "reuseGuidance": "Use when each card is only an image and a linked title. Rows can be any multiple of three for a full desktop grid; the whole card links to the title's URL."
+}

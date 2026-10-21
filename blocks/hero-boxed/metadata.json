@@ -1,0 +1,28 @@
+{
+  "variantName": "hero-boxed",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Full-width 16:9 photo with a white box overlaid bottom-left holding a condensed headline; whole block links to the headline URL; on mobile the box sits below the image",
+  "contentPattern": {
+    "columns": 1,
+    "rows": "Row 1: image. Row 2: H2 headline, linked to the destination page.",
+    "cells": [
+      "Image",
+      "H2 headline link"
+    ],
+    "structure": "row 1 holds the image; row 2 holds the H2 headline, linked to the destination page"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "hero-boxed"
+  ],
+  "usage": {
+    "description": "Lead promo at the top of the homepage (e.g. 'Pumpkin Recipes That Are Perfect in Every Way').",
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 0,
+    "lastUsed": "2026-10-20"
+  },
+  "reuseGuidance": "Use for a single lead promo where a large photo carries a short linked headline in a white box. Keep the headline short (two lines at 450px). For a promo with a description or CTA, use columns-promo instead."
+}

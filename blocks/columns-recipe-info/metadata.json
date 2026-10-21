@@ -1,0 +1,29 @@
+{
+  "variantName": "columns-recipe-info",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Three label/value groups side by side (Level+Total | Prep+Cook | Yield+Nutrition Info) in small type between 1px #e0e0e0 rules, bold labels, red 'Nutrition Info' toggle opening a popover; groups stack on mobile",
+  "contentPattern": {
+    "columns": 3,
+    "rows": "One row per item in each group (two rows on recipe pages)",
+    "cells": [
+      "Label: value (e.g. 'Level: Intermediate' / 'Total: 1 hr')",
+      "Label: value (e.g. 'Prep: 30 min' / 'Cook: 30 min')",
+      "Label: value (e.g. 'Yield: 8 samosas') / 'Nutrition Info' paragraph followed by a list of nutrition facts"
+    ],
+    "structure": "Each column is one group; each row adds one item to every group. Write each item as 'Label: value' (the label may be bold). A cell holding a list becomes a toggle button (text from the paragraph before the list) that reveals the list in a popover"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "columns-recipe-info"
+  ],
+  "usage": {
+    "description": "Recipe summary under the recipe title: level, total/prep/cook times, yield and a Nutrition Info popover.",
+    "pagesUsing": [
+      "/recipes/winner-aarti-sequeira1/baked-samosas-with-mint-chutney-recipe-1952533"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-20"
+  },
+  "reuseGuidance": "Use once per recipe page, under the title and rating. Keep values short; put the nutrition facts as a bulleted list ('Calories: 327') under a 'Nutrition Info' paragraph in the last cell. Empty cells are skipped."
+}

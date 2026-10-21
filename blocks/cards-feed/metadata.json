@@ -1,0 +1,38 @@
+{
+  "variantName": "cards-feed",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Single-column stacked rows, text left, thumbnail right, divider lines; Load More button below",
+  "contentPattern": {
+    "columns": 2,
+    "rows": "One row per card, plus an optional final row holding only a 'Load More' link",
+    "cells": [
+      "Thumbnail image",
+      "Date paragraph; H3 title link; 'By: <author>' paragraph; teaser paragraph"
+    ],
+    "structure": "two cells: a thumbnail image, then a date paragraph, an H3 title link, a 'By <author>' paragraph and a teaser paragraph. An optional final row holding only a link labels the Load More button"
+  },
+  "options": [
+    {
+      "class": "expanded",
+      "label": "Expanded"
+    }
+  ],
+  "memberVariantIds": [
+    "cards-feed"
+  ],
+  "usage": {
+    "description": "Chronological article feed (Latest Stories): each row shows date, linked title, byline and teaser with a thumbnail on the right.",
+    "pagesUsing": [
+      "/recipes",
+      "/recipes/breakfast",
+      "/recipes/breakfast/waffles",
+      "/recipes/lunch",
+      "/recipes/ingredients/pasta",
+      "/index"
+    ],
+    "reuseCount": 5,
+    "lastUsed": "2026-10-20"
+  },
+  "reuseGuidance": "Use for lists of articles or stories. The first five items show initially; a Load More button reveals five more at a time. If the final row is a single link, its text labels the button and the link appears once every item is shown."
+}

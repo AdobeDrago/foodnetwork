@@ -1,0 +1,28 @@
+{
+  "variantName": "cards-recipe",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "3-up grid, red star rating + count under title",
+  "contentPattern": {
+    "columns": 2,
+    "rows": "One row per card",
+    "cells": [
+      "4x3 image",
+      "H3 title link; paragraph with star rating (e.g. '4.5 of 5 stars') and review count"
+    ]
+  },
+  "options": [],
+  "memberVariantIds": [
+    "cards-recipe"
+  ],
+  "usage": {
+    "description": "Grid of recipe cards that show a star rating and review count under the title (Fill Your Table).",
+    "pagesUsing": [
+      "/recipes",
+      "/recipes/breakfast"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-19"
+  },
+  "reuseGuidance": "Use when cards are individual recipes with ratings. Author the rating as a plain paragraph such as '4.5 of 5 stars (182)'; the block renders it as a star meter plus count. Cards without a rating paragraph still render."
+}

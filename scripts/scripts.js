@@ -24,8 +24,12 @@ import {
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
+  // skip pictures that belong to an authored block (e.g. the recipe lead video poster)
+  const inBlock = picture && picture.closest('main > div > div[class]');
+  const position = picture ? h1.compareDocumentPosition(picture) : 0;
   // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
+  const pictureBeforeHeading = position & Node.DOCUMENT_POSITION_PRECEDING;
+  if (h1 && picture && !inBlock && pictureBeforeHeading) {
     const section = document.createElement('div');
     section.append(buildBlock('hero', { elems: [picture, h1] }));
     main.prepend(section);
@@ -121,6 +125,41 @@ function decorateSections(main) {
 }
 
 /**
+ * Splits "sidebar" sections into a main well and a right rail.
+ * The rail starts at the heading right before the first cards-rail block.
+ * Runs after decorateBlocks so block discovery is unaffected by the extra nesting.
+ * @param {Element} main The container element
+ */
+function decorateSidebarSections(main) {
+  main.querySelectorAll(':scope > .section.sidebar').forEach((section) => {
+    const firstRail = section.querySelector(':scope > div > .cards-rail');
+    if (!firstRail) return;
+    let railStart = firstRail.parentElement;
+
+    // pull the rail heading out of the preceding default content
+    const prev = railStart.previousElementSibling;
+    const heading = prev && prev.classList.contains('default-content-wrapper') && prev.lastElementChild;
+    if (heading && /^H[1-6]$/.test(heading.tagName)) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'default-content-wrapper';
+      wrapper.append(heading);
+      if (!prev.children.length) prev.remove();
+      railStart.before(wrapper);
+      railStart = wrapper;
+    }
+
+    const mainCol = document.createElement('div');
+    mainCol.className = 'section-main';
+    const rail = document.createElement('div');
+    rail.className = 'section-rail';
+    const children = [...section.children];
+    const railIndex = children.indexOf(railStart);
+    children.forEach((child, i) => (i < railIndex ? mainCol : rail).append(child));
+    section.append(mainCol, rail);
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -132,6 +171,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  decorateSidebarSections(main);
 }
 
 /**
