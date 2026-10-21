@@ -1,0 +1,149 @@
+/* columns-promo: image | white text panel (source: .editorialPromo m-MediaBlock--EditorialPromo) */
+
+.columns-promo {
+  color: var(--text-color);
+}
+
+.columns-promo .columns-promo-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-promo .columns-promo-image {
+  line-height: 0;
+}
+
+.columns-promo .columns-promo-image picture {
+  display: block;
+  height: 100%;
+}
+
+.columns-promo .columns-promo-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.columns-promo .columns-promo-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--surface-color);
+}
+
+.columns-promo .columns-promo-body h2 {
+  margin: 0 0 5px;
+  font-family: var(--heading-font-family);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 28px;
+  color: var(--text-color);
+}
+
+.columns-promo .columns-promo-body h2 a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.columns-promo .columns-promo-body h2 a:hover {
+  text-decoration: underline;
+}
+
+.columns-promo .columns-promo-body p {
+  margin: 7px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+  color: var(--text-color);
+}
+
+.columns-promo .columns-promo-body p.columns-promo-cta {
+  display: block;
+  margin: 10px 0 0;
+}
+
+main .columns-promo .columns-promo-cta a.button:any-link,
+main .columns-promo .columns-promo-cta a:any-link {
+  display: block;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24.3px;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--accent-color);
+}
+
+main .columns-promo .columns-promo-cta a.button:hover,
+main .columns-promo .columns-promo-cta a.button:focus {
+  background: none;
+  color: var(--accent-color);
+}
+
+@media (width >= 900px) {
+  .columns-promo .columns-promo-row {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  /* default-image: image 47% / text 53% */
+  .columns-promo .columns-promo-image {
+    flex: 0 0 47%;
+    overflow: hidden;
+  }
+
+  .columns-promo .columns-promo-body {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* "large" variant: image 57% / text 43% (source l-List.large-image) */
+  .columns-promo.large .columns-promo-image {
+    flex-basis: 57%;
+  }
+}
+
+/* option: wide (homepage; source o-FullWidthPromo m-FeatureCard) -- 3:2 image
+   66% wide | white text panel with an uppercase kicker above the headline */
+
+/* source card sits 15px inside the container; the wrapper already pads 14px */
+.columns-promo.wide {
+  margin: 0 1px;
+}
+
+.columns-promo.wide .columns-promo-image img {
+  aspect-ratio: 3 / 2;
+}
+
+.columns-promo.wide .columns-promo-body {
+  align-items: flex-start;
+  padding: 30px;
+}
+
+.columns-promo.wide .columns-promo-body p.columns-promo-kicker {
+  margin: 0 0 7px;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-xs);
+  line-height: 18.9px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.columns-promo.wide .columns-promo-body h2 {
+  margin: 0 0 10px;
+  font-size: 34px;
+  line-height: 34px;
+}
+
+.columns-promo.wide .columns-promo-body h2 a:hover {
+  text-decoration-color: rgb(230 0 61);
+}
+
+@media (width >= 900px) {
+  .columns-promo.wide .columns-promo-image {
+    flex-basis: 66%;
+  }
+}

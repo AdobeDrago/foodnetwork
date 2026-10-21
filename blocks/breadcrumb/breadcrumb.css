@@ -1,0 +1,45 @@
+/* breadcrumb: values from source computed styles (foodnetwork.com/recipes .o-Breadcrumb) */
+.breadcrumb .breadcrumb-list {
+  margin: 15px 0;
+
+  /* source line box is 17.19px (icon-font separator); text sits 3px from top */
+  padding: 1px 0 0;
+  list-style: none;
+  color: var(--text-color);
+  font-family: var(--heading-med-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  line-height: 16.2px;
+}
+
+.breadcrumb .breadcrumb-item {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+/* separator: thin vertical rule (source renders an fn-icons "|" glyph, 12px tall) */
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  margin: 0 8px;
+  background-color: var(--text-color);
+  vertical-align: -2px;
+}
+
+.breadcrumb .breadcrumb-item a:any-link {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.breadcrumb .breadcrumb-item a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+/* current page */
+.breadcrumb .breadcrumb-item [aria-current='page'] {
+  color: #d62533;
+}

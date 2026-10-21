@@ -1,0 +1,92 @@
+/* hero-boxed: full-width photo with a white headline box overlaid bottom-left
+   (source: .o-SuperLeadHero on the foodnetwork.com homepage) */
+
+.hero-boxed {
+  position: relative;
+  max-width: 1250px;
+  margin: 0 auto;
+  color: var(--text-color);
+}
+
+.hero-boxed .hero-boxed-inner {
+  position: relative;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero-boxed .hero-boxed-image {
+  overflow: hidden;
+  background-color: rgb(153 153 153);
+  line-height: 0;
+}
+
+.hero-boxed .hero-boxed-image picture {
+  display: block;
+}
+
+.hero-boxed .hero-boxed-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 966 / 544;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+/* on small screens the box sits below the image */
+.hero-boxed .hero-boxed-box {
+  box-sizing: border-box;
+  padding: 25px;
+  background-color: var(--surface-color);
+}
+
+.hero-boxed .hero-boxed-title {
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-xl);
+  font-weight: 400;
+  line-height: 1;
+}
+
+@media (width >= 600px) {
+  /* source: 15px side margin inside the content container, centred at max 1250px */
+  .hero-boxed {
+    width: calc(100% - 30px);
+  }
+
+  /* source: media band is 37% of the block width, clamped to 380-400px,
+     with the 966x544 image centred vertically inside it */
+  .hero-boxed .hero-boxed-image {
+    width: 100%;
+    aspect-ratio: 100 / 37;
+    min-height: 380px;
+    max-height: 400px;
+  }
+
+  .hero-boxed .hero-boxed-image picture,
+  .hero-boxed .hero-boxed-image img {
+    height: 100%;
+  }
+
+  .hero-boxed .hero-boxed-image img {
+    aspect-ratio: auto;
+  }
+
+  .hero-boxed .hero-boxed-box {
+    position: absolute;
+    bottom: 26px;
+    left: 27px;
+    width: 450px;
+    max-width: calc(100% - 54px);
+  }
+}
+
+/* source block reaches its 1250px max at a 1308px viewport */
+@media (width >= 1308px) {
+  .hero-boxed {
+    width: 100%;
+  }
+}

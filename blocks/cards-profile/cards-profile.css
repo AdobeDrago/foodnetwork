@@ -1,0 +1,187 @@
+/* cards-profile: chef/host profiles in one white panel, 2 columns on desktop,
+   round portrait left, name / role / bio right, divider lines between rows
+   (source: homepage .profilePromo capsule, measured at 1440px) */
+
+/* white panel */
+.cards-profile {
+  padding: 0 20px;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+}
+
+.cards-profile > ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-profile .cards-profile-item {
+  display: flex;
+  flex: 0 0 100%;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 20px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.cards-profile .cards-profile-item:last-child {
+  border-bottom: 0;
+}
+
+/* the source has no small-screen layout; mobile uses a smaller portrait */
+.cards-profile .cards-profile-item-image {
+  flex: 0 0 90px;
+  margin-right: 20px;
+  line-height: 0;
+}
+
+.cards-profile .cards-profile-item-image a,
+.cards-profile .cards-profile-item-image picture {
+  display: block;
+}
+
+.cards-profile .cards-profile-item-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cards-profile .cards-profile-item-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cards-profile .cards-profile-item-body > * {
+  margin: 0;
+}
+
+.cards-profile .cards-profile-item-body .cards-profile-item-name {
+  margin: 0 0 7px;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-med-font-family);
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.cards-profile .cards-profile-item-body .cards-profile-item-name:has(+ .cards-profile-item-role) {
+  margin-bottom: 0;
+}
+
+.cards-profile .cards-profile-item-name a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* "Food Network Chef": 14px label on a 20.25px line under the name */
+.cards-profile .cards-profile-item-body .cards-profile-item-role {
+  margin: 0 0 7px;
+  font-size: var(--body-font-size-s);
+  line-height: 20.25px;
+}
+
+.cards-profile .cards-profile-item-body .cards-profile-item-bio {
+  margin: 0;
+  font-size: var(--body-font-size-m);
+  line-height: 20.25px;
+}
+
+@media (width >= 900px) {
+  .cards-profile {
+    padding: 0 80px;
+  }
+
+  /* two columns; the 5.25% gutter (of the list width) sits inside each item
+     so the divider lines run continuously across both columns */
+  .cards-profile .cards-profile-item {
+    flex-basis: 50%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .cards-profile .cards-profile-item-image {
+    flex-basis: 126px;
+  }
+
+  .cards-profile .cards-profile-item:nth-child(odd) {
+    padding-right: 5.25%;
+  }
+
+  .cards-profile .cards-profile-item:nth-child(even) {
+    padding-left: 5.25%;
+  }
+
+  /* last row has no divider */
+  .cards-profile .cards-profile-item:nth-child(odd):nth-last-child(-n + 2),
+  .cards-profile .cards-profile-item:nth-child(odd):nth-last-child(-n + 2) + .cards-profile-item {
+    border-bottom: 0;
+  }
+}
+
+/* capsule header: the H2 + "See All" link authored as default content right
+   before the block; serif headline left, uppercase CTA right, 28px above the panel */
+main .section > .default-content-wrapper:has(+ .cards-profile-wrapper) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 7px 0;
+  margin-bottom: 28px;
+}
+
+main .section > .default-content-wrapper:has(+ .cards-profile-wrapper) h2 {
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-serif-font-family);
+  font-size: var(--heading-font-size-xl);
+  font-weight: 600;
+  line-height: 1;
+}
+
+main .section > .default-content-wrapper:has(+ .cards-profile-wrapper) p {
+  margin: 0;
+  padding: 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--body-font-size-m);
+  line-height: 20.25px;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+main .section > .default-content-wrapper:has(+ .cards-profile-wrapper) p a:any-link,
+main .section > .default-content-wrapper:has(+ .cards-profile-wrapper) p a.button:any-link {
+  color: var(--text-color);
+  font-family: inherit;
+  line-height: inherit;
+  text-decoration: none;
+}
+
+/* red round chevron (fn-icons glyph on the source) */
+main .section > .default-content-wrapper:has(+ .cards-profile-wrapper) p a::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: -3px 0 0 2px;
+  vertical-align: middle;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='%23f00'/%3E%3Cpath d='M8.6 6.4 12.2 10l-3.6 3.6' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
+}
+
+@media (width >= 900px) {
+  main .section > .default-content-wrapper:has(+ .cards-profile-wrapper) h2 {
+    font-size: 35px;
+    line-height: 35px;
+  }
+
+  main .section > .default-content-wrapper:has(+ .cards-profile-wrapper) p {
+    padding-left: 14px;
+  }
+}

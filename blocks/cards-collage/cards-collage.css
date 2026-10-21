@@ -1,0 +1,159 @@
+/* cards-collage: promo collage (source .o-PromoCollage .l-Columns--12_6):
+   one feature tile beside two smaller tiles stacked in the side column.
+   The capsule's 28px margin-bottom comes from the sidebar section spacing. */
+
+.cards-collage {
+  color: var(--text-color);
+}
+
+/* mobile (source mobile capsule): full-width 3:2 feature tile,
+   then the two small 4:3 tiles side by side with a 14px gutter */
+.cards-collage > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-collage .cards-collage-card {
+  margin: 0;
+  padding: 0;
+}
+
+.cards-collage .cards-collage-card-feature {
+  grid-column: 1 / -1;
+}
+
+.cards-collage .cards-collage-card-small {
+  margin: 0 0 15px;
+}
+
+.cards-collage .cards-collage-card-link {
+  display: block;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards-collage .cards-collage-card-image {
+  margin: 0;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.cards-collage .cards-collage-card-image picture {
+  display: block;
+}
+
+.cards-collage .cards-collage-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.cards-collage .cards-collage-card-feature .cards-collage-card-image {
+  margin: 0 0 10.5px;
+}
+
+.cards-collage .cards-collage-card-feature .cards-collage-card-image img {
+  aspect-ratio: 3 / 2;
+}
+
+.cards-collage .cards-collage-card-body {
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.cards-collage .cards-collage-card-feature .cards-collage-card-body {
+  padding: 0 10px 10px;
+}
+
+.cards-collage .cards-collage-card-body > * {
+  margin: 0;
+}
+
+.cards-collage .cards-collage-card-body h3 {
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-m);
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.cards-collage .cards-collage-card-feature .cards-collage-card-body h3 {
+  margin: 0 0 7px;
+  line-height: 20px;
+}
+
+.cards-collage .cards-collage-card-body h3:hover,
+.cards-collage .cards-collage-card-link:focus-visible h3 {
+  text-decoration: underline;
+}
+
+/* desktop (source .l-Columns--12_6 in the 833px main well):
+   feature 69.9% wide, 10px gutter, small tiles stacked 5px apart */
+@media (width >= 900px) {
+  .cards-collage > ul {
+    grid-template-columns: minmax(0, 69.9%) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 5px 10px;
+    align-items: start;
+  }
+
+  .cards-collage .cards-collage-card-feature {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .cards-collage .cards-collage-card-small {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  .cards-collage .cards-collage-card-image,
+  .cards-collage .cards-collage-card-feature .cards-collage-card-image {
+    margin: 0 0 10px;
+  }
+
+  .cards-collage .cards-collage-card-feature .cards-collage-card-image img {
+    aspect-ratio: 4 / 3;
+  }
+
+  /* source small media wrap is a fixed 176px window over the 4:3 image */
+  .cards-collage .cards-collage-card-small .cards-collage-card-image img {
+    height: 176px;
+    aspect-ratio: auto;
+  }
+
+  .cards-collage .cards-collage-card-body {
+    padding: 0 10px 5px 5px;
+    text-align: left;
+  }
+
+  .cards-collage .cards-collage-card-feature .cards-collage-card-body {
+    padding: 0 0 30px 10px;
+  }
+
+  .cards-collage .cards-collage-card-body h3 {
+    display: flow-root;
+    padding: 1px 0;
+    overflow: hidden;
+    line-height: 20px;
+  }
+
+  .cards-collage .cards-collage-card-feature .cards-collage-card-body h3 {
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    font-size: 28px;
+    line-height: 28px;
+  }
+}

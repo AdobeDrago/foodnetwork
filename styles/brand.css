@@ -1,0 +1,57 @@
+/* Brand tokens extracted from https://www.foodnetwork.com/recipes */
+
+:root {
+  /* colors */
+  --background-color: #f5f5f5;
+  --surface-color: #fff;
+  --text-color: #1c1c1c;
+  --link-color: #1c1c1c;
+  --link-hover-color: #1c1c1c;
+  --accent-color: #f63;
+  --secondary-color: #5ac0b8;
+  --tag-background-color: #efece3;
+  --light-color: #f5f5f5;
+  --dark-color: #1c1c1c;
+  --border-color: #e0e0e0;
+
+  /* fonts (Franklin Gothic URW, served from /fonts) */
+  --body-font-family: "FranklinGothicURW-Boo", helvetica, arial, sans-serif;
+  --heading-font-family: "Franklin Gothic URW Cond Medium", helvetica, arial, sans-serif;
+  --heading-med-font-family: "FranklinGothicURW-Med", helvetica, arial, sans-serif;
+  --heading-serif-font-family: georgia, 'Times New Roman', times, serif;
+  --nav-font-family: "Franklin Gothic URW Cond Medium", helvetica, arial, sans-serif;
+
+  /* body sizes */
+  --body-font-size-m: 15px;
+  --body-font-size-s: 14px;
+  --body-font-size-xs: 12px;
+  --body-line-height: 1.35;
+
+  /* heading sizes (mobile) */
+  --heading-font-size-xxl: 36px;
+  --heading-font-size-xl: 28px;
+  --heading-font-size-l: 24px;
+  --heading-font-size-m: 20px;
+  --heading-font-size-s: 18px;
+  --heading-font-size-xs: 14px;
+
+  /* layout */
+  --content-max-width: 1280px;
+  --content-padding: 14px;
+  --rail-width: 379px;
+  --rail-gap: 40px;
+  --section-spacing: 28px;
+  --nav-height: 80px;
+}
+
+@media (width >= 900px) {
+  :root {
+    /* heading sizes (desktop) */
+    --heading-font-size-xxl: 48px;
+    --heading-font-size-xl: 34px;
+    --heading-font-size-l: 28px;
+    --heading-font-size-m: 20px;
+    --heading-font-size-s: 18px;
+    --heading-font-size-xs: 14px;
+  }
+}

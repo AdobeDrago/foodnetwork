@@ -1,0 +1,156 @@
+/* cards-gallery: 3-up gallery promo cards (source .l-Columns--3up .m-MediaBlock--gallery) */
+
+/* source capsule: columns are inset 10px inside the 833px well; the last
+   row keeps the 20px card margin-bottom before the next capsule */
+.cards-gallery {
+  margin: 0 10px;
+  padding-bottom: 20px;
+  color: var(--text-color);
+}
+
+/* row gap = 20px card margin-bottom + 28px between merged source capsules */
+.cards-gallery > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (width >= 600px) {
+  .cards-gallery > ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.cards-gallery .cards-gallery-card {
+  margin: 0;
+  padding: 0;
+}
+
+.cards-gallery .cards-gallery-card-link {
+  display: block;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards-gallery .cards-gallery-card-image {
+  position: relative;
+  margin: 0 0 10px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.cards-gallery .cards-gallery-card-image picture {
+  display: block;
+}
+
+.cards-gallery .cards-gallery-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.cards-gallery .cards-gallery-card-body {
+  padding: 0 5px;
+}
+
+.cards-gallery .cards-gallery-card-body > * {
+  margin: 0;
+}
+
+.cards-gallery .cards-gallery-card-body h3 {
+  min-height: 27px;
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.cards-gallery .cards-gallery-card-link:hover h3,
+.cards-gallery .cards-gallery-card-link:focus-visible h3 {
+  text-decoration: underline;
+}
+
+/* option: panel (homepage, source .o-FullWidthPromo) -- white panel behind
+   the card text, 3-up or 4-up depending on the card count */
+.cards-gallery.panel {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.cards-gallery.panel > ul {
+  gap: 20px;
+}
+
+.cards-gallery.panel .cards-gallery-card {
+  background-color: var(--surface-color);
+}
+
+.cards-gallery.panel .cards-gallery-card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cards-gallery.panel .cards-gallery-card-image {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.cards-gallery.panel .cards-gallery-card-body {
+  flex: 1 0 auto;
+  padding: 25px 20px 20px;
+}
+
+.cards-gallery.panel .cards-gallery-card-body h3 {
+  min-height: 0;
+  margin: 0 0 10px;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+/* section headline before the panel gallery (default content):
+   source .o-FullWidthPromo__a-Headline is Georgia 35px bold */
+.section:has(.cards-gallery.panel) .default-content-wrapper h2 {
+  margin: 0;
+  padding: 0 0 28px;
+  font-family: var(--heading-serif-font-family);
+  font-size: 35px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+@media (width >= 600px) {
+  /* 4-up sets fall back to 2-up on tablet; 3-up keeps the base 3 columns */
+  .cards-gallery.panel.cards-gallery-cols-4 > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 900px) {
+  /* source cards sit 15px inside the 1280px container (section padding is 14px) */
+  .cards-gallery.panel {
+    margin: 0 1px;
+  }
+
+  .cards-gallery.panel > ul {
+    gap: 30px;
+  }
+
+  .cards-gallery.panel.cards-gallery-cols-4 > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .section:has(.cards-gallery.panel) .default-content-wrapper h2 {
+    margin-left: 1px;
+  }
+}
