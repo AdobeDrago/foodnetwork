@@ -511,8 +511,14 @@ export default async function decorate(block) {
           const dd = menu.cloneNode(true);
           dd.className = 'nav-tool-dropdown';
           wrap.append(btn, dd);
-          const api = dropdowns.register(wrap, btn, { hover: false });
-          btn.addEventListener('click', () => (api.isOpen() ? (api.close(), dropdowns.closeAll(null)) : api.open()));
+          const api = dropdowns.register(wrap, btn);
+          // desktop: hover already opened it, so a click keeps it open; touch/mobile: toggle
+          btn.addEventListener('click', () => {
+            if (api.isOpen() && !isDesktop.matches) {
+              api.close();
+              dropdowns.closeAll(null);
+            } else api.open();
+          });
           tools.append(wrap);
         }
       });

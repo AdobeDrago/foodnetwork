@@ -28,7 +28,15 @@
 @font-face {
   font-family: franklin-gothic-cond;
   font-style: normal;
-  font-weight: 400 700;
+  font-weight: 400;
   font-display: swap;
   src: url('../fonts/franklin-gothic-urw-cond-medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: franklin-gothic-cond-book;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/franklin-gothic-urw-cond-book.woff2') format('woff2');
 }

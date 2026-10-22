@@ -93,6 +93,14 @@
   font-size: 24px;
   font-weight: 400;
   line-height: 24px;
+  text-decoration: underline solid transparent 2px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.1s ease-in-out;
+}
+
+.cards-kicker .cards-kicker-card-title:hover,
+.cards-kicker .cards-kicker-card-link:focus-visible .cards-kicker-card-title {
+  text-decoration-color: #e6003d;
 }
 
 /* schedule (image-less) card */
@@ -181,6 +189,18 @@ main .cards-kicker .cards-kicker-schedule-action a:any-link::before {
   color: #e6003d;
   font-size: 34px;
   line-height: 18px;
+}
+
+main .cards-kicker .cards-kicker-schedule-action a:hover,
+main .cards-kicker .cards-kicker-schedule-action a:focus-visible {
+  background-color: #e6003d;
+  color: #fff;
+  text-decoration: none;
+}
+
+main .cards-kicker .cards-kicker-schedule-action a:hover::before,
+main .cards-kicker .cards-kicker-schedule-action a:focus-visible::before {
+  color: #fff;
 }
 
 /* "See Full Schedule": pinned 21px from the card bottom/left */
