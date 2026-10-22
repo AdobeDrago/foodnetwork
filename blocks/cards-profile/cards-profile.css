@@ -80,6 +80,13 @@
   text-decoration: none;
 }
 
+.cards-profile .cards-profile-item-name a:hover,
+.cards-profile .cards-profile-item-name a:focus-visible {
+  color: var(--text-color);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+}
+
 /* "Food Network Chef": 14px label on a 20.25px line under the name */
 .cards-profile .cards-profile-item-body .cards-profile-item-role {
   margin: 0 0 7px;

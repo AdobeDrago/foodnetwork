@@ -24,6 +24,7 @@
   /* fonts (Franklin Gothic URW + Georgia — matches foodnetwork.com) */
   --body-font-family: 'franklin-gothic', helvetica, arial, sans-serif;
   --heading-font-family: 'franklin-gothic-cond', helvetica, arial, sans-serif;
+  --heading-cond-book-font-family: 'franklin-gothic-cond-book', helvetica, arial, sans-serif;
   --heading-serif-font-family: georgia, 'Times New Roman', times, serif;
   --heading-med-font-family: 'franklin-gothic-med', helvetica, arial, sans-serif;
   --nav-font-family: 'franklin-gothic-cond', helvetica, arial, sans-serif;
@@ -294,24 +295,53 @@ main .default-content-wrapper h3 {
   line-height: 1;
 }
 
+/* capsule titles are condensed medium, #1c1c1c (source .o-Capsule__m-Header) */
+main .default-content-wrapper h2,
+main .default-content-wrapper h3 {
+  color: #1c1c1c;
+  font-family: var(--heading-font-family);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 34px;
+}
+
 main .default-content-wrapper p {
   margin: 0 0 var(--section-spacing);
+}
+
+/* topic pages (e.g. Breakfast Recipes): asset title + tag links */
+main > .section.sidebar > .section-main > .default-content-wrapper > h1 {
+  margin: 7px 0;
+  color: #1c1c1c;
+  font-family: var(--heading-font-family);
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 48px;
 }
 
 /* topic tag pills (a paragraph holding several links) */
 main .default-content-wrapper p:has(> a ~ a) {
   display: flex;
   flex-wrap: wrap;
-  margin: 31px 0 var(--section-spacing);
+  margin: 0 0 21px;
 }
 
-main .default-content-wrapper p:has(> a ~ a) > a {
+main .default-content-wrapper p:has(> a ~ a) > a:any-link {
   margin: 0 7px 7px 0;
   padding: 7px 9px 1px;
   background-color: var(--tag-background-color);
+  color: #1c1c1c;
   font-family: var(--heading-font-family);
-  font-size: var(--body-font-size-m);
-  line-height: var(--body-line-height);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20.25px;
+  text-decoration: none;
+}
+
+main .default-content-wrapper p:has(> a ~ a) > a:hover,
+main .default-content-wrapper p:has(> a ~ a) > a:focus-visible {
+  color: #1c1c1c;
+  text-decoration: underline;
 }
 
 /* "Recipes A to Z" style link next to a capsule heading */
@@ -322,19 +352,30 @@ main .default-content-wrapper h3 + .button-container {
 }
 
 main .default-content-wrapper h3 + .button-container a.button:any-link {
+  color: #1c1c1c;
   font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 15px;
   text-transform: uppercase;
+  text-decoration: none;
+}
+
+main .default-content-wrapper h3 + .button-container a.button:hover,
+main .default-content-wrapper h3 + .button-container a.button:focus-visible {
+  color: #1c1c1c;
+  text-decoration: underline;
 }
 
 main .default-content-wrapper h3 + .button-container a.button:any-link::after {
   content: '';
   display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 6px;
-  border: 5px solid transparent;
-  border-left-color: var(--secondary-color);
-  vertical-align: 1px;
+  width: 20px;
+  height: 20px;
+  margin: -3px 0 0 4px;
+  border: 0;
+  vertical-align: middle;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='%235ac0b8'/%3E%3Cpath d='M8.6 6.4 12.2 10l-3.6 3.6' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
 }
 
 /* bulleted link lists (Trending Recipes), two columns */
@@ -358,8 +399,24 @@ main .default-content-wrapper li {
   position: relative;
   margin: 0 0 3.5px;
   padding: 0 0 0 15px;
-  font-size: var(--body-font-size-m);
-  line-height: var(--body-line-height);
+  color: #1c1c1c;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20.25px;
+}
+
+main .default-content-wrapper li a:any-link {
+  color: #1c1c1c;
+  font-size: 15px;
+  line-height: 20.25px;
+  text-decoration: none;
+}
+
+main .default-content-wrapper li a:hover,
+main .default-content-wrapper li a:focus-visible {
+  color: #1c1c1c;
+  text-decoration: underline;
 }
 
 main .default-content-wrapper li::before {
@@ -424,8 +481,10 @@ main > .section.sidebar > .section-rail > .default-content-wrapper:has(> h2:last
 
 main > .section.sidebar > .section-rail .default-content-wrapper h2 {
   padding: 0 0 5px;
+  font-family: var(--heading-font-family);
   font-size: 28px;
-  line-height: 1;
+  font-weight: 400;
+  line-height: 28px;
 }
 
 /* breadcrumb section: source H1 starts 68px below the header */

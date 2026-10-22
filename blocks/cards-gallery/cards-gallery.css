@@ -73,11 +73,14 @@
   line-height: 22px;
   letter-spacing: normal;
   text-transform: none;
+  text-decoration: underline solid transparent 2px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.1s ease-in-out;
 }
 
-.cards-gallery .cards-gallery-card-link:hover h3,
+.cards-gallery .cards-gallery-card-body h3:hover,
 .cards-gallery .cards-gallery-card-link:focus-visible h3 {
-  text-decoration: underline;
+  text-decoration-color: #e6003d;
 }
 
 /* option: panel (homepage, source .o-FullWidthPromo) -- white panel behind
