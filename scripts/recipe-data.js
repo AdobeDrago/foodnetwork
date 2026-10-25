@@ -1,3 +1,5 @@
+import { getMetadata } from './aem.js';
+
 const FOOD_ORIGIN = 'https://www.foodnetwork.com';
 const IMAGE_ORIGIN = 'https://food.fnr.sndimg.com';
 const RECIPE_PATH = /^\/recipes\/.+-recipe-\d+$/;
@@ -9,12 +11,33 @@ let recipePromise;
 const recommendationCache = new Map();
 
 /**
+ * A recipe path, or '' when the value is not one.
+ * Accepts plain text or an absolute link, and strips `.sni.json`, `.html`, and a trailing slash.
+ * @param {string} value
+ * @returns {string}
+ */
+function normalizeRecipePath(value) {
+  const raw = typeof value === 'string' ? value.trim() : '';
+  if (!raw) return '';
+  let path = raw;
+  if (/^https?:\/\//i.test(raw)) {
+    try {
+      path = new URL(raw).pathname;
+    } catch (error) {
+      return '';
+    }
+  }
+  path = path.replace(/\/+$/, '').replace(/\.sni\.json$/i, '').replace(/\.html$/i, '');
+  return RECIPE_PATH.test(path) ? path : '';
+}
+
+/**
  * Food Network recipe path for this page, or '' when this is not a recipe URL.
+ * An authored `recipe` metadata row wins. Otherwise the page address is used.
  * @returns {string}
  */
 export function recipePath() {
-  const path = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '');
-  return RECIPE_PATH.test(path) ? path : '';
+  return normalizeRecipePath(getMetadata('recipe')) || normalizeRecipePath(window.location.pathname);
 }
 
 /**
