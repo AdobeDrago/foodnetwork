@@ -164,8 +164,11 @@ header .nav-more-panel {
 header .nav-tool-dropdown {
   top: calc(var(--nav-height) / 2 + 28px);
   right: -26px;
+  z-index: 20;
   width: 190px;
   text-align: right;
+  /* same top inset as foodnetwork.com so the panel reads as under the bar */
+  box-shadow: inset 0 4px 10px -1px rgb(214 214 214 / 50%);
 }
 
 header .nav-more.is-open .nav-more-panel,
@@ -199,7 +202,7 @@ header nav .nav-social a:any-link {
   justify-content: center;
   width: 100%;
   height: 100%;
-  color: #e6003d;
+  
 }
 
 header .nav-social .nav-icon {
@@ -214,6 +217,13 @@ header .nav-tool-dropdown li:first-child {
 
 header .nav-more-links li:last-child {
   margin-bottom: 0;
+}
+
+header .nav-more-links a:hover,
+header .nav-more-links a:focus-visible,
+header .nav-tool-dropdown a:hover,
+header .nav-tool-dropdown a:focus-visible {
+  color: #e6003d;
 }
 
 /* page dimmer while a dropdown is open */
@@ -292,13 +302,15 @@ header nav.is-active .nav-overlay {
     bottom: 25px;
     height: 5px;
     background-color: #e6003d;
-    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.1s;
   }
 
   header .nav-item:hover > .nav-link::after,
   header .nav-item.is-open > .nav-link::after,
   header .nav-item > .nav-link:focus-visible::after {
-    opacity: 1;
+    transform: scaleX(1);
   }
 
   /* full-width flyout */
@@ -379,6 +391,11 @@ header nav.is-active .nav-overlay {
     margin-bottom: 0;
   }
 
+  header .nav-links a:hover,
+  header .nav-links a:focus-visible {
+    color: #e6003d;
+  }
+
   header .nav-links .nav-see-all,
   header .nav-schedule .nav-see-all {
     font-family: var(--heading-font-family);
@@ -451,6 +468,13 @@ header nav.is-active .nav-overlay {
 
   header nav a.nav-cta:any-link {
     color: #e6003d;
+    transition: background-color 0.1s, color 0.1s;
+  }
+
+  header nav a.nav-cta:hover,
+  header nav a.nav-cta:focus-visible {
+    background-color: #e6003d;
+    color: #fff;
   }
 
   header .nav-group-text .nav-cta {
@@ -516,8 +540,13 @@ header nav.is-active .nav-overlay {
     line-height: 14px;
   }
 
-  header .nav-card:hover .nav-card-title {
-    text-decoration: underline;
+  
+
+  /* chef names stay the default color, with no underline */
+  header .nav-card.nav-card-round:hover .nav-card-title,
+  header .nav-card.nav-card-round:focus-visible .nav-card-title {
+    color: var(--text-color);
+    text-decoration: none;
   }
 
   /* portrait show chips: 126x196, no caption */
@@ -555,9 +584,16 @@ header nav.is-active .nav-overlay {
     padding-left: 16px;
   }
 
-  header .nav-tool,
-  header .nav-tool-menu {
+  header .nav-tool {
     flex: 0 0 auto;
+  }
+
+  /* fill the bar so the pointer can travel from the avatar into the menu */
+  header .nav-tool-menu {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    height: var(--nav-height);
   }
 
   header .nav-search {
@@ -621,7 +657,7 @@ header nav.is-active .nav-overlay {
   }
 
   header .nav-tool-dropdown {
-    top: calc(100% + 28px);
+    top: 100%;
   }
 }
 

@@ -5,9 +5,9 @@
   /* source line box is 17.19px (icon-font separator); text sits 3px from top */
   padding: 1px 0 0;
   list-style: none;
-  color: var(--text-color);
+  color: #1c1c1c;
   font-family: var(--heading-med-font-family);
-  font-size: var(--body-font-size-xs);
+  font-size: 12px;
   font-weight: 400;
   line-height: 16.2px;
 }
@@ -25,18 +25,14 @@
   width: 1px;
   height: 12px;
   margin: 0 8px;
-  background-color: var(--text-color);
+  background-color: #1c1c1c;
   vertical-align: -2px;
 }
 
-.breadcrumb .breadcrumb-item a:any-link {
-  color: var(--link-color);
-  text-decoration: none;
-}
-
+.breadcrumb .breadcrumb-item a:any-link,
 .breadcrumb .breadcrumb-item a:hover {
-  color: var(--link-hover-color);
-  text-decoration: underline;
+  color: #1c1c1c;
+  text-decoration: none;
 }
 
 /* current page */

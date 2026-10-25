@@ -17,6 +17,7 @@
   /* fonts (Franklin Gothic URW, served from /fonts) */
   --body-font-family: "FranklinGothicURW-Boo", helvetica, arial, sans-serif;
   --heading-font-family: "Franklin Gothic URW Cond Medium", helvetica, arial, sans-serif;
+  --heading-cond-book-font-family: "Franklin Gothic URW Cond Book", helvetica, arial, sans-serif;
   --heading-med-font-family: "FranklinGothicURW-Med", helvetica, arial, sans-serif;
   --heading-serif-font-family: georgia, 'Times New Roman', times, serif;
   --nav-font-family: "Franklin Gothic URW Cond Medium", helvetica, arial, sans-serif;

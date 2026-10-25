@@ -72,6 +72,318 @@
   border: 0;
 }
 
+.video-playlist .video-playlist-player {
+  container-type: inline-size;
+}
+
+.video-playlist .video-playlist-player:fullscreen {
+  background-color: #000;
+}
+
+/* custom controls, measured from the live player overlay */
+.video-playlist .video-playlist-controls {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-color: rgb(0 0 0 / 65%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.video-playlist .video-playlist-controls.is-visible,
+.video-playlist .video-playlist-player.is-paused .video-playlist-controls {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.video-playlist .video-playlist-controls button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #fff;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.video-playlist .video-playlist-controls button:hover,
+.video-playlist .video-playlist-controls button:focus {
+  background: none;
+}
+
+.video-playlist .video-playlist-controls svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.video-playlist .video-playlist-controls-top {
+  position: absolute;
+  top: 40px;
+  right: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.video-playlist .video-playlist-volume {
+  width: 25px;
+  height: 20px;
+}
+
+.video-playlist .video-playlist-controls .video-playlist-cc,
+.video-playlist .video-playlist-controls .video-playlist-fullscreen {
+  margin-left: 22px;
+}
+
+.video-playlist .video-playlist-cc {
+  width: 22px;
+  height: 16px;
+}
+
+.video-playlist .video-playlist-cc.is-on svg rect {
+  fill: #fff;
+}
+
+.video-playlist .video-playlist-cc.is-on svg path {
+  fill: #000;
+}
+
+.video-playlist .video-playlist-fullscreen {
+  width: 18px;
+  height: 18px;
+}
+
+.video-playlist .video-playlist-volume .icon--volume-full,
+.video-playlist .video-playlist-player.is-muted .video-playlist-volume .icon--volume-muted {
+  display: block;
+}
+
+.video-playlist .video-playlist-volume .icon--volume-muted,
+.video-playlist .video-playlist-player.is-muted .video-playlist-volume .icon--volume-full {
+  display: none;
+}
+
+.video-playlist .video-playlist-controls-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  transform: translate(-50%, -50%);
+}
+
+.video-playlist .video-playlist-rewind,
+.video-playlist .video-playlist-forward {
+  position: relative;
+  width: 37px;
+  height: 40px;
+}
+
+.video-playlist .video-playlist-controls .video-playlist-rewind {
+  margin-left: 20px;
+}
+
+.video-playlist .video-playlist-controls .video-playlist-forward {
+  margin-right: 21px;
+}
+
+.video-playlist .video-playlist-controls .video-playlist-toggle {
+  width: 65px;
+  height: 65px;
+  margin: 0 21px;
+}
+
+.video-playlist .video-playlist-toggle .icon--play,
+.video-playlist .video-playlist-player.is-paused .video-playlist-toggle .icon--pause {
+  display: none;
+}
+
+.video-playlist .video-playlist-player.is-paused .video-playlist-toggle .icon--play {
+  display: block;
+}
+
+.video-playlist .video-playlist-scrub-label {
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 50%;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 22px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%);
+}
+
+.video-playlist .video-playlist-rewind:hover .video-playlist-scrub-label,
+.video-playlist .video-playlist-forward:hover .video-playlist-scrub-label,
+.video-playlist .video-playlist-rewind:focus-visible .video-playlist-scrub-label,
+.video-playlist .video-playlist-forward:focus-visible .video-playlist-scrub-label {
+  opacity: 1;
+}
+
+.video-playlist .video-playlist-controls-bottom {
+  position: absolute;
+  right: 0;
+  bottom: 38px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.video-playlist .video-playlist-time {
+  flex: 0 0 40px;
+  width: 40px;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+}
+
+.video-playlist .video-playlist-controls-bottom .video-playlist-time:first-child {
+  margin-right: 10px;
+}
+
+.video-playlist .video-playlist-controls-bottom .video-playlist-time:last-child {
+  margin-left: 10px;
+}
+
+.video-playlist .video-playlist-progress {
+  --scrub-dot: 16px;
+
+  position: relative;
+  flex: 1 1 auto;
+  height: 16px;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.video-playlist .video-playlist-progress::before,
+.video-playlist .video-playlist-progress-played {
+  position: absolute;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+}
+
+.video-playlist .video-playlist-progress::before {
+  content: '';
+  right: 0;
+  left: 0;
+  background-color: #888;
+}
+
+.video-playlist .video-playlist-progress-played {
+  left: 0;
+  width: calc(var(--progress, 0) * (100% - var(--scrub-dot)));
+  background-color: #fff;
+}
+
+.video-playlist .video-playlist-progress-dot {
+  position: absolute;
+  top: 0;
+  left: calc(var(--progress, 0) * (100% - var(--scrub-dot)));
+  width: var(--scrub-dot);
+  height: var(--scrub-dot);
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+@media (width >= 900px) {
+  .video-playlist .video-playlist-controls-bottom {
+    padding: 0 60px;
+  }
+}
+
+/* live player--size-md: desktop player wider than about 756px */
+@container (width >= 756px) {
+  .video-playlist .video-playlist-controls-top {
+    top: 38px;
+    right: 42px;
+  }
+
+  .video-playlist .video-playlist-controls .video-playlist-volume {
+    position: relative;
+    right: -8px;
+    width: 33px;
+    height: 26px;
+  }
+
+  .video-playlist .video-playlist-controls .video-playlist-cc,
+  .video-playlist .video-playlist-controls .video-playlist-fullscreen {
+    margin-left: 32px;
+  }
+
+  .video-playlist .video-playlist-cc {
+    width: 32px;
+    height: 23px;
+  }
+
+  .video-playlist .video-playlist-fullscreen {
+    width: 24px;
+    height: 24px;
+  }
+
+  .video-playlist .video-playlist-controls .video-playlist-rewind,
+  .video-playlist .video-playlist-controls .video-playlist-forward {
+    width: 50px;
+    height: 54px;
+  }
+
+  .video-playlist .video-playlist-controls .video-playlist-rewind {
+    margin-left: 28px;
+  }
+
+  .video-playlist .video-playlist-controls .video-playlist-forward {
+    margin-right: 28px;
+  }
+
+  .video-playlist .video-playlist-controls .video-playlist-toggle {
+    width: 85px;
+    height: 85px;
+    margin: 0 28px;
+  }
+
+  .video-playlist .video-playlist-controls-bottom {
+    bottom: 50px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .video-playlist .video-playlist-time {
+    flex-basis: 50px;
+    width: 50px;
+    font-size: 17px;
+    line-height: 23px;
+  }
+
+  .video-playlist .video-playlist-controls-bottom .video-playlist-time:first-child {
+    margin-right: 14px;
+  }
+
+  .video-playlist .video-playlist-controls-bottom .video-playlist-time:last-child {
+    margin-left: 14px;
+  }
+
+  .video-playlist .video-playlist-progress {
+    --scrub-dot: 18px;
+
+    flex: 0 0 78%;
+    width: 78%;
+    height: 18px;
+  }
+
+  .video-playlist .video-playlist-progress::before,
+  .video-playlist .video-playlist-progress-played {
+    height: 5px;
+  }
+}
+
 /* metadata: title + duration | CTA, description below */
 .video-playlist .video-playlist-info {
   display: grid;
@@ -224,8 +536,7 @@ main .video-playlist a.button:any-link {
   line-height: 12px;
 }
 
-.video-playlist .video-playlist-tile-first .video-playlist-tile-image::before {
-  content: 'First Up';
+.video-playlist .video-playlist-tile-status {
   position: absolute;
   top: 0;
   left: 0;
@@ -237,6 +548,10 @@ main .video-playlist a.button:any-link {
   font-size: 15px;
   line-height: 20.25px;
   text-transform: uppercase;
+}
+
+.video-playlist .video-playlist-tile-status:empty {
+  display: none;
 }
 
 .video-playlist .video-playlist-tile-title {
@@ -264,7 +579,8 @@ main .video-playlist a.button:any-link {
   }
 
   /* contain: size keeps the rail from growing the row; it fills the
-     player's height and scrolls */
+     player's height and scrolls. The base list hides its scrollbar for the
+     horizontal row; the rail uses the same 15px bar as the live playlist. */
   .video-playlist.rail .video-playlist-list {
     flex-direction: column;
     gap: 18px;
@@ -273,19 +589,42 @@ main .video-playlist a.button:any-link {
     contain: size;
     scroll-padding-top: 12px;
     scroll-snap-type: y mandatory;
+    scrollbar-width: auto;
   }
 
-  /* tile: 14px side padding, 206px content, 196x110 thumb centered */
+  .video-playlist.rail .video-playlist-list::-webkit-scrollbar {
+    display: block;
+    width: 15px;
+  }
+
+  .video-playlist.rail .video-playlist-list::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .video-playlist.rail .video-playlist-list::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 8px;
+    background-color: #c4c4c4;
+    background-clip: padding-box;
+  }
+
+  /* tile: 14px side padding around a 196px thumb, so the time sits on the image */
   .video-playlist.rail .video-playlist-tile {
     box-sizing: border-box;
     flex: 0 0 auto;
-    width: 100%;
+    width: auto;
     padding: 0 14px;
   }
 
-  .video-playlist.rail .video-playlist-tile-image img {
+  .video-playlist.rail .video-playlist-tile-button,
+  .video-playlist.rail .video-playlist-tile-image,
+  .video-playlist.rail .video-playlist-tile-title {
     width: 196px;
-    margin: 0 auto;
+  }
+
+  .video-playlist.rail .video-playlist-tile-image img {
+    width: 100%;
+    margin: 0;
     aspect-ratio: 196 / 110;
   }
 

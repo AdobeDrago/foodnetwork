@@ -51,10 +51,21 @@
 .cards-rail .cards-rail-card-body > * {
   margin: 0 0 10px;
   font-family: var(--heading-font-family);
-  font-size: var(--heading-font-size-m);
+  font-size: 20px;
   font-weight: 400;
   line-height: 22px;
   color: var(--text-color);
+}
+
+/* gallery mark beside the title (source .a-Icon--gallery, 30px, #ccc) */
+.cards-rail:not(.cards-rail-feed) .cards-rail-card-body > *::after {
+  content: '';
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23ccc' d='M21.333 25.333h-14.667v-12h14.667v12zM24 10.667h2.667v10.667h-2.667v-10.667zM10.667 8h16v2.667h-16v-2.667z'/%3E%3C/svg%3E") center / 30px 30px no-repeat;
 }
 
 .cards-rail .cards-rail-actions {
@@ -81,7 +92,7 @@ main .cards-rail a.cards-rail-more:any-link::after {
   height: 20px;
   margin: -3px 0 0 4px;
   vertical-align: middle;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7' fill='%235ac0b8'/%3E%3Cpath d='M8.6 6.6 12 10l-3.4 3.4' fill='none' stroke='%231c1c1c' stroke-width='2'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='%235ac0b8'/%3E%3Cpath d='M8.6 6.4 12.2 10l-3.6 3.6' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
 }
 
 /* "Recently on TV" (content feed): dividers, larger image gutter */
