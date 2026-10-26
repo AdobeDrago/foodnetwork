@@ -46,7 +46,7 @@ function decorateRating(p) {
  * Cards Recipe block
  * One row per card: image | H3 title link + rating paragraph.
  */
-export default function decorate(block) {
+function decorateCards(block) {
   const ul = document.createElement('ul');
 
   [...block.children].forEach((row) => {
@@ -84,4 +84,8 @@ export default function decorate(block) {
   });
 
   block.replaceChildren(ul);
+}
+
+export default function decorate(block) {
+  decorateCards(block);
 }

@@ -762,7 +762,7 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
 }
 
 /* category pills (.o-Tags .a-Tag): grey and rounded, unlike the category-page topic pills */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) + p:has(> a ~ a) {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) {
   display: block;
   padding: 20px 20px 13px;
 }
@@ -806,7 +806,8 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
   transform: scaleX(-1);
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) + p:has(> a ~ a) > a:any-link {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) > a:any-link,
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) > span {
   display: block;
   float: left;
   margin: 0 7px 7px 0;
