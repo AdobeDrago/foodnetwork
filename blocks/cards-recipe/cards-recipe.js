@@ -1,6 +1,12 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
+import { loadSuggestions } from '../../scripts/recipe-data.js';
 
 const RATING_RE = /(\d+(?:\.\d+)?)\s*(?:of|out of|\/)\s*5(?:\s*stars?)?/i;
+const FILTERS = [
+  { suffix: '.moreQuickEasy', label: 'Quick & Easy' },
+  { suffix: '.moreHighlyRated', label: 'Highly Rated' },
+  { suffix: '.moreHealthy', label: 'Healthy' },
+];
 
 /**
  * Turn a paragraph like "4.5 of 5 stars (182)" into a star meter + count.
@@ -42,9 +48,108 @@ function decorateRating(p) {
   p.replaceWith(wrap);
 }
 
+function cardItem({
+  href, title, image, ratingText,
+}) {
+  const li = document.createElement('li');
+  li.className = 'cards-recipe-card';
+  const anchor = document.createElement('a');
+  anchor.className = 'cards-recipe-card-link';
+  anchor.href = href;
+  if (title) anchor.setAttribute('aria-label', title);
+
+  if (image) {
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'cards-recipe-card-image';
+    const img = document.createElement('img');
+    img.src = image;
+    img.alt = title || '';
+    img.loading = 'lazy';
+    imageWrap.append(img);
+    anchor.append(imageWrap);
+  }
+
+  const body = document.createElement('div');
+  body.className = 'cards-recipe-card-body';
+  const heading = document.createElement('h3');
+  heading.textContent = title || '';
+  body.append(heading);
+  if (ratingText) {
+    const rating = document.createElement('p');
+    rating.textContent = ratingText;
+    body.append(rating);
+    decorateRating(rating);
+  }
+  anchor.append(body);
+  li.append(anchor);
+  return li;
+}
+
+function randomItem(items) {
+  if (!items.length) return '';
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+async function selectFilter(block, button, suffix) {
+  const buttons = [...block.querySelectorAll('.cards-recipe-filter')];
+  const list = block.querySelector(':scope > ul');
+  if (!list) return;
+  buttons.forEach((el) => { el.disabled = true; });
+  list.setAttribute('aria-busy', 'true');
+  try {
+    const result = await loadSuggestions(suffix);
+    if (!result?.cards?.length) return;
+    buttons.forEach((el) => el.setAttribute('aria-pressed', String(el === button)));
+    list.replaceChildren(...result.cards.map(cardItem));
+  } finally {
+    buttons.forEach((el) => { el.disabled = false; });
+    list.removeAttribute('aria-busy');
+  }
+}
+
+async function openSurprise(block, authoredHrefs) {
+  const buttons = [...block.querySelectorAll('.cards-recipe-filter')];
+  buttons.forEach((el) => { el.disabled = true; });
+  try {
+    const filter = FILTERS[Math.floor(Math.random() * FILTERS.length)];
+    const result = await loadSuggestions(filter.suffix);
+    const related = result?.cards?.map((card) => card.href).filter(Boolean) || [];
+    const href = randomItem(related.length ? related : authoredHrefs);
+    if (href) window.location.assign(href);
+  } finally {
+    buttons.forEach((el) => { el.disabled = false; });
+  }
+}
+
+function addFilters(block, authoredHrefs) {
+  const main = block.closest('main');
+  if (!main?.querySelector('.columns-recipe-body')) return;
+  const bar = document.createElement('div');
+  bar.className = 'cards-recipe-filters';
+  bar.setAttribute('role', 'group');
+  bar.setAttribute('aria-label', 'Recipe suggestions');
+  FILTERS.forEach((filter) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'cards-recipe-filter';
+    button.setAttribute('aria-pressed', 'false');
+    button.textContent = filter.label;
+    button.addEventListener('click', () => selectFilter(block, button, filter.suffix));
+    bar.append(button);
+  });
+  const surprise = document.createElement('button');
+  surprise.type = 'button';
+  surprise.className = 'cards-recipe-filter';
+  surprise.textContent = 'Surprise Me';
+  surprise.addEventListener('click', () => openSurprise(block, authoredHrefs));
+  bar.append(surprise);
+  block.prepend(bar);
+}
+
 /**
  * Cards Recipe block
  * One row per card: image | H3 title link + rating paragraph.
+ * Recipe detail pages add the live suggestion filters above the authored cards.
  */
 function decorateCards(block) {
   const ul = document.createElement('ul');
@@ -88,4 +193,6 @@ function decorateCards(block) {
 
 export default function decorate(block) {
   decorateCards(block);
+  const authoredHrefs = [...block.querySelectorAll('.cards-recipe-card-link')].map((link) => link.href);
+  addFilters(block, authoredHrefs);
 }
