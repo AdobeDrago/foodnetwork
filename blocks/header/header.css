@@ -83,12 +83,12 @@ header .nav-icon-stroke .nav-cart-fill {
 }
 
 header a.nav-tool:hover .nav-icon-stroke {
-  color: var(--text-decoration-color);
+  color: var(--text-color);
 }
 
 header a.nav-tool:hover .nav-icon-saves path,
 header a.nav-tool:hover .nav-icon-stroke .nav-cart-fill {
-  fill: var(--text-decoration-color)ß;
+  fill: #e6003d;
 }
 
 header .nav-hamburger {
