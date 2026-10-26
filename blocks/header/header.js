@@ -57,12 +57,29 @@ async function fetchNav() {
   return tmp;
 }
 
+/** Inline stroke tool icons so their fill and outline can be styled independently. */
+const STROKE_TOOL_ICONS = {
+  saves: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 23" width="17" height="22" fill="none"><path d="M2 1.536h13.75c.345 0 .624.28.624.625v18.527c0 .345-.28.625-.625.625-.116 0-.23-.032-.329-.093l-6.263-3.876c-.202-.125-.459-.125-.66.002L2.33 21.21c-.292.183-.678.095-.861-.197-.063-.1-.096-.215-.096-.332V2.16c0-.346.28-.625.625-.625z" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>',
+  'shopping-list': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25" width="23" height="24" fill="none"><g fill-rule="evenodd" transform="translate(1 1)" fill="none" stroke="currentColor"><polygon class="nav-cart-fill" points="4.416 3.619 22.128 3.619 20.466 12.807 6.098 12.807" stroke="none"></polygon><polyline points="4.41636624 3.61931328 22.1280206 3.61931328 20.4664838 12.8073053 6.09786144 12.8073053" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline><polyline points="0 0 3.8904624 1.3835448 6.30813744 16.5728138 19.9938974 16.5728138" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline><path d="M17.713409,19.9618538 C18.0895302,19.9618538 18.4301073,20.1144913 18.6766837,20.3610676 C18.92326,20.6076439 19.0758974,20.9482211 19.0758974,21.3243423 C19.0758974,21.7008564 18.9233018,22.041722 18.6766533,22.2884726 C18.4300957,22.5351321 18.0895238,22.6877738 17.713409,22.6877738 C17.3369012,22.6877738 16.9960409,22.535174 16.7493091,22.2884422 C16.5025773,22.0417104 16.3499774,21.70085 16.3499774,21.3243423 C16.3499774,20.9482275 16.5026192,20.6076556 16.7492787,20.361098 C16.9960293,20.1144495 17.3368948,19.9618538 17.713409,19.9618538 Z" stroke-width="1.836"></path><path d="M7.82924901,19.9618538 C8.20537019,19.9618538 8.54594733,20.1144913 8.79252367,20.3610676 C9.03910001,20.6076439 9.19173744,20.9482211 9.19173744,21.3243423 C9.19173744,21.7008564 9.03914182,22.041722 8.79249328,22.2884726 C8.54593568,22.5351321 8.20536381,22.6877738 7.82924901,22.6877738 C7.45274124,22.6877738 7.11188089,22.535174 6.8651491,22.2884422 C6.6184173,22.0417104 6.46581744,21.70085 6.46581744,21.3243423 C6.46581744,20.9482275 6.61845915,20.6076556 6.86511871,20.361098 C7.11186926,20.1144495 7.45273485,19.9618538 7.82924901,19.9618538 Z" stroke-width="1.836"></path></g></svg>',
+};
+
 /** Render an authored icon image as a CSS mask so it can take hover colors. */
 function maskIcon(img, name) {
   const span = document.createElement('span');
   span.className = `nav-icon nav-icon-${name}`;
   span.setAttribute('aria-hidden', 'true');
   if (img) span.style.setProperty('--icon', `url("${img.getAttribute('src')}")`);
+  return span;
+}
+
+/** Tool glyph: stroke icons inline with currentColor; others stay CSS-masked. */
+function toolIcon(img, name) {
+  const markup = STROKE_TOOL_ICONS[name];
+  if (!markup) return maskIcon(img, name);
+  const span = document.createElement('span');
+  span.className = `nav-icon nav-icon-${name} nav-icon-stroke`;
+  span.setAttribute('aria-hidden', 'true');
+  span.innerHTML = markup;
   return span;
 }
 
@@ -498,7 +515,7 @@ export default async function decorate(block) {
           link.className = 'nav-tool';
           link.href = a.href;
           link.setAttribute('aria-label', label);
-          link.append(maskIcon(img, name));
+          link.append(toolIcon(img, name));
           tools.append(link);
         } else if (menu) {
           const wrap = document.createElement('div');
@@ -507,7 +524,7 @@ export default async function decorate(block) {
           btn.type = 'button';
           btn.className = 'nav-tool';
           btn.setAttribute('aria-label', label || 'User Profile Menu');
-          btn.append(maskIcon(img, name));
+          btn.append(toolIcon(img, name));
           const dd = menu.cloneNode(true);
           dd.className = 'nav-tool-dropdown';
           wrap.append(btn, dd);
