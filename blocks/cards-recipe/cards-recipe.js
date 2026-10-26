@@ -1,16 +1,4 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
-import {
-  loadRecommendations,
-  loadRecipe,
-  mainIngredientLabel,
-  recipePath,
-} from '../../scripts/recipe-data.js';
-
-const FACETS = [
-  { suffix: '.moreQuickEasy', label: 'Quick & Easy' },
-  { suffix: '.moreMainIngredient', label: 'More Main Ingredient' },
-  { suffix: '.moreHighlyRated', label: 'Highly Rated' },
-];
 
 const RATING_RE = /(\d+(?:\.\d+)?)\s*(?:of|out of|\/)\s*5(?:\s*stars?)?/i;
 
@@ -54,91 +42,11 @@ function decorateRating(p) {
   p.replaceWith(wrap);
 }
 
-function cardItem({
-  href, title, image, ratingText,
-}) {
-  const li = document.createElement('li');
-  li.className = 'cards-recipe-card';
-
-  const anchor = document.createElement('a');
-  anchor.className = 'cards-recipe-card-link';
-  anchor.href = href;
-  if (title) anchor.setAttribute('aria-label', title);
-
-  if (image) {
-    const imageWrap = document.createElement('div');
-    imageWrap.className = 'cards-recipe-card-image';
-    const img = document.createElement('img');
-    img.src = image;
-    img.alt = title || '';
-    img.loading = 'lazy';
-    imageWrap.append(img);
-    anchor.append(imageWrap);
-  }
-
-  const body = document.createElement('div');
-  body.className = 'cards-recipe-card-body';
-  const heading = document.createElement('h3');
-  heading.textContent = title || '';
-  body.append(heading);
-  if (ratingText) {
-    const rating = document.createElement('p');
-    rating.textContent = ratingText;
-    body.append(rating);
-    decorateRating(rating);
-  }
-  anchor.append(body);
-  li.append(anchor);
-  return li;
-}
-
-async function selectFacet(block, button, suffix) {
-  const buttons = [...block.querySelectorAll('.cards-recipe-facet')];
-  const list = block.querySelector(':scope > ul');
-  if (!list) return;
-  buttons.forEach((el) => { el.disabled = true; });
-  list.setAttribute('aria-busy', 'true');
-  try {
-    const result = await loadRecommendations(suffix);
-    if (!result?.cards?.length) return;
-    if (result.label) button.textContent = result.label;
-    buttons.forEach((el) => el.setAttribute('aria-pressed', String(el === button)));
-    list.replaceChildren(...result.cards.map(cardItem));
-  } finally {
-    buttons.forEach((el) => { el.disabled = false; });
-    list.removeAttribute('aria-busy');
-  }
-}
-
-async function addFacets(block) {
-  const main = block.closest('main');
-  if (!recipePath() || !main?.querySelector('.columns-recipe-body')) return;
-  const recipe = await loadRecipe();
-  const bar = document.createElement('div');
-  bar.className = 'cards-recipe-facets';
-  bar.setAttribute('role', 'group');
-  bar.setAttribute('aria-label', 'Recipe suggestions');
-  FACETS.forEach((facet) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'cards-recipe-facet';
-    button.setAttribute('aria-pressed', 'false');
-    button.textContent = facet.suffix === '.moreMainIngredient' && recipe
-      ? mainIngredientLabel(recipe)
-      : facet.label;
-    button.addEventListener('click', () => selectFacet(block, button, facet.suffix));
-    bar.append(button);
-  });
-  block.prepend(bar);
-}
-
 /**
  * Cards Recipe block
  * One row per card: image | H3 title link + rating paragraph.
- * On a recipe detail page, facet buttons replace the authored cards from
- * `.moreQuickEasy`, `.moreMainIngredient`, and `.moreHighlyRated`.
  */
-async function decorateCards(block) {
+function decorateCards(block) {
   const ul = document.createElement('ul');
 
   [...block.children].forEach((row) => {
@@ -178,7 +86,6 @@ async function decorateCards(block) {
   block.replaceChildren(ul);
 }
 
-export default async function decorate(block) {
-  await decorateCards(block);
-  await addFacets(block);
+export default function decorate(block) {
+  decorateCards(block);
 }

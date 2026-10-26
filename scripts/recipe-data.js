@@ -3,12 +3,9 @@ import { getMetadata } from './aem.js';
 const FOOD_ORIGIN = 'https://www.foodnetwork.com';
 const IMAGE_ORIGIN = 'https://food.fnr.sndimg.com';
 const RECIPE_PATH = /^\/recipes\/.+-recipe-\d+$/;
-const LIST_KEYS = ['items', 'recipes', 'results', 'cards', 'entries', 'docs', 'data', 'recommendations'];
-const LABEL_KEYS = ['label', 'facetTitle', 'heading', 'displayName'];
 const PUBLIC_PATH = /^\/(recipes|shows|videos|profiles|how-to|grilling)\//;
 
 let recipePromise;
-const recommendationCache = new Map();
 
 /**
  * A recipe path, or '' when the value is not one.
@@ -148,24 +145,6 @@ export function categoryTitles(recipe) {
   return titles;
 }
 
-/**
- * Facet label such as "More Chicken Recipes", from the first main-ingredient tag.
- * @param {object} recipe
- * @returns {string}
- */
-export function mainIngredientLabel(recipe) {
-  const groups = recipe?.tags?.additional;
-  if (!Array.isArray(groups)) return 'More Main Ingredient';
-  const tag = groups.flat().find((item) => (
-    typeof item?.id === 'string'
-    && item.id.startsWith('main-ingredient:')
-    && typeof item.title === 'string'
-    && item.title.trim()
-  ));
-  if (!tag) return 'More Main Ingredient';
-  return `More ${tag.title.trim()} Recipes`;
-}
-
 function titledItems(entry, groupKey, listKey) {
   const group = entry?.[groupKey];
   const list = group?.[listKey];
@@ -213,14 +192,14 @@ function asRecipe(data) {
 async function fetchResource(url) {
   try {
     const response = await fetch(url, {
-      headers: { Accept: 'application/json, text/html' },
+      headers: { Accept: 'application/json' },
       signal: AbortSignal.timeout(8000),
     });
     if (!response.ok) return null;
     const text = await response.text();
     const trimmed = text.trim();
     if (trimmed.startsWith('{') || trimmed.startsWith('[')) return JSON.parse(trimmed);
-    return trimmed;
+    return null;
   } catch (error) {
     return null;
   }
@@ -239,129 +218,4 @@ export function loadRecipe() {
       : Promise.resolve(null);
   }
   return recipePromise;
-}
-
-function stringField(record, keys) {
-  if (!record || typeof record !== 'object') return '';
-  const key = keys.find((name) => typeof record[name] === 'string' && record[name].trim());
-  return key ? record[key].trim() : '';
-}
-
-function cardImage(record) {
-  const direct = stringField(record, ['imageUrl', 'thumbnailUrl', 'thumbnail', 'promoImage']);
-  if (direct) return foodImageUrl(direct);
-  if (typeof record.image === 'string') return foodImageUrl(record.image);
-  if (record.image && typeof record.image === 'object') {
-    const nested = stringField(record.image, ['url', 'path', 'src']);
-    if (nested) return foodImageUrl(nested);
-  }
-  return '';
-}
-
-function cardRating(record) {
-  const source = record.rating && typeof record.rating === 'object' ? record.rating : record;
-  const value = Number(source.value ?? source.rating ?? source.starRating ?? source.averageRating);
-  if (!Number.isFinite(value)) return '';
-  const count = Number(
-    source.numberOfRatings
-    ?? source.numberOfReviews
-    ?? source.reviewCount
-    ?? record.reviewCount
-    ?? record.numberOfRatings,
-  );
-  const suffix = Number.isFinite(count) ? ` (${count})` : '';
-  return `${value} of 5 stars${suffix}`;
-}
-
-function readCard(record) {
-  if (!record || typeof record !== 'object' || Array.isArray(record)) return null;
-  const title = stringField(record, ['title', 'promoTitle', 'headline', 'name']);
-  const href = publicUrl(stringField(record, ['url', 'href', 'link', 'canonicalUrl', 'path']));
-  if (!title || !href) return null;
-  return {
-    title,
-    href,
-    image: cardImage(record),
-    ratingText: cardRating(record),
-  };
-}
-
-function payloadLabel(data) {
-  const label = LABEL_KEYS
-    .map((key) => data[key])
-    .find((value) => typeof value === 'string' && value.trim());
-  return label ? label.trim() : '';
-}
-
-function collectRecommendations(data, depth = 0) {
-  if (!data || typeof data !== 'object' || depth > 3) return null;
-  if (Array.isArray(data)) {
-    const cards = data.map(readCard).filter(Boolean);
-    return cards.length ? { label: '', cards } : null;
-  }
-  if (data.pageType === 'RECIPE') return null;
-  const label = payloadLabel(data);
-  const arrayKey = LIST_KEYS.find((key) => Array.isArray(data[key]));
-  if (arrayKey) {
-    const cards = data[arrayKey].map(readCard).filter(Boolean);
-    if (cards.length) return { label, cards };
-  }
-  const nested = Object.values(data)
-    .map((value) => collectRecommendations(value, depth + 1))
-    .find((result) => result?.cards?.length);
-  if (!nested) return null;
-  return { label: label || nested.label, cards: nested.cards };
-}
-
-function cardsFromHtml(html) {
-  if (typeof DOMParser === 'undefined') return [];
-  if (/<html[\s>]/i.test(html) && /<h1[\s>]/i.test(html)) return [];
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  return [...doc.querySelectorAll('.m-MediaBlock')].map((node) => {
-    const link = node.querySelector('a[href]');
-    const heading = node.querySelector('h2, h3');
-    const title = (heading?.textContent || link?.textContent || '').trim();
-    const href = publicUrl(link?.getAttribute('href') || '');
-    const img = node.querySelector('img');
-    const image = foodImageUrl(img?.getAttribute('src') || img?.getAttribute('data-src') || '');
-    if (!title || !href) return null;
-    return {
-      title, href, image, ratingText: '',
-    };
-  }).filter(Boolean);
-}
-
-/**
- * @param {object|string|null} data
- * @returns {{ label: string, cards: Array } | null}
- */
-function normalizeRecommendations(data) {
-  if (typeof data === 'string') {
-    const cards = cardsFromHtml(data);
-    return cards.length ? { label: '', cards } : null;
-  }
-  return collectRecommendations(data);
-}
-
-/**
- * Related-recipe payload for one facet suffix (`.moreQuickEasy` and the others).
- * Failed responses are not cached, so a later click can try again.
- * @param {string} suffix
- * @returns {Promise<{ label: string, cards: Array } | null>}
- */
-export function loadRecommendations(suffix) {
-  const cached = recommendationCache.get(suffix);
-  if (cached) return cached;
-  const url = recipeResourceUrl(suffix);
-  if (!url) return Promise.resolve(null);
-  const pending = fetchResource(url).then((data) => {
-    const result = normalizeRecommendations(data);
-    if (!result) recommendationCache.delete(suffix);
-    return result;
-  }).catch(() => {
-    recommendationCache.delete(suffix);
-    return null;
-  });
-  recommendationCache.set(suffix, pending);
-  return pending;
 }
