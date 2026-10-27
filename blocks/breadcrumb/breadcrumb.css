@@ -29,10 +29,15 @@
   vertical-align: -2px;
 }
 
-.breadcrumb .breadcrumb-item a:any-link,
-.breadcrumb .breadcrumb-item a:hover {
+.breadcrumb .breadcrumb-item a:any-link {
   color: #1c1c1c;
   text-decoration: none;
+}
+
+/* source hover underlines the link text only, in #1c1c1c, at auto thickness */
+.breadcrumb .breadcrumb-item a:hover {
+  color: #1c1c1c;
+  text-decoration: underline;
 }
 
 /* current page */

@@ -51,9 +51,8 @@
   font-size: var(--heading-font-size-l);
   line-height: 1.1;
 
-  /* keep space for the underline so it never clips on hover */
-  text-decoration: underline solid transparent 3px;
-  text-underline-offset: 4px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
   transition: text-decoration-color 0.1s ease-in-out;
 }
 

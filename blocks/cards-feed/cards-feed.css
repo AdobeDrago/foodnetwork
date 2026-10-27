@@ -66,6 +66,7 @@
 }
 
 .cards-feed .cards-feed-item-body h3 a:hover {
+  color: var(--text-color);
   text-decoration: underline;
   text-decoration-color: #e6003d;
 }

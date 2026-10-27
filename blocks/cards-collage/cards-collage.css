@@ -95,6 +95,7 @@
 .cards-collage .cards-collage-card-body h3:hover,
 .cards-collage .cards-collage-card-link:focus-visible h3 {
   text-decoration: underline;
+  text-decoration-color: #e6003d;
 }
 
 /* desktop (source .l-Columns--12_6 in the 833px main well):

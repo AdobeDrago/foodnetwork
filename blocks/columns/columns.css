@@ -46,9 +46,8 @@
   font-size: 28px;
   line-height: 1.05;
 
-  /* reserve underline space so text never shifts on hover */
-  text-decoration: underline solid transparent 2px;
-  text-underline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
   transition: text-decoration-color 0.1s ease-in-out;
 }
 
