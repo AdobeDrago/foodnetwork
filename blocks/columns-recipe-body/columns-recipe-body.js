@@ -56,7 +56,25 @@ function buildDirections(groups, extras) {
 }
 
 /**
- * Replace authored ingredients and directions when the JSON has them.
+ * True when a column has recipe copy. Headings named Ingredients or Directions,
+ * shopping buttons, and the watch image do not count.
+ * @param {HTMLElement} block
+ * @returns {boolean}
+ */
+function bodyIsAuthored(block) {
+  return [...block.querySelectorAll(':scope > div > div')].some((col) => {
+    if (col.querySelector('li')) return true;
+    return [...col.children].some((el) => {
+      if (el.querySelector('picture, img')) return false;
+      if (el.classList.contains('button-container')) return false;
+      const text = el.textContent.trim();
+      return text && !/^(ingredients|directions)$/i.test(text);
+    });
+  });
+}
+
+/**
+ * Replace an empty ingredients and directions block from the recipe JSON.
  * Picture promos and shopping-list buttons stay in the column they came from.
  * @param {HTMLElement} block
  * @param {object} recipe
@@ -324,9 +342,7 @@ function decorateBody(block) {
 
 export default async function decorate(block) {
   const recipe = await loadRecipe();
-  if (recipe) {
-    fillRecipeBody(block, recipe);
-    applyRecipeChrome(block, recipe);
-  }
+  if (recipe && !bodyIsAuthored(block)) fillRecipeBody(block, recipe);
+  if (recipe) applyRecipeChrome(block, recipe);
   decorateBody(block);
 }
