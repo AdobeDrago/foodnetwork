@@ -472,21 +472,35 @@ main .video-playlist a.button:any-link {
   border: 0;
 }
 
-/* playlist tiles */
+/* playlist tiles — live kdp row is 238px with a 15px horizontal bar */
 .video-playlist .video-playlist-list {
+  box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   gap: 7px;
+  height: 238px;
   margin: 0;
   padding: 15px 0 10px;
   overflow: auto hidden;
   list-style: none;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none;
+  scrollbar-width: auto;
 }
 
 .video-playlist .video-playlist-list::-webkit-scrollbar {
-  display: none;
+  display: block;
+  height: 15px;
+}
+
+.video-playlist .video-playlist-list::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.video-playlist .video-playlist-list::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-color: #c4c4c4;
+  background-clip: padding-box;
 }
 
 .video-playlist .video-playlist-tile {
@@ -579,11 +593,12 @@ main .video-playlist a.button:any-link {
   }
 
   /* contain: size keeps the rail from growing the row; it fills the
-     player's height and scrolls. The base list hides its scrollbar for the
-     horizontal row; the rail uses the same 15px bar as the live playlist. */
+     player's height and scrolls. Height resets so the homepage rail is
+     not locked to the horizontal row's 238px. */
   .video-playlist.rail .video-playlist-list {
     flex-direction: column;
     gap: 18px;
+    height: auto;
     padding: 12px 0 18px;
     overflow: hidden auto;
     contain: size;
@@ -595,6 +610,7 @@ main .video-playlist a.button:any-link {
   .video-playlist.rail .video-playlist-list::-webkit-scrollbar {
     display: block;
     width: 15px;
+    height: auto;
   }
 
   .video-playlist.rail .video-playlist-list::-webkit-scrollbar-track {
