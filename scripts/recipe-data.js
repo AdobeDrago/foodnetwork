@@ -4,8 +4,10 @@ const FOOD_ORIGIN = 'https://www.foodnetwork.com';
 const IMAGE_ORIGIN = 'https://food.fnr.sndimg.com';
 const RECIPE_PATH = /^\/recipes\/.+-recipe-\d+$/;
 const PUBLIC_PATH = /^\/(recipes|shows|videos|profiles|how-to|grilling)\//;
+const CARD_LIST_KEYS = ['items', 'recipes', 'results', 'cards', 'entries'];
 
 let recipePromise;
+const suggestionCache = new Map();
 
 /**
  * A recipe path, or '' when the value is not one.
@@ -218,4 +220,117 @@ export function loadRecipe() {
       : Promise.resolve(null);
   }
   return recipePromise;
+}
+
+function stringField(record, keys) {
+  if (!record || typeof record !== 'object') return '';
+  const key = keys.find((name) => typeof record[name] === 'string' && record[name].trim());
+  return key ? record[key].trim() : '';
+}
+
+function suggestionImage(record) {
+  const direct = stringField(record, ['imageUrl', 'thumbnailUrl', 'thumbnail', 'promoImage']);
+  if (direct) return foodImageUrl(direct);
+  if (typeof record.image === 'string') return foodImageUrl(record.image);
+  if (record.image && typeof record.image === 'object') {
+    const nested = stringField(record.image, ['url', 'path', 'src']);
+    if (nested) return foodImageUrl(nested);
+  }
+  return '';
+}
+
+function suggestionRating(record) {
+  const source = record.rating && typeof record.rating === 'object' ? record.rating : record;
+  const value = Number(source.value ?? source.rating ?? source.starRating);
+  if (!Number.isFinite(value)) return '';
+  const count = Number(source.numberOfRatings ?? source.numberOfReviews ?? source.reviewCount);
+  const suffix = Number.isFinite(count) ? ` (${count})` : '';
+  return `${value} of 5 stars${suffix}`;
+}
+
+function suggestionCard(record) {
+  if (!record || typeof record !== 'object' || Array.isArray(record)) return null;
+  if (record.pageType === 'RECIPE' && Array.isArray(record.blocks)) return null;
+  const title = stringField(record, ['title', 'promoTitle', 'headline', 'name']);
+  const href = publicUrl(stringField(record, ['url', 'href', 'link', 'canonicalUrl', 'path']));
+  if (!title || !href) return null;
+  return {
+    title,
+    href,
+    image: suggestionImage(record),
+    ratingText: suggestionRating(record),
+  };
+}
+
+function cardsFromList(data, depth = 0) {
+  if (!data || typeof data !== 'object' || depth > 3) return [];
+  if (Array.isArray(data)) return data.map(suggestionCard).filter(Boolean);
+  if (data.pageType === 'RECIPE' && Array.isArray(data.blocks)) return [];
+  const key = CARD_LIST_KEYS.find((name) => Array.isArray(data[name]));
+  if (key) return data[key].map(suggestionCard).filter(Boolean);
+  const nested = Object.values(data)
+    .map((value) => cardsFromList(value, depth + 1))
+    .find((cards) => cards.length);
+  return nested || [];
+}
+
+function cardsFromHtml(html) {
+  if (typeof html !== 'string' || typeof DOMParser === 'undefined') return [];
+  if (/<html[\s>]/i.test(html) && /<h1[\s>]/i.test(html)) return [];
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return [...doc.querySelectorAll('.m-MediaBlock')].map((node) => {
+    const link = node.querySelector('a[href]');
+    const heading = node.querySelector('h2, h3');
+    const title = (heading?.textContent || link?.textContent || '').trim();
+    const href = publicUrl(link?.getAttribute('href') || '');
+    const img = node.querySelector('img');
+    const image = foodImageUrl(img?.getAttribute('src') || img?.getAttribute('data-src') || '');
+    if (!title || !href) return null;
+    return {
+      title, href, image, ratingText: '',
+    };
+  }).filter(Boolean);
+}
+
+async function fetchSuggestion(url) {
+  try {
+    const response = await fetch(url, {
+      headers: { Accept: 'application/json, text/html' },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok) return null;
+    const text = await response.text();
+    const trimmed = text.trim();
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) return JSON.parse(trimmed);
+    if (trimmed.startsWith('<')) return trimmed;
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * Related recipes for one Food Network selector, such as `.moreQuickEasy`.
+ * A full recipe page, an empty payload, or a blocked request is not cached.
+ * @param {string} suffix
+ * @returns {Promise<{ cards: Array } | null>}
+ */
+export function loadSuggestions(suffix) {
+  const cached = suggestionCache.get(suffix);
+  if (cached) return cached;
+  const url = recipeResourceUrl(suffix);
+  if (!url) return Promise.resolve(null);
+  const pending = fetchSuggestion(url).then((data) => {
+    const cards = typeof data === 'string' ? cardsFromHtml(data) : cardsFromList(data);
+    if (!cards.length) {
+      suggestionCache.delete(suffix);
+      return null;
+    }
+    return { cards };
+  }).catch(() => {
+    suggestionCache.delete(suffix);
+    return null;
+  });
+  suggestionCache.set(suffix, pending);
+  return pending;
 }

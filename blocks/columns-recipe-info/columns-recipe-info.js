@@ -168,8 +168,14 @@ function infoRows(recipe) {
  * Each authored column is one group (e.g. Level+Total | Prep+Cook |
  * Yield+Nutrition Info); each row adds one item to every group. A cell that
  * holds a list becomes a toggle button revealing that list in a popover.
- * On a recipe detail URL the groups are rebuilt from `.sni.json` first.
+ * Authored cells are kept. An empty block is filled from the recipe JSON.
  */
+function infoIsAuthored(block) {
+  return [...block.querySelectorAll(':scope > div > div')].some((cell) => (
+    cell.textContent.trim() || cell.querySelector('img, picture')
+  ));
+}
+
 function decorateInfo(block) {
   // snapshot cells first: moving a cell into its group shifts row.children
   const rows = [...block.children].map((row) => [...row.children]);
@@ -201,8 +207,10 @@ function decorateInfo(block) {
 }
 
 export default async function decorate(block) {
-  const recipe = await loadRecipe();
-  const rows = recipe ? infoRows(recipe) : null;
-  if (rows) block.replaceChildren(...rows);
+  if (!infoIsAuthored(block)) {
+    const recipe = await loadRecipe();
+    const rows = recipe ? infoRows(recipe) : null;
+    if (rows) block.replaceChildren(...rows);
+  }
   decorateInfo(block);
 }
