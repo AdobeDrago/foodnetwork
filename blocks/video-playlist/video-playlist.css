@@ -7,6 +7,7 @@
 /* stage: 16:9 poster + WATCH pill */
 .video-playlist .video-playlist-stage {
   position: relative;
+  z-index: 0;
   aspect-ratio: 16 / 9;
   overflow: hidden;
 }
