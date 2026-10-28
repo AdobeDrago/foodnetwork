@@ -3,9 +3,10 @@ import { loadSuggestions } from '../../scripts/recipe-data.js';
 
 const RATING_RE = /(\d+(?:\.\d+)?)\s*(?:of|out of|\/)\s*5(?:\s*stars?)?/i;
 const FILTERS = [
-  { suffix: '.moreQuickEasy', label: 'Quick & Easy' },
-  { suffix: '.moreHighlyRated', label: 'Highly Rated' },
-  { suffix: '.moreHealthy', label: 'Healthy' },
+  { suffix: '.quickAndEasy', label: 'Quick & Easy' },
+  { suffix: '.highlyRated', label: 'Highly Rated' },
+  { suffix: '.healthy', label: 'Healthy' },
+  { suffix: '.fiveIngredientsOrLess', label: 'Surprise Me' },
 ];
 
 /**
@@ -85,10 +86,6 @@ function cardItem({
   return li;
 }
 
-function randomItem(items) {
-  if (!items.length) return '';
-  return items[Math.floor(Math.random() * items.length)];
-}
 
 async function selectFilter(block, button, suffix) {
   const buttons = [...block.querySelectorAll('.cards-recipe-filter')];
@@ -107,21 +104,7 @@ async function selectFilter(block, button, suffix) {
   }
 }
 
-async function openSurprise(block, authoredHrefs) {
-  const buttons = [...block.querySelectorAll('.cards-recipe-filter')];
-  buttons.forEach((el) => { el.disabled = true; });
-  try {
-    const filter = FILTERS[Math.floor(Math.random() * FILTERS.length)];
-    const result = await loadSuggestions(filter.suffix);
-    const related = result?.cards?.map((card) => card.href).filter(Boolean) || [];
-    const href = randomItem(related.length ? related : authoredHrefs);
-    if (href) window.location.assign(href);
-  } finally {
-    buttons.forEach((el) => { el.disabled = false; });
-  }
-}
-
-function addFilters(block, authoredHrefs) {
+function addFilters(block) {
   const main = block.closest('main');
   if (!main?.querySelector('.columns-recipe-body')) return;
   const bar = document.createElement('div');
@@ -137,12 +120,6 @@ function addFilters(block, authoredHrefs) {
     button.addEventListener('click', () => selectFilter(block, button, filter.suffix));
     bar.append(button);
   });
-  const surprise = document.createElement('button');
-  surprise.type = 'button';
-  surprise.className = 'cards-recipe-filter';
-  surprise.textContent = 'Surprise Me';
-  surprise.addEventListener('click', () => openSurprise(block, authoredHrefs));
-  bar.append(surprise);
   block.prepend(bar);
 }
 
@@ -193,6 +170,5 @@ function decorateCards(block) {
 
 export default function decorate(block) {
   decorateCards(block);
-  const authoredHrefs = [...block.querySelectorAll('.cards-recipe-card-link')].map((link) => link.href);
-  addFilters(block, authoredHrefs);
+  addFilters(block);
 }

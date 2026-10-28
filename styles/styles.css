@@ -826,6 +826,23 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
   }
 }
 
+@media (width >= 900px) {
+  body:has(main .columns-recipe-body) main > .section.sidebar {
+    column-gap: 22px;
+  }
+}
+
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) {
+  container-name: recipe-main;
+  container-type: inline-size;
+}
+
+@container recipe-main (width < 630px) {
+  main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > h2 {
+    font-size: clamp(28px, 6.6cqi, 42px);
+  }
+}
+
 /* homepage (the only template with the boxed lead hero): source stacks capsules
    20px apart on a slightly lighter page background */
 body:has(main .hero-boxed) {

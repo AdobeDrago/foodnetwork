@@ -85,7 +85,8 @@ export function capitalize(value) {
 export function foodImageUrl(path) {
   if (typeof path !== 'string') return '';
   const text = path.trim();
-  if (!text) return '';
+  if (!text || text.startsWith('data:')) return '';
+  if (text.startsWith('//')) return `https:${text}`;
   if (/^https?:\/\//i.test(text)) return text;
   return `${IMAGE_ORIGIN}${text.startsWith('/') ? text : `/${text}`}`;
 }
@@ -98,6 +99,7 @@ function publicUrl(value) {
   if (typeof value !== 'string') return '';
   const text = value.trim();
   if (!text || text.includes('/etc/tags/') || text.includes('/jcr:content')) return '';
+  if (text.startsWith('//')) return `https:${text}`;
   if (/^https?:\/\//i.test(text)) return text;
   if (PUBLIC_PATH.test(text)) return `${FOOD_ORIGIN}${text}`;
   return '';
@@ -279,12 +281,13 @@ function cardsFromHtml(html) {
   if (/<html[\s>]/i.test(html) && /<h1[\s>]/i.test(html)) return [];
   const doc = new DOMParser().parseFromString(html, 'text/html');
   return [...doc.querySelectorAll('.m-MediaBlock')].map((node) => {
-    const link = node.querySelector('a[href]');
-    const heading = node.querySelector('h2, h3');
-    const title = (heading?.textContent || link?.textContent || '').trim();
+    const link = node.querySelector('.m-MediaBlock__a-Headline a[href], a[href]');
+    const heading = node.querySelector('.m-MediaBlock__a-HeadlineText, h2, h3');
+    const title = (heading?.textContent || link?.getAttribute('title') || link?.textContent || '').trim();
     const href = publicUrl(link?.getAttribute('href') || '');
     const img = node.querySelector('img');
-    const image = foodImageUrl(img?.getAttribute('src') || img?.getAttribute('data-src') || '');
+    const src = img?.getAttribute('src') || '';
+    const image = foodImageUrl((src.startsWith('data:') ? '' : src) || img?.getAttribute('data-src') || '');
     if (!title || !href) return null;
     return {
       title, href, image, ratingText: '',
