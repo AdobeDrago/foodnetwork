@@ -49,7 +49,9 @@
 }
 
 .columns-promo .columns-promo-body h2 a:hover {
+  color: var(--text-color);
   text-decoration: underline;
+  text-decoration-color: #e6003d;
 }
 
 .columns-promo .columns-promo-body p {
@@ -139,8 +141,8 @@ main .columns-promo .columns-promo-cta a.button:focus {
 }
 
 .columns-promo.wide .columns-promo-body h2 a:any-link {
-  text-decoration: underline solid transparent 2px;
-  text-underline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
   transition: text-decoration-color 0.1s ease-in-out;
 }
 

@@ -83,9 +83,9 @@
   font-size: 24px;
   line-height: 1;
 
-  /* reserve underline space so text never shifts on hover */
-  text-decoration: underline solid transparent 2px;
-  text-underline-offset: 3px;
+  /* same underline as live: auto thickness and offset, revealed on hover */
+  text-decoration: underline;
+  text-decoration-color: transparent;
   transition: text-decoration-color 0.1s ease-in-out;
 }
 

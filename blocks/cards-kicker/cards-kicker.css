@@ -93,8 +93,8 @@
   font-size: 24px;
   font-weight: 400;
   line-height: 24px;
-  text-decoration: underline solid transparent 2px;
-  text-underline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
   transition: text-decoration-color 0.1s ease-in-out;
 }
 
