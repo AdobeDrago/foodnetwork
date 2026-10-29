@@ -92,10 +92,18 @@ header a.nav-tool:hover .nav-icon-stroke .nav-cart-fill {
 }
 
 header .nav-hamburger {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 24px;
+  padding: 0;
+}
+
+header .nav-hamburger .nav-icon {
   width: 20px;
   height: 16px;
-  margin-right: 24px;
 }
 
 header .nav-hamburger:hover,
@@ -133,6 +141,14 @@ header .nav-tools {
 header .nav-tool {
   display: block;
   color: var(--text-color);
+}
+
+header a.nav-tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
 }
 
 header a.nav-tool:hover {
@@ -660,6 +676,9 @@ header nav.is-active .nav-overlay {
   }
 
   header .nav-search button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -667,11 +686,11 @@ header nav.is-active .nav-overlay {
 
   header .nav-search-clear {
     right: 44px;
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     color: #979797;
     font-size: 18px;
-    line-height: 1;
+    line-height: 24px;
   }
 
   header .nav-search-clear[hidden] {
@@ -680,6 +699,11 @@ header nav.is-active .nav-overlay {
 
   header .nav-search-submit {
     right: 14px;
+    width: 24px;
+    height: 24px;
+  }
+
+  header .nav-search-submit .nav-icon {
     width: 23px;
     height: 23px;
   }

@@ -212,7 +212,7 @@ main .cards-kicker .cards-kicker-schedule-action a:focus-visible::before {
 main .cards-kicker .cards-kicker-schedule-more a:any-link {
   display: inline-block;
   margin: 0;
-  padding: 0;
+  padding: 3px 0;
   color: var(--text-color);
   font-family: var(--heading-font-family);
   font-size: var(--heading-font-size-s);
