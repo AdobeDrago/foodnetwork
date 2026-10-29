@@ -2,10 +2,19 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 
 /**
  * Cards Collage block
- * One row per tile: 4x3 image | H3 title (linked to the gallery page).
+ * One row per tile: 4x3 image | title (linked to the gallery page).
+ * Titles are authored as h3 and promoted to h2 so they follow the page h1.
  * Row 1 is the large feature tile; following rows are the smaller tiles
  * stacked in the side column. The whole tile links through the title link.
  */
+
+function promoteTitle(heading) {
+  const title = document.createElement('h2');
+  [...heading.attributes].forEach((attr) => title.setAttribute(attr.name, attr.value));
+  title.append(...heading.childNodes);
+  heading.replaceWith(title);
+}
+
 export default function decorate(block) {
   const ul = document.createElement('ul');
 
@@ -18,6 +27,9 @@ export default function decorate(block) {
       if (div.querySelector('picture') && div.textContent.trim() === '') div.className = 'cards-collage-card-image';
       else div.className = 'cards-collage-card-body';
     });
+
+    const title = li.querySelector('.cards-collage-card-body h3');
+    if (title) promoteTitle(title);
 
     const link = li.querySelector('.cards-collage-card-body a[href]') || li.querySelector('a[href]');
     if (link) {
