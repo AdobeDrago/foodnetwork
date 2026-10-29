@@ -751,21 +751,21 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
 
 /* recipe-body footer (source .recipe-body-footer): episode promo, category
    pills and "More from". Source floats these into the right 47% beside
-   "My Private Notes" (not migrated); on desktop they keep that right-half
+   the private-notes block ("My Private Notes"); on desktop they keep that right-half
    position via --recipe-footer-indent (53%), on mobile they run full width. */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p {
   margin: 0 0 0 var(--recipe-footer-indent, 0);
   font-family: var(--heading-font-family);
   font-size: 16px;
   line-height: 16px;
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p strong {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p strong {
   font-weight: 400;
 }
 
 /* "Looking for Something Else?" (.o-Recommendations__a-Headline) */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > h2 {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > h2 {
   clear: both;
   margin: 40px 0 20px;
   padding: 0;
@@ -776,20 +776,21 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
   letter-spacing: -0.5px;
 }
 
-/* "More from:" (.o-PackagePromo) clears the floated pills */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong + a) {
-  clear: both;
+/* "More from:" (.o-PackagePromo) clears the floated pills (left floats only, so it
+   is not pushed below the private-notes block, which floats right on desktop) */
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:has(> strong + a) {
+  clear: left;
   padding: 33px 20px 20px;
   text-transform: capitalize;
 }
 
 /* "Categories:" (.o-Tags h2) floats in front of the pills */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:has(> strong:only-child) {
   float: left;
   margin: 27px 7px 3.5px calc(var(--recipe-footer-indent, 0px) + 20px);
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p a:any-link {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p a:any-link {
   color: #e6003d;
 }
 
@@ -808,18 +809,18 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
 
 /* episode promo (.o-VideoPromo): 126x95 thumbnail with play badge; the Show /
    Episode lines are pulled up beside it so the block stays 136px tall */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:first-child:has(> a > picture) {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:first-child:has(> a > picture) {
   padding: 20px;
   border-bottom: 1px solid var(--border-color);
   line-height: 0;
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:first-child:has(> a > picture) picture {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:first-child:has(> a > picture) picture {
   position: relative;
   display: inline-block;
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:first-child:has(> a > picture) picture::after {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:first-child:has(> a > picture) picture::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -831,24 +832,24 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
   background: rgb(0 0 0 / 50%) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 21' fill='%23fff'%3E%3Cpath d='M10.5 19a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17zm0 2a10.5 10.5 0 1 1 0-21 10.5 10.5 0 0 1 0 21z'/%3E%3Cpath d='M15.4 10.9l-8.1 4v-8z'/%3E%3C/svg%3E") no-repeat center / 30px 30px;
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:first-child:has(> a > picture) img {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:first-child:has(> a > picture) img {
   display: block;
   width: 126px;
   height: 95px;
   object-fit: cover;
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:first-child:has(> a > picture) + p {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:first-child:has(> a > picture) + p {
   margin: -87px 0 5px calc(var(--recipe-footer-indent, 0px) + 160px);
 }
 
 /* category pills (.o-Tags .a-Tag): grey and rounded, unlike the category-page topic pills */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) {
   display: block;
   padding: 20px 20px 13px;
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:first-child:has(> a > picture) + p + p:not(:has(strong)) {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:first-child:has(> a > picture) + p + p:not(:has(strong)) {
   margin: 0 0 50px calc(var(--recipe-footer-indent, 0px) + 160px);
 }
 
@@ -887,8 +888,8 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
   transform: scaleX(-1);
 }
 
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) > a:any-link,
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) > span {
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) > a:any-link,
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > p:has(> strong:only-child) + p:has(> :is(a, span) ~ :is(a, span)) > span {
   display: block;
   float: left;
   margin: 0 7px 7px 0;
@@ -902,7 +903,7 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
 
 @media (width >= 900px) {
   main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper > h1,
-  main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > h2 {
+  main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > h2 {
     font-size: 42px;
   }
 }
@@ -920,7 +921,7 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) {
 }
 
 @container recipe-main (width < 630px) {
-  main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > h2 {
+  main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper > h2 {
     font-size: clamp(28px, 6.6cqi, 42px);
   }
 }
@@ -946,7 +947,7 @@ main > .section.sidebar > .section-rail > .default-content-wrapper:has(+ .cards-
 }
 
 @media (width >= 900px) {
-  main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper {
+  main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > :is(.columns-recipe-body-wrapper, .private-notes-wrapper) + .default-content-wrapper {
     --recipe-footer-indent: 53%;
   }
 }
