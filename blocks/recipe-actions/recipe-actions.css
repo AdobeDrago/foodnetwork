@@ -1,0 +1,204 @@
+/* recipe-actions: foodnetwork.com save / share toolbar (.recipe-lead .o-AssetActions) */
+
+.recipe-actions {
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--border-color);
+  padding: 17.5px 10px 43px;
+  color: var(--text-color);
+}
+
+.recipe-actions .recipe-actions-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  row-gap: 14px;
+  margin: 0 0 -2px;
+  padding: 0;
+  list-style: none;
+}
+
+.recipe-actions .recipe-actions-item {
+  --recipe-actions-bg: #525657;
+  --recipe-actions-bg-hover: #6b7071;
+  --recipe-actions-color: #fff;
+  --recipe-actions-border-width: 0;
+
+  margin: 0;
+}
+
+/* source spacing: 17px after Save Recipe, 2px before the first icon, 10px between icons */
+.recipe-actions .recipe-actions-item + .recipe-actions-item {
+  margin-left: 10px;
+}
+
+/* narrow screens: Save Recipe gets its own centred row (see .recipe-actions-save), icons wrap below it */
+.recipe-actions .recipe-actions-save + .recipe-actions-item {
+  margin-left: 0;
+}
+
+/* per-action colours (source .o-SocialShare__m-ShareButton--* and .a-Button--Save) */
+.recipe-actions .recipe-actions-save {
+  --recipe-actions-bg: #e20d32;
+  --recipe-actions-bg-hover: #f22045;
+  --recipe-actions-border-width: 2px;
+  --recipe-actions-icon-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 19'%3E%3Cpath d='M12.5 16.9V1.5h-11v15.4l5.06-3.2a.75.75 0 0 1 .8 0l5.14 3.2zm-5.54-1.67l-5.81 3.65A.75.75 0 0 1 0 18.25V.75C0 .34.34 0 .75 0h12.5c.41 0 .75.34.75.75v17.5c0 .59-.65.95-1.15.64l-5.89-3.66z'/%3E%3C/svg%3E");
+
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: center;
+}
+
+.recipe-actions .recipe-actions-pinterest {
+  --recipe-actions-bg: #d0021b;
+  --recipe-actions-bg-hover: #fd0826;
+  --recipe-actions-icon-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 23 29'%3E%3Cpath d='M9.3,19.19 C8.89,21.19 8.39,23.08 7.8,24.85 C7.22,26.63 6.22,28.02 4.83,29.04 C4.41,26.02 4.55,23.3 5.25,20.89 C5.95,18.47 6.55,16.05 7.04,13.64 C6.21,12.24 6.18,10.54 6.95,8.54 C7.73,6.54 9,5.9 10.77,6.61 C11.83,7.03 12.27,7.81 12.08,8.96 C11.89,10.12 11.6,11.32 11.2,12.59 C10.8,13.85 10.57,15.02 10.49,16.07 C10.42,17.13 11.06,17.81 12.42,18.11 C13.85,18.38 15.05,18 16.01,16.98 C16.98,15.96 17.67,14.69 18.08,13.18 C18.5,11.67 18.62,10.12 18.45,8.51 C18.28,6.91 17.76,5.65 16.89,4.74 C15.61,3.46 14.13,2.77 12.45,2.68 C10.77,2.58 9.21,2.92 7.77,3.7 C6.34,4.47 5.17,5.58 4.26,7.04 C3.35,8.49 3.05,10.14 3.35,11.99 C3.51,12.86 3.85,13.57 4.37,14.12 C4.9,14.67 4.81,15.56 4.09,16.81 C2.47,16.43 1.36,15.65 0.78,14.46 C0.19,13.27 -0.06,11.82 0.01,10.13 C0.13,7.33 1.19,5.03 3.21,3.21 C5.23,1.4 7.43,0.36 9.81,0.1 C12.87,-0.24 15.64,0.29 18.11,1.69 C20.58,3.08 22.03,5.22 22.44,8.09 C22.67,9.71 22.61,11.32 22.27,12.93 C21.93,14.53 21.37,15.96 20.57,17.21 C19.78,18.45 18.75,19.43 17.49,20.15 C16.22,20.87 14.78,21.17 13.15,21.06 C12.29,20.98 11.6,20.75 11.09,20.38 C10.58,20 9.98,19.6 9.3,19.19 Z'/%3E%3C/svg%3E");
+}
+
+.recipe-actions .recipe-actions-print {
+  --recipe-actions-icon-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 47 47' fill='none'%3E%3Ccircle cx='23.5' cy='23.5' fill='%23535657' r='23.5'/%3E%3Crect fill='white' height='15' rx='3' width='28' x='9.5' y='16'/%3E%3Cpath d='M30.5 10H16.5V20H30.5V10Z' fill='white' stroke='%23535657' stroke-width='2'/%3E%3Cpath d='M30.5 27H16.5V37H30.5V27Z' fill='white' stroke='%23535657' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.recipe-actions .recipe-actions-email {
+  --recipe-actions-bg: #848484;
+  --recipe-actions-icon-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 14'%3E%3Cpath d='M18 1.1L9 7.9 0 1.1C0 0.8 0.1 0.5 0.3 0.3 0.5 0.1 0.8 0 1.1 0L16.9 0C17.2 0 17.5 0.1 17.7 0.3 17.9 0.5 18 0.8 18 1.1ZM0 3.2L9 9.9 18 3.2 18 12.4C18 12.7 17.9 13 17.7 13.2 17.5 13.4 17.2 13.5 16.9 13.5L1.1 13.5C0.8 13.5 0.5 13.4 0.3 13.2 0.1 13 0 12.7 0 12.4L0 3.2Z'/%3E%3C/svg%3E");
+}
+
+.recipe-actions .recipe-actions-meal-plan {
+  --recipe-actions-bg: transparent;
+  --recipe-actions-bg-hover: transparent;
+  --recipe-actions-icon-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 47 47' fill='none'%3E%3Ccircle cx='23.5' cy='23.5' fill='%23FF626A' r='23.5'/%3E%3Cpath clip-rule='evenodd' d='M14 11C13.4477 11 13 11.4477 13 12V32.7273C13 33.2796 13.4477 33.7273 14 33.7273H23.3071C22.5336 32.3901 22.0909 30.8377 22.0909 29.1819C22.0909 24.1611 26.161 20.091 31.1818 20.091C31.1818 20.091 31.1818 20.091 31.1818 20.091V12C31.1818 11.4477 30.7341 11 30.1818 11H14Z' fill='white' fill-rule='evenodd'/%3E%3Ccircle cx='31.1818' cy='29.1815' fill='white' r='6.81818'/%3E%3Cpath d='M16.4091 15.5459H27.7728' stroke='%23FF626A' stroke-linecap='round' stroke-width='2'/%3E%3Cpath d='M16.4091 20.0918H23.2273' stroke='%23FF626A' stroke-linecap='round' stroke-width='2'/%3E%3Cpath d='M16.4091 24.6367H19.8182' stroke='%23FF626A' stroke-linecap='round' stroke-width='2'/%3E%3Cpath d='M31.2749 26V32.55' stroke='%23FF626A' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3Cpath d='M28 29.2754H34.55' stroke='%23FF626A' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.recipe-actions .recipe-actions-link {
+  --recipe-actions-bg: transparent;
+  --recipe-actions-bg-hover: transparent;
+  --recipe-actions-color: var(--text-color);
+  --recipe-actions-icon-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z'/%3E%3C/svg%3E");
+}
+
+/* shared control reset: 47px round icon buttons (links and the print button look the same) */
+.recipe-actions .recipe-actions-button,
+.recipe-actions .recipe-actions-button:hover,
+.recipe-actions .recipe-actions-button:focus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 47px;
+  height: 47px;
+  margin: 0;
+  border: var(--recipe-actions-border-width) solid var(--recipe-actions-bg);
+  border-radius: 50%;
+  padding: 7px;
+  background-color: var(--recipe-actions-bg);
+  color: var(--recipe-actions-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20.25px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.recipe-actions .recipe-actions-button:hover {
+  border-color: var(--recipe-actions-bg-hover);
+  background-color: var(--recipe-actions-bg-hover);
+}
+
+.recipe-actions .recipe-actions-button:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+/* Save Recipe: filled red pill with bookmark icon + label */
+.recipe-actions .recipe-actions-save .recipe-actions-button {
+  width: 268px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 45px;
+  padding: 15px 18px 10px;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 18px;
+  text-align: center;
+  text-transform: capitalize;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* unrecognised authored links: plain text link with a link icon */
+.recipe-actions .recipe-actions-link .recipe-actions-button {
+  gap: 6px;
+  width: auto;
+  border-radius: 0;
+  padding: 0 8px;
+}
+
+.recipe-actions .recipe-actions-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 25px;
+  height: 25px;
+  background-color: currentcolor;
+  mask: var(--recipe-actions-icon-image) center / contain no-repeat;
+}
+
+.recipe-actions .recipe-actions-save .recipe-actions-icon {
+  position: relative;
+  top: -3px;
+  width: 17.5px;
+  height: 17.5px;
+  margin-right: 7px;
+}
+
+.recipe-actions .recipe-actions-link .recipe-actions-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* print and meal plan: full-colour circular artwork that covers the whole button */
+.recipe-actions .recipe-actions-print .recipe-actions-icon,
+.recipe-actions .recipe-actions-meal-plan .recipe-actions-icon {
+  width: 47px;
+  height: 47px;
+  margin: -7px;
+  background: var(--recipe-actions-icon-image) center / contain no-repeat;
+  mask: none;
+}
+
+.recipe-actions .recipe-actions-save .recipe-actions-label {
+  display: block;
+}
+
+/* icon-only buttons: the label stays for screen readers */
+.recipe-actions .recipe-actions-label-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (width >= 600px) {
+  .recipe-actions .recipe-actions-save {
+    display: block;
+    flex: 0 1 auto;
+  }
+
+  .recipe-actions .recipe-actions-save + .recipe-actions-item {
+    margin-left: 2px;
+  }
+
+  .recipe-actions .recipe-actions-save .recipe-actions-button {
+    margin-right: 17px;
+  }
+}
+
+@media print {
+  .recipe-actions {
+    display: none;
+  }
+}
