@@ -10,9 +10,17 @@ const FILTERS = [
 ];
 
 /**
+ * Recipe detail pages (the main well holds the recipe body) get the suggestion
+ * filters and bare review counts; category/hub grids read "58 Reviews".
+ */
+function isRecipeDetail(block) {
+  return !!block.closest('main')?.querySelector('.columns-recipe-body');
+}
+
+/**
  * Turn a paragraph like "4.5 of 5 stars (182)" into a star meter + count.
  */
-function decorateRating(p) {
+function decorateRating(p, withLabel = false) {
   const text = p.textContent.trim();
   const match = text.match(RATING_RE);
   if (!match) return;
@@ -43,7 +51,9 @@ function decorateRating(p) {
     const count = document.createElement('span');
     count.className = 'cards-recipe-count';
     const [countText] = countMatch;
-    count.textContent = countText;
+    count.textContent = withLabel
+      ? `${countText} ${countText === '1' ? 'Review' : 'Reviews'}`
+      : countText;
     wrap.append(count);
   }
   p.replaceWith(wrap);
@@ -86,7 +96,6 @@ function cardItem({
   return li;
 }
 
-
 async function selectFilter(block, button, suffix) {
   const buttons = [...block.querySelectorAll('.cards-recipe-filter')];
   const list = block.querySelector(':scope > ul');
@@ -105,8 +114,7 @@ async function selectFilter(block, button, suffix) {
 }
 
 function addFilters(block) {
-  const main = block.closest('main');
-  if (!main?.querySelector('.columns-recipe-body')) return;
+  if (!isRecipeDetail(block)) return;
   const bar = document.createElement('div');
   bar.className = 'cards-recipe-filters';
   bar.setAttribute('role', 'group');
@@ -130,6 +138,7 @@ function addFilters(block) {
  */
 function decorateCards(block) {
   const ul = document.createElement('ul');
+  const withLabel = !isRecipeDetail(block);
 
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
@@ -141,7 +150,7 @@ function decorateCards(block) {
         div.className = 'cards-recipe-card-image';
       } else {
         div.className = 'cards-recipe-card-body';
-        div.querySelectorAll('p').forEach(decorateRating);
+        div.querySelectorAll('p').forEach((p) => decorateRating(p, withLabel));
       }
     });
 

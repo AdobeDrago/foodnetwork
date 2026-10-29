@@ -26,10 +26,12 @@ function buildHeroBlock(main) {
   const picture = main.querySelector('picture');
   // skip pictures that belong to an authored block (e.g. the recipe lead video poster)
   const inBlock = picture && picture.closest('main > div > div[class]');
-  const position = picture ? h1.compareDocumentPosition(picture) : 0;
+  // recipe pages without a video keep their lead photo above the title, not in a hero
+  const isRecipe = main.querySelector('.columns-recipe-info, .columns-recipe-body');
+  const position = h1 && picture ? h1.compareDocumentPosition(picture) : 0;
   // eslint-disable-next-line no-bitwise
   const pictureBeforeHeading = position & Node.DOCUMENT_POSITION_PRECEDING;
-  if (h1 && picture && !inBlock && pictureBeforeHeading) {
+  if (h1 && picture && !inBlock && !isRecipe && pictureBeforeHeading) {
     const section = document.createElement('div');
     section.append(buildBlock('hero', { elems: [picture, h1] }));
     main.prepend(section);

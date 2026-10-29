@@ -304,6 +304,55 @@ function applyRecipeChrome(block, recipe) {
   setPackage(footer, linkItem(recipe.package));
 }
 
+const RATING_RE = /(\d+(?:\.\d+)?)\s*(?:of|out of|\/)\s*5(?:\s*stars?)?/i;
+
+/**
+ * Turn the lead "4.7 of 5 stars (860 reviews)" paragraph under the title into
+ * the source star meter (.review-summary): five stars, rounded up to the
+ * nearest half as the source does (4.7 -> 5, 4.1 -> 4.5), plus "N Reviews".
+ * The paragraph stays in place so the title/rating layout keeps working.
+ * @param {HTMLElement|null} p
+ */
+function decorateRating(p) {
+  if (!p || p.tagName !== 'P' || p.classList.contains('columns-recipe-body-rating')) return;
+  const text = p.textContent.trim();
+  const match = text.match(RATING_RE);
+  if (!match) return;
+  const value = Math.max(0, Math.min(5, parseFloat(match[1])));
+  const countMatch = text.replace(match[0], '').match(/\d[\d,]*/);
+
+  const stars = document.createElement('span');
+  stars.className = 'columns-recipe-body-stars';
+  stars.setAttribute('role', 'img');
+  stars.setAttribute('aria-label', `${value} of 5 stars`);
+  const shown = Math.ceil(value * 2) / 2;
+  for (let i = 1; i <= 5; i += 1) {
+    const star = document.createElement('span');
+    let state = 'empty';
+    if (shown >= i) state = 'full';
+    else if (shown >= i - 0.5) state = 'half';
+    star.className = `columns-recipe-body-star columns-recipe-body-star-${state}`;
+    stars.append(star);
+  }
+
+  const parts = [stars];
+  if (countMatch) {
+    const [countText] = countMatch;
+    const count = document.createElement('span');
+    count.className = 'columns-recipe-body-reviews';
+    count.textContent = `${countText} ${countText === '1' ? 'Review' : 'Reviews'}`;
+    parts.push(count);
+  }
+  p.classList.add('columns-recipe-body-rating');
+  p.replaceChildren(...parts);
+}
+
+function decorateLeadRating(block) {
+  const scope = block.closest('.section-main') || block.closest('main');
+  const h1 = scope?.querySelector('.default-content-wrapper h1');
+  decorateRating(h1?.nextElementSibling || null);
+}
+
 /**
  * Columns Recipe Body block
  * One row, two equal cells of plain content: Ingredients | Directions.
@@ -318,6 +367,21 @@ function decorateBody(block) {
       col.classList.add('columns-recipe-body-col');
       if (i === 0) col.classList.add('columns-recipe-body-ingredients');
       if (i === 1) col.classList.add('columns-recipe-body-directions');
+      // no ingredients (e.g. a one-step recipe): directions take the full width
+      if (!col.children.length && !col.textContent.trim()) col.classList.add('columns-recipe-body-col-empty');
+
+      // a single direction step renders without a numeral or rule (source .oneStep)
+      const steps = col.querySelectorAll('ol > li');
+      if (steps.length === 1) steps[0].parentElement.classList.add('columns-recipe-body-one-step');
+
+      // text after the steps (e.g. "Photograph by ...") is the directions footer
+      if (i === 1) {
+        col.querySelectorAll(':scope > ol ~ p').forEach((p) => {
+          if (!p.querySelector('picture') && !p.classList.contains('button-container')) {
+            p.classList.add('columns-recipe-body-note');
+          }
+        });
+      }
 
       col.querySelectorAll('ol').forEach((ol) => {
         const start = parseInt(ol.getAttribute('start'), 10);
@@ -344,5 +408,6 @@ export default async function decorate(block) {
   const recipe = await loadRecipe();
   if (recipe && !bodyIsAuthored(block)) fillRecipeBody(block, recipe);
   if (recipe) applyRecipeChrome(block, recipe);
+  decorateLeadRating(block);
   decorateBody(block);
 }

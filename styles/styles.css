@@ -286,18 +286,12 @@ main a.button:any-link {
   white-space: normal;
 }
 
-/* default content: capsule headings (What's Trending, Latest Stories, ...) */
+/* default content: capsule headings (What's Trending, Latest Stories, ...);
+   titles are condensed medium, #1c1c1c (source .o-Capsule__m-Header) */
 main .default-content-wrapper h2,
 main .default-content-wrapper h3 {
   margin: 0;
   padding: 15px 30px 20px 10px;
-  font-size: var(--heading-font-size-xl);
-  line-height: 1;
-}
-
-/* capsule titles are condensed medium, #1c1c1c (source .o-Capsule__m-Header) */
-main .default-content-wrapper h2,
-main .default-content-wrapper h3 {
   color: #1c1c1c;
   font-family: var(--heading-font-family);
   font-size: 34px;
@@ -317,6 +311,54 @@ main > .section.sidebar > .section-main > .default-content-wrapper > h1 {
   font-size: 48px;
   font-weight: 400;
   line-height: 48px;
+}
+
+/* bulleted link lists (Trending Recipes), two columns */
+main .default-content-wrapper:has(> ul + ul) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 14px;
+}
+
+main .default-content-wrapper:has(> ul + ul) > :not(ul) {
+  grid-column: 1 / -1;
+}
+
+main .default-content-wrapper ul {
+  margin: 0 0 21px;
+  padding: 0 0 0 8px;
+  list-style: none;
+}
+
+main .default-content-wrapper li {
+  position: relative;
+  margin: 0 0 3.5px;
+  padding: 0 0 0 15px;
+  color: #1c1c1c;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20.25px;
+}
+
+main .default-content-wrapper li a:any-link {
+  color: #1c1c1c;
+  font-size: 15px;
+  line-height: 20.25px;
+  text-decoration: none;
+}
+
+main .default-content-wrapper li a:hover,
+main .default-content-wrapper li a:focus-visible {
+  color: #1c1c1c;
+  text-decoration: underline;
+}
+
+main .default-content-wrapper li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--secondary-color);
 }
 
 /* topic tag pills (a paragraph holding several links) */
@@ -378,52 +420,41 @@ main .default-content-wrapper h3 + .button-container a.button:any-link::after {
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='%235ac0b8'/%3E%3Cpath d='M8.6 6.4 12.2 10l-3.6 3.6' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
 }
 
-/* bulleted link lists (Trending Recipes), two columns */
-main .default-content-wrapper:has(> ul + ul) {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 14px;
+/* a lone related tag under the page title is button-decorated by EDS
+   (p.button-container > a.button); render it as the same pill */
+main > .section.sidebar > .section-main > .default-content-wrapper > h1 + p.button-container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-main .default-content-wrapper:has(> ul + ul) > :not(ul) {
-  grid-column: 1 / -1;
-}
-
-main .default-content-wrapper ul {
-  margin: 0 0 21px;
-  padding: 0 0 0 8px;
-  list-style: none;
-}
-
-main .default-content-wrapper li {
-  position: relative;
-  margin: 0 0 3.5px;
-  padding: 0 0 0 15px;
+main > .section.sidebar > .section-main > .default-content-wrapper > h1 + p.button-container > a.button:any-link {
+  margin: 0 7px 7px 0;
+  padding: 7px 9px 1px;
+  background-color: var(--tag-background-color);
   color: #1c1c1c;
-  font-family: var(--body-font-family);
+  font-family: var(--heading-font-family);
   font-size: 15px;
   font-weight: 400;
-  line-height: 20.25px;
-}
-
-main .default-content-wrapper li a:any-link {
-  color: #1c1c1c;
-  font-size: 15px;
   line-height: 20.25px;
   text-decoration: none;
 }
 
-main .default-content-wrapper li a:hover,
-main .default-content-wrapper li a:focus-visible {
+main > .section.sidebar > .section-main > .default-content-wrapper > h1 + p.button-container > a.button:hover,
+main > .section.sidebar > .section-main > .default-content-wrapper > h1 + p.button-container > a.button:focus-visible {
+  background-color: var(--tag-background-color);
   color: #1c1c1c;
   text-decoration: underline;
 }
 
-main .default-content-wrapper li::before {
-  content: '•';
-  position: absolute;
-  left: 0;
-  color: var(--secondary-color);
+/* related-tag capsule (source .o-RelatedTags) right under the page title or a capsule
+   heading: 21px above the pills (31px under the title's box), 35px (28 + pill 7) below */
+main > .section.sidebar > .section-main > .default-content-wrapper > :is(h1, h2) + p:has(> a ~ a),
+main > .section.sidebar > .section-main > .default-content-wrapper > h1 + p.button-container {
+  margin: 21px 0 28px;
+}
+
+main > .section.sidebar > .section-main > .default-content-wrapper > h1 + :is(p:has(> a ~ a), p.button-container) {
+  margin-top: 31px;
 }
 
 /* section style "white, centered" (recipe Related Pages band, source
@@ -485,6 +516,12 @@ main > .section.sidebar > .section-rail .default-content-wrapper h2 {
   font-size: 28px;
   font-weight: 400;
   line-height: 28px;
+}
+
+/* content feed header (source .o-ContentFeed .o-Capsule__m-Header) adds 15px above and below the title */
+main > .section.sidebar > .section-main > .default-content-wrapper:has(+ .cards-feed-wrapper) > :is(h2, h3):last-child {
+  padding-top: 30px;
+  padding-bottom: 35px;
 }
 
 /* breadcrumb section: source H1 starts 68px below the header */
@@ -644,8 +681,9 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
   line-height: 28px;
 }
 
-/* "Recipe courtesy of ..." (.o-Attribution__a-Name) */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(+ h1) {
+/* "Recipe courtesy of ..." (.o-Attribution__a-Name): the line after the chef avatar
+   (or, without an avatar, the line before the title) */
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > :is(p:has(+ h1), p:has(> a > picture) + p) {
   margin: 8px 0 0;
   font-family: var(--heading-font-family);
   font-size: 16px;
@@ -654,11 +692,69 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
   text-transform: uppercase;
 }
 
-/* recipe-body footer (source .recipe-body-footer): episode promo, category
-   pills and "More from". Source floats these into the right half beside
-   "My Private Notes", which isn't migrated, so here they run full width. */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p {
+/* recipes without a lead video: the lead photo (.o-RecipeLead--HasPhotoNoVideo) is a
+   default-content picture between the prev/next bar and the chef avatar, shown as a
+   full-width 400px cover crop flush under the bar */
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(> picture) {
   margin: 0;
+  line-height: 0;
+}
+
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(> picture) img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  aspect-ratio: 831 / 400;
+  object-fit: cover;
+}
+
+/* chef avatar (.o-Attribution__a-Image): white-ringed circle overlapping the lead
+   video, or the lead photo when there is no video (then it shares the title's wrapper) */
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(> a > picture) {
+  position: relative;
+  z-index: 1;
+  margin: -53px 0 0;
+  line-height: 0;
+}
+
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(> a > picture) img {
+  box-sizing: border-box;
+  width: 109px;
+  height: 109px;
+  border: 5px solid var(--surface-color);
+  border-radius: 50%;
+  background-color: var(--surface-color);
+  object-fit: cover;
+}
+
+/* "From: Food Network Magazine" (.o-Attribution__a-Source): Book 15px, red 14px link */
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(> a > picture) + p + p {
+  margin: 5px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+  letter-spacing: 1.5px;
+  text-transform: none;
+}
+
+/* chef name is plain text colour, not a blue link */
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > :is(p:has(+ h1), p:has(> a > picture) + p) a:any-link {
+  color: #1c1c1c;
+}
+
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(> a > picture) + p + p a:any-link {
+  color: #e20d32;
+  font-size: 14px;
+  line-height: 18.9px;
+}
+
+/* recipe-body footer (source .recipe-body-footer): episode promo, category
+   pills and "More from". Source floats these into the right 47% beside
+   "My Private Notes" (not migrated); on desktop they keep that right-half
+   position via --recipe-footer-indent (53%), on mobile they run full width. */
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p {
+  margin: 0 0 0 var(--recipe-footer-indent, 0);
   font-family: var(--heading-font-family);
   font-size: 16px;
   line-height: 16px;
@@ -687,28 +783,10 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
   text-transform: capitalize;
 }
 
-/* chef avatar (.o-Attribution__a-Image): white-ringed circle overlapping the video */
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:first-child:has(> a > picture) {
-  position: relative;
-  z-index: 1;
-  margin: -53px 0 0;
-  line-height: 0;
-}
-
-main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:first-child:has(> a > picture) img {
-  box-sizing: border-box;
-  width: 109px;
-  height: 109px;
-  border: 5px solid var(--surface-color);
-  border-radius: 50%;
-  background-color: var(--surface-color);
-  object-fit: cover;
-}
-
 /* "Categories:" (.o-Tags h2) floats in front of the pills */
 main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:has(> strong:only-child) {
   float: left;
-  margin: 27px 7px 3.5px 20px;
+  margin: 27px 7px 3.5px calc(var(--recipe-footer-indent, 0px) + 20px);
 }
 
 main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p a:any-link {
@@ -723,6 +801,9 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
   margin: 0;
   font-size: 0;
   line-height: 0;
+
+  /* without a lead video the bar shares the centred title wrapper; source is left-aligned */
+  text-align: left;
 }
 
 /* episode promo (.o-VideoPromo): 126x95 thumbnail with play badge; the Show /
@@ -758,7 +839,7 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
 }
 
 main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:first-child:has(> a > picture) + p {
-  margin: -87px 0 5px 160px;
+  margin: -87px 0 5px calc(var(--recipe-footer-indent, 0px) + 160px);
 }
 
 /* category pills (.o-Tags .a-Tag): grey and rounded, unlike the category-page topic pills */
@@ -768,7 +849,7 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
 }
 
 main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > p:first-child:has(> a > picture) + p + p:not(:has(strong)) {
-  margin: 0 0 50px 160px;
+  margin: 0 0 50px calc(var(--recipe-footer-indent, 0px) + 160px);
 }
 
 main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:first-child > p:first-child:has(> a + a) > a + a {
@@ -815,8 +896,8 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
   border-radius: 20px;
   background-color: #e3e6e6;
   color: #525657;
-  font-size: var(--body-font-size-m);
-  line-height: var(--body-line-height);
+  font-size: 15px;
+  line-height: 20.25px;
 }
 
 @media (width >= 900px) {
@@ -827,8 +908,9 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .c
 }
 
 @media (width >= 900px) {
+  /* source recipe main column is 831px wide with the rail still at x=967 */
   body:has(main .columns-recipe-body) main > .section.sidebar {
-    column-gap: 22px;
+    column-gap: 42px;
   }
 }
 
@@ -840,6 +922,32 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) {
 @container recipe-main (width < 630px) {
   main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper > h2 {
     font-size: clamp(28px, 6.6cqi, 42px);
+  }
+}
+
+/* rail capsule titles (What's Cooking, Shop With Us) are Georgia bold (source
+   .o-Capsule__a-HeadlineText). Recipe rail: 28/37.8, -0.5px, 25px above the cards.
+   Category rail: only the "Recently on TV" feed (cards-rail-feed) stays condensed. */
+main > .section.sidebar:has(> .section-main > .columns-recipe-body-wrapper) > .section-rail > .default-content-wrapper:has(> h2:last-child) {
+  margin-bottom: 25px;
+}
+
+main > .section.sidebar:has(> .section-main > .columns-recipe-body-wrapper) > .section-rail > .default-content-wrapper > h2 {
+  padding: 0;
+  font-family: var(--heading-serif-font-family);
+  font-weight: 700;
+  line-height: 37.8px;
+  letter-spacing: -0.5px;
+}
+
+main > .section.sidebar > .section-rail > .default-content-wrapper:has(+ .cards-rail-wrapper > .cards-rail:not(.cards-rail-feed)) > h2 {
+  font-family: var(--heading-serif-font-family);
+  font-weight: 700;
+}
+
+@media (width >= 900px) {
+  main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .columns-recipe-body-wrapper + .default-content-wrapper {
+    --recipe-footer-indent: 53%;
   }
 }
 

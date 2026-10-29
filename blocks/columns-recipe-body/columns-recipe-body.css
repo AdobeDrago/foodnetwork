@@ -101,8 +101,9 @@
   text-align: center;
 }
 
+/* source: .o-Ingredients__Button-Container margin-top 44px + button margin 21px */
 .columns-recipe-body .columns-recipe-body-col > ul + .button-container {
-  margin-top: 45px;
+  margin-top: 65px;
 }
 
 main .columns-recipe-body .columns-recipe-body-col a.button:any-link {
@@ -211,6 +212,12 @@ main .columns-recipe-body .columns-recipe-body-col a.button[href*="substitution"
   padding-top: 0;
 }
 
+/* single step (source .oneStep): 0 20px padding, no rule */
+.columns-recipe-body .columns-recipe-body-col ol.columns-recipe-body-one-step > li {
+  padding: 0 20px;
+  border-bottom: 0;
+}
+
 .columns-recipe-body .columns-recipe-body-col > ol:last-child > li:last-child {
   padding-bottom: 0;
   border-bottom: 0;
@@ -226,6 +233,79 @@ main .columns-recipe-body .columns-recipe-body-col a.button[href*="substitution"
   line-height: 42px;
 }
 
+/* single step (source .o-Method__m-Body.oneStep): 700px wide, no numeral */
+.columns-recipe-body .columns-recipe-body-col ol.columns-recipe-body-one-step {
+  max-width: 700px;
+}
+
+.columns-recipe-body .columns-recipe-body-col ol.columns-recipe-body-one-step > li::before {
+  content: none;
+}
+
+/* directions footer, e.g. "Photograph by ..." (source .bodyRight-footer:
+   20px padding, 1px rule above; .o-PhotoCredit__a-Credit 14/18.9, mb 10px) */
+.columns-recipe-body .columns-recipe-body-directions > .columns-recipe-body-note {
+  margin: 0;
+  padding: 0 20px 10px;
+  font-size: 14px;
+  line-height: 18.9px;
+}
+
+.columns-recipe-body .columns-recipe-body-directions > ol + .columns-recipe-body-note {
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.columns-recipe-body .columns-recipe-body-directions > .columns-recipe-body-note:last-child {
+  padding-bottom: 30px;
+}
+
+/* empty ingredients cell: directions span the row */
+.columns-recipe-body .columns-recipe-body-col-empty {
+  display: none;
+}
+
+/* lead rating under the h1 (default content, rendered by this block's JS):
+   source .review-summary - 28px #e6003d stars, "N Reviews" 16/21.6 #4a4a4a */
+main .section-main:has(> .columns-recipe-body-wrapper) .columns-recipe-body-rating {
+  --columns-recipe-body-star-on: #e6003d;
+  --columns-recipe-body-star-off: rgb(227 226 224);
+}
+
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper > h1 + p.columns-recipe-body-rating {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: #4a4a4a;
+  font-size: 16px;
+  line-height: 21.6px;
+}
+
+main .section-main:has(> .columns-recipe-body-wrapper) .columns-recipe-body-stars {
+  display: flex;
+}
+
+main .section-main:has(> .columns-recipe-body-wrapper) .columns-recipe-body-star {
+  display: block;
+  width: 28px;
+  height: 28px;
+  background: var(--columns-recipe-body-star-on);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
+}
+
+main .section-main:has(> .columns-recipe-body-wrapper) .columns-recipe-body-star-half {
+  background: linear-gradient(to right, var(--columns-recipe-body-star-on) 50%, var(--columns-recipe-body-star-off) 50%);
+}
+
+main .section-main:has(> .columns-recipe-body-wrapper) .columns-recipe-body-star-empty {
+  background: var(--columns-recipe-body-star-off);
+}
+
+main .section-main:has(> .columns-recipe-body-wrapper) .columns-recipe-body-reviews {
+  display: block;
+  margin-left: 5px;
+}
+
 @media (width >= 900px) {
   .columns-recipe-body .columns-recipe-body-row {
     flex-direction: row;
@@ -233,5 +313,10 @@ main .columns-recipe-body .columns-recipe-body-col a.button[href*="substitution"
 
   .columns-recipe-body .columns-recipe-body-col {
     flex: 1 1 0;
+  }
+
+  /* source .bodyRight keeps its 25px left margin when it stands alone */
+  .columns-recipe-body .columns-recipe-body-col-empty + .columns-recipe-body-col {
+    margin-left: 25px;
   }
 }
