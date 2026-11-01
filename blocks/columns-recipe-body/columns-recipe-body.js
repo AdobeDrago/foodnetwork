@@ -56,8 +56,8 @@ function buildDirections(groups, extras) {
 }
 
 /**
- * True when a column has recipe copy. Headings named Ingredients or Directions
- * (optional trailing colon), shopping buttons, and the watch image do not count.
+ * True when a column has recipe copy. Headings, shopping buttons, the watch
+ * promo image/link, and empty shell copy do not count.
  * @param {HTMLElement} block
  * @returns {boolean}
  */
@@ -68,7 +68,9 @@ function bodyIsAuthored(block) {
       if (el.querySelector('picture, img')) return false;
       if (el.classList.contains('button-container')) return false;
       const text = el.textContent.trim();
-      return text && !/^(ingredients|directions):?$/i.test(text);
+      return text
+        && !/^(ingredients|directions):?$/i.test(text)
+        && !/^watch how to make this recipe$/i.test(text);
     });
   });
 }
