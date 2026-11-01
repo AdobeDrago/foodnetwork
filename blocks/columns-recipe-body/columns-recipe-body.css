@@ -18,7 +18,7 @@
   min-width: 0;
 }
 
-/* headings: Georgia 24/32.4 bold with a trailing colon (source ::after) */
+/* headings: Georgia 24/32.4 bold; colon lives in JSON-built text only */
 .columns-recipe-body .columns-recipe-body-col h2 {
   margin: 0 0 20px;
   padding: 0;
@@ -28,10 +28,6 @@
   line-height: 32.4px;
   letter-spacing: -0.5px;
   color: var(--text-color);
-}
-
-.columns-recipe-body .columns-recipe-body-col h2::after {
-  content: ':';
 }
 
 .columns-recipe-body .columns-recipe-body-ingredients h2 {

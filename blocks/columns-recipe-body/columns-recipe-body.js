@@ -35,7 +35,7 @@ function columnExtras(col) {
 
 function buildIngredients(groups, extras) {
   const col = document.createElement('div');
-  col.append(heading('h2', 'Ingredients'));
+  col.append(heading('h2', 'Ingredients:'));
   groups.forEach((group) => {
     if (group.title) col.append(heading('h3', group.title));
     col.append(itemList('ul', group.items));
@@ -46,7 +46,7 @@ function buildIngredients(groups, extras) {
 
 function buildDirections(groups, extras) {
   const col = document.createElement('div');
-  col.append(heading('h2', 'Directions'));
+  col.append(heading('h2', 'Directions:'));
   extras.media.forEach((node) => col.append(node));
   groups.forEach((group, index) => {
     if (index > 0 && group.title) col.append(heading('h3', group.title));
@@ -56,8 +56,8 @@ function buildDirections(groups, extras) {
 }
 
 /**
- * True when a column has recipe copy. Headings named Ingredients or Directions,
- * shopping buttons, and the watch image do not count.
+ * True when a column has recipe copy. Headings named Ingredients or Directions
+ * (optional trailing colon), shopping buttons, and the watch image do not count.
  * @param {HTMLElement} block
  * @returns {boolean}
  */
@@ -68,7 +68,7 @@ function bodyIsAuthored(block) {
       if (el.querySelector('picture, img')) return false;
       if (el.classList.contains('button-container')) return false;
       const text = el.textContent.trim();
-      return text && !/^(ingredients|directions)$/i.test(text);
+      return text && !/^(ingredients|directions):?$/i.test(text);
     });
   });
 }
