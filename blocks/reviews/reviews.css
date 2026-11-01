@@ -1,0 +1,377 @@
+/* reviews: foodnetwork.com Ratings & Reviews (.o-RatingsAndReviews / .o-UserComments) */
+
+.reviews {
+  --reviews-star-on: rgb(230 0 61);
+  --reviews-star-off: rgb(227 226 224);
+  --reviews-rule: var(--border-color);
+
+  padding: 20px 0 30px;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+}
+
+/* header: "N Reviews" over the star summary (source header#reviewsTop, margin-bottom 20px);
+   with no reviews it is just the "Be the first to review" heading */
+.reviews .reviews-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 0 20px;
+}
+
+.reviews .reviews-summary {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+
+.reviews .reviews-count {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--heading-serif-font-family);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 37.8px;
+  letter-spacing: -0.5px;
+}
+
+.reviews .reviews-stars {
+  display: flex;
+}
+
+.reviews .reviews-star {
+  display: block;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  background: var(--reviews-star-on);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.reviews .reviews-star-half {
+  background: linear-gradient(to right, var(--reviews-star-on) 50%, var(--reviews-star-off) 50%);
+}
+
+.reviews .reviews-star-empty {
+  background: var(--reviews-star-off);
+}
+
+.reviews .reviews-sr-only {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* compose box (source #user-review.review-compose-box): 30px under the header's
+   20px margin, avatar 37px | textarea, then Your Rating stars + Post Review */
+.reviews .reviews-compose {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 30px 0 34px;
+  padding: 14px 0 10.5px;
+}
+
+.reviews.reviews-empty .reviews-compose {
+  margin-bottom: 0;
+}
+
+.reviews .reviews-compose-avatar {
+  position: relative;
+  flex: 0 0 37px;
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  background-image: linear-gradient(rgb(90 90 90), rgb(42 42 42));
+}
+
+/* logged-out profile outline (source svg.user-avatar-logged-out, 20px) */
+.reviews .reviews-compose-avatar::before {
+  content: "";
+  position: absolute;
+  inset: 8.5px;
+  background-color: rgb(250 250 250);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill-rule='evenodd' d='M32.3841 63.9563C25.2532 63.9563 18.612 62.9189 13.6841 61.0351C9.87473 59.5788 5.3335 56.9158 5.3335 52.5C5.3335 47.22 6.71411 42.0489 9.32611 37.546C11.8715 33.1575 15.4733 29.5752 19.7423 27.1861L20.0603 27.0083L19.8343 26.7225C17.541 23.8218 16.278 20.1568 16.278 16.4022C16.278 7.358 23.503 0 32.3841 0C41.2649 0 48.4901 7.36431 48.4901 16.4163C48.4901 20.1605 47.2272 23.8197 44.9336 26.72L44.7076 27.0058L45.0258 27.1838C49.2946 29.5728 52.8964 33.1555 55.442 37.5448C58.054 42.0483 59.4346 47.2198 59.4346 52.5C59.4346 56.9158 54.8935 59.5788 51.084 61.0351C46.1561 62.9189 39.515 63.9563 32.3841 63.9563ZM22.141 31.2958C14.7666 35.4228 10.1856 43.5184 10.1856 52.4237C10.1856 53.7761 12.2101 55.4035 15.469 56.6706C19.779 58.3464 25.9444 59.3078 32.3841 59.3078C38.8236 59.3078 44.989 58.3464 49.299 56.6706C52.5581 55.4035 54.5826 53.7761 54.5826 52.4237C54.5826 43.5186 50.0013 35.4228 42.627 31.2958L37.4352 28.3903L41.1043 23.7498C42.7618 21.654 43.6378 19.1114 43.6378 16.3972C43.6378 9.98323 38.5893 4.76492 32.3841 4.76492C26.1786 4.76492 21.1301 9.98323 21.1301 16.3972C21.1301 19.1112 22.0063 21.6538 23.6636 23.7498L27.3329 28.3901L22.141 31.2958Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.reviews .reviews-compose-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.reviews .reviews-compose-editor {
+  box-sizing: border-box;
+  height: 102px;
+  border: 1px solid rgb(213 213 213);
+  border-radius: 3px;
+  background-color: var(--surface-color);
+  box-shadow: inset 0 0 5px 0 rgb(0 0 0 / 5%);
+}
+
+.reviews .reviews-compose-editor:focus-within {
+  border-color: rgb(117 117 117);
+}
+
+.reviews .reviews-compose-textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 90px;
+  margin: 0;
+  border: 0;
+  border-radius: 3px;
+  padding: 10.5px;
+  background-color: var(--surface-color);
+  color: rgb(0 0 0);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20.25px;
+  resize: none;
+  outline: none;
+}
+
+.reviews .reviews-compose-textarea::placeholder {
+  color: rgb(117 117 117);
+  opacity: 1;
+}
+
+.reviews .reviews-compose-error {
+  margin: 7px 0 0;
+  color: var(--reviews-star-on);
+  font-family: var(--heading-med-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+}
+
+.reviews .reviews-compose-error[hidden] {
+  display: none;
+}
+
+.reviews .reviews-compose-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0 16px;
+}
+
+/* source: rating group and button both 16px below the textarea; the 15px
+   label-to-stars gap (source stars padding-left) collapses when it wraps on mobile */
+.reviews .reviews-compose-rating {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0 15px;
+  margin: 16px 0 0;
+}
+
+.reviews .reviews-compose-rating-label {
+  color: var(--text-color);
+  font-family: var(--heading-serif-font-family);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32.4px;
+  letter-spacing: -0.5px;
+}
+
+.reviews .reviews-compose-stars {
+  position: relative;
+  display: flex;
+  padding: 5px 0;
+}
+
+.reviews .reviews-compose-star-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.reviews .reviews-compose-star {
+  display: block;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.reviews .reviews-compose-star::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--reviews-star-off);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.reviews .reviews-compose-star.is-on::before {
+  background: var(--reviews-star-on);
+}
+
+.reviews .reviews-compose-star-input:focus-visible + .reviews-compose-star {
+  outline: 2px solid var(--text-color);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+/* source Post Review button: grey pill, Cond Medium 18px */
+.reviews .reviews-compose-footer .reviews-compose-post {
+  margin: 16px 0;
+  border: 0;
+  border-radius: 45px;
+  padding: 15px 18px 10px;
+  background-color: rgb(82 86 87);
+  color: var(--surface-color);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.reviews .reviews-compose-footer .reviews-compose-post:hover,
+.reviews .reviews-compose-footer .reviews-compose-post:focus-visible {
+  background-color: var(--dark-color);
+  color: var(--surface-color);
+}
+
+.reviews .reviews-compose-footer .reviews-compose-post:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+/* review list: avatar circle | author + date, stars, text */
+.reviews .reviews-list {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--reviews-rule);
+  list-style: none;
+}
+
+.reviews .reviews-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin: 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--reviews-rule);
+}
+
+.reviews .reviews-item[hidden] {
+  display: none;
+}
+
+.reviews .reviews-item:focus {
+  outline: none;
+}
+
+.reviews .reviews-avatar {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 36px;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding-top: 6.75px;
+  border-radius: 50%;
+  background-image: linear-gradient(rgb(90 90 90), rgb(42 42 42));
+  color: rgb(250 250 250);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 20px;
+  text-transform: uppercase;
+}
+
+.reviews .reviews-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.reviews .reviews-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 10.5px;
+  margin: 3.5px 0;
+}
+
+.reviews .reviews-author {
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  line-height: 22px;
+}
+
+.reviews .reviews-date {
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.reviews .reviews-rating {
+  margin: 0 0 0 -3.5px;
+  padding: 0 0 5px;
+}
+
+.reviews .reviews-rating .reviews-star {
+  width: 24px;
+  height: 24px;
+}
+
+.reviews .reviews-text {
+  margin: 3.5px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+  overflow-wrap: anywhere;
+}
+
+.reviews .reviews-text p {
+  margin: 0;
+}
+
+.reviews .reviews-text p + p {
+  margin-top: 10px;
+}
+
+/* "Show more reviews": teal pill (.comments-more) */
+.reviews .reviews-footer {
+  padding: 14px 0;
+  text-align: center;
+}
+
+.reviews .reviews-footer .reviews-more,
+.reviews .reviews-footer .reviews-more:hover,
+.reviews .reviews-footer .reviews-more:focus {
+  margin: 0;
+  border: 2px solid var(--secondary-color);
+  border-radius: 45px;
+  padding: 15px 18px 10px;
+  background-color: var(--secondary-color);
+  color: var(--surface-color);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+@media (width >= 900px) {
+  .reviews {
+    padding: 20px 30px 30px;
+  }
+
+  .reviews .reviews-compose {
+    padding: 14px 30px 10.5px 10.5px;
+  }
+}

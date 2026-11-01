@@ -31,14 +31,15 @@ function isUsableSrc(src) {
 }
 
 /**
- * Fetch the nav fragment. Metadata-independent dual-fetch:
- * /content first (localhost / aem up), then root (DA/EDS production).
+ * Fetch the nav fragment. The published and local preview files live at the
+ * root. /content is only a fallback, so a missing file is not requested first
+ * and logged as a console error.
  * Relative image URLs are resolved against the fragment so they keep working
  * when the header is injected into any page.
  */
 async function fetchNav() {
-  let resp = await fetch('/content/nav.plain.html');
-  if (!resp.ok) resp = await fetch('/nav.plain.html');
+  let resp = await fetch('/nav.plain.html');
+  if (!resp.ok) resp = await fetch('/content/nav.plain.html');
   if (!resp.ok) return null;
   const base = new URL(resp.url, window.location.href);
   const tmp = document.createElement('div');
@@ -373,7 +374,7 @@ function buildSearch(p) {
   submit.type = 'submit';
   submit.className = 'nav-search-submit';
   const img = p.querySelector('img');
-  submit.setAttribute('aria-label', img ? img.alt : 'submit site search');
+  submit.setAttribute('aria-label', (img && img.alt.trim()) || 'submit site search');
   submit.append(maskIcon(img, 'search'));
   form.append(input, clear, submit);
   const syncClear = () => { clear.hidden = input.value.length === 0; };
@@ -413,7 +414,7 @@ export default async function decorate(block) {
     toggle.type = 'button';
     toggle.className = 'nav-hamburger';
     const icon = moreSection.querySelector(':scope > p img');
-    toggle.setAttribute('aria-label', icon ? icon.alt : 'Menu');
+    toggle.setAttribute('aria-label', (icon && icon.alt.trim()) || 'Menu');
     toggle.append(maskIcon(icon, 'menu'));
     const panel = document.createElement('div');
     panel.className = 'nav-more-panel';

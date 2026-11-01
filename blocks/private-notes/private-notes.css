@@ -1,0 +1,202 @@
+/* private-notes: foodnetwork.com recipe "My Private Notes" (.recipe-body-footer .private-notes) */
+
+.private-notes {
+  --private-notes-pill: rgb(227 230 230);
+  --private-notes-ink: rgb(82 86 87);
+
+  padding: 20px;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+}
+
+.private-notes [hidden] {
+  display: none !important;
+}
+
+/* source .o-Capsule__a-HeadlineText: Georgia bold 24/32.4, -0.5px; header margin-bottom 20px */
+.private-notes .private-notes-title {
+  margin: 0 0 20px;
+  padding: 0;
+  color: var(--text-color);
+  font-family: var(--heading-serif-font-family);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32.4px;
+  letter-spacing: -0.5px;
+}
+
+/* source button.add-note: 32px #e3e6e6 circle (16px #525657 plus), label
+   FranklinGothicURW-Dem 16/16 (Med is the bundled stand-in, same width), ~9px gap */
+.private-notes .private-notes-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  border: 0;
+  border-radius: 20px;
+  padding: 0 4px 0 0;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--heading-med-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.private-notes .private-notes-add-icon {
+  position: relative;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--private-notes-pill);
+}
+
+.private-notes .private-notes-add-icon::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  background-color: var(--private-notes-ink);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M8.3 8.3V1.7C8.3.7 9.1 0 10 0c.9 0 1.7.7 1.7 1.7v6.7h6.7c.9 0 1.7.7 1.7 1.7 0 .9-.7 1.7-1.7 1.7h-6.7v6.7c0 .9-.7 1.7-1.7 1.7-.9 0-1.7-.7-1.7-1.7v-6.7H1.7C.7 11.7 0 10.9 0 10s.7-1.7 1.7-1.7h6.6z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* source label box sits 11px below the circle top (baseline aligned) */
+.private-notes .private-notes-add-label {
+  padding-top: 6px;
+}
+
+.private-notes .private-notes-add:hover .private-notes-add-icon {
+  background-color: rgb(213 216 216);
+}
+
+.private-notes button:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+/* inline editor (textarea styled like the reviews compose box) */
+.private-notes .private-notes-form {
+  margin: 16px 0 0;
+}
+
+.private-notes .private-notes-label {
+  display: block;
+  margin: 0 0 7px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.private-notes .private-notes-textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-height: 102px;
+  margin: 0;
+  border: 1px solid rgb(213 213 213);
+  border-radius: 3px;
+  padding: 10.5px;
+  background-color: var(--surface-color);
+  box-shadow: inset 0 0 5px 0 rgb(0 0 0 / 5%);
+  color: rgb(0 0 0);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+  resize: vertical;
+}
+
+.private-notes .private-notes-textarea:focus {
+  border-color: rgb(117 117 117);
+  outline: none;
+}
+
+.private-notes .private-notes-hint {
+  margin: 7px 0 0;
+  color: rgb(117 117 117);
+  font-size: 13px;
+  line-height: 17.55px;
+}
+
+.private-notes .private-notes-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 0;
+}
+
+/* Save: grey pill (as Post Review); Cancel / Edit / Delete: light grey pills */
+.private-notes .private-notes-actions button {
+  margin: 0;
+  border: 0;
+  border-radius: 45px;
+  padding: 12px 18px 8px;
+  background-color: var(--private-notes-pill);
+  color: var(--private-notes-ink);
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.private-notes .private-notes-actions button:hover {
+  background-color: rgb(213 216 216);
+}
+
+.private-notes .private-notes-actions .private-notes-save {
+  padding: 15px 18px 10px;
+  background-color: var(--private-notes-ink);
+  color: var(--surface-color);
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.private-notes .private-notes-actions .private-notes-save:hover {
+  background-color: var(--dark-color);
+}
+
+.private-notes .private-notes-saved .private-notes-actions button {
+  padding: 9px 14px 6px;
+  font-size: 15px;
+  line-height: 15px;
+}
+
+.private-notes .private-notes-text {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.private-notes .private-notes-status {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* recipe footer: source floats the notes into the left half (50%) beside the
+   Show / Episode / Categories / More From footer, which keeps its 53% indent
+   (--recipe-footer-indent in styles.css). The wrapper floats right with a
+   zero-width margin box parked at the right edge (margin-left -100%) and its
+   border box pulled into the left half (margin-right 50%): the footer's own left
+   floats (Categories, pills) keep their positions, "More From" clears only left
+   floats so an open editor does not push it down, and the "Looking for
+   Something Else?" heading (clear: both) still starts below the notes. */
+@media (width >= 900px) {
+  main .section-main:has(> .columns-recipe-body-wrapper) > .private-notes-wrapper:has(+ .default-content-wrapper) {
+    box-sizing: border-box;
+    float: right;
+    width: 50%;
+    margin-right: 50%;
+    margin-left: -100%;
+  }
+}

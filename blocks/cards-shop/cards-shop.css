@@ -1,0 +1,96 @@
+/* cards-shop: foodnetwork.com "Tools You May Need" shopping grid (.o-ShoppingEmbed .l-Columns--4up) */
+
+.cards-shop {
+  --cards-shop-muted: #4a4a4a;
+  --cards-shop-rule: #e0e0e0;
+
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+}
+
+/* 2-up mobile, 4-up desktop */
+.cards-shop .cards-shop-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (width >= 900px) {
+  .cards-shop .cards-shop-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px 20px;
+  }
+}
+
+.cards-shop .cards-shop-card {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.cards-shop .cards-shop-card-image {
+  margin: 0 0 10px;
+  line-height: 0;
+}
+
+.cards-shop .cards-shop-card-image a,
+.cards-shop .cards-shop-card-image picture {
+  display: block;
+}
+
+.cards-shop .cards-shop-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background-color: var(--surface-color);
+}
+
+.cards-shop .cards-shop-card-body p {
+  margin: 0 0 4px;
+}
+
+.cards-shop .cards-shop-name {
+  font-family: var(--heading-med-font-family);
+  font-size: 15px;
+  line-height: 19px;
+}
+
+.cards-shop .cards-shop-name a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards-shop .cards-shop-name a:hover {
+  text-decoration: underline;
+}
+
+.cards-shop .cards-shop-meta {
+  color: var(--cards-shop-muted);
+  font-size: 13px;
+  line-height: 17px;
+}
+
+.cards-shop .cards-shop-cta a:any-link {
+  color: var(--text-color);
+  font-family: var(--heading-med-font-family);
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.cards-shop .cards-shop-disclaimer {
+  margin: 20px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--cards-shop-rule);
+  color: var(--cards-shop-muted);
+  font-size: 12px;
+  line-height: 16.2px;
+}
+
+.cards-shop .cards-shop-disclaimer > * {
+  margin: 0;
+}

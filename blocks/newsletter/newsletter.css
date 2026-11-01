@@ -1,0 +1,143 @@
+/* newsletter: foodnetwork.com right-rail Recipe of the Day sign-up capsule (.o-Newsletter) */
+
+.newsletter {
+  --newsletter-red: #e6003d;
+  --newsletter-red-hover: #f00;
+  --newsletter-input-border: #ccc;
+  --newsletter-placeholder: #999;
+  --newsletter-text: #1c1c1c;
+
+  margin: 30px 0 20px;
+  padding: 15px 15px 25px;
+  background: url('./newsletter-illustration.png') no-repeat 50% 20px / 85%;
+  color: var(--newsletter-text);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+}
+
+/* .o-Capsule__m-Body: room for the "Let's Get Cooking!" illustration */
+.newsletter .newsletter-body {
+  margin: 0 0 20px;
+  padding: 100px 0 0;
+}
+
+.newsletter .newsletter-part p {
+  margin: 0;
+}
+
+/* .o-Newsletter__a-Description */
+.newsletter .newsletter-intro {
+  margin: 0 0 15px;
+  font-size: 15px;
+  line-height: 20.25px;
+}
+
+/* .o-Newsletter__a-LegalText */
+.newsletter .newsletter-legal,
+.newsletter .newsletter-withdraw {
+  margin: 0 0 10px;
+  color: var(--newsletter-text);
+  font-size: 12px;
+  line-height: 16.2px;
+}
+
+.newsletter .newsletter-part a:any-link {
+  color: var(--newsletter-red);
+  text-decoration: underline;
+}
+
+.newsletter .newsletter-part a:hover {
+  color: var(--newsletter-red-hover);
+}
+
+/* .m-Form__m-InputWrap: pill input with the Sign Up button over its right end */
+.newsletter .newsletter-form {
+  margin: 0 0 7px;
+}
+
+.newsletter .newsletter-fields {
+  position: relative;
+  height: 45px;
+}
+
+.newsletter .newsletter-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.newsletter .newsletter-input {
+  box-sizing: border-box;
+  width: calc(100% - 50px);
+  height: 45px;
+  margin: 0;
+  border: 1px solid var(--newsletter-input-border);
+  border-radius: 30px;
+  padding: 7px 40px 3px 14px;
+  background-color: #fff;
+  color: var(--newsletter-text);
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 20.25px;
+}
+
+.newsletter .newsletter-input::placeholder {
+  color: var(--newsletter-placeholder);
+  opacity: 1;
+}
+
+.newsletter .newsletter-input:focus {
+  outline: none;
+}
+
+.newsletter .newsletter-input[aria-invalid='true'] {
+  border-color: var(--newsletter-red);
+}
+
+.newsletter .newsletter-fields .newsletter-submit,
+.newsletter .newsletter-fields .newsletter-submit:hover,
+.newsletter .newsletter-fields .newsletter-submit:focus {
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  height: 45px;
+  margin: 0;
+  border: 0;
+  border-radius: 0 45px 45px 0;
+  padding: 15px 18px 10px;
+  background-color: var(--newsletter-red);
+  color: #fff;
+  font-family: var(--heading-med-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  white-space: nowrap;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.newsletter .newsletter-fields .newsletter-submit:focus-visible {
+  outline: 2px solid var(--newsletter-text);
+  outline-offset: 2px;
+}
+
+/* .m-Form__a-Errors: kept in flow when empty so its 10px top margin
+   collapses with the form's 7px bottom margin, as on the source */
+.newsletter .newsletter-error {
+  margin: 10px 0 0 15px;
+  color: var(--newsletter-red-hover);
+  font-size: 15px;
+  line-height: 20.25px;
+}
+
+@media (width >= 900px) {
+  /* source capsule spans the full rail; cancel the rail's 14px left padding */
+  .newsletter {
+    margin-left: -14px;
+  }
+}

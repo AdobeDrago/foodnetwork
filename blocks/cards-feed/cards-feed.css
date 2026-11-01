@@ -42,10 +42,10 @@
 .cards-feed .cards-feed-item-body .cards-feed-item-date {
   margin: 0 0 10px;
   color: #666;
-  font-family: var(--heading-serif-font-family);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 21.6px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 18px;
 }
 
 .cards-feed .cards-feed-item-body h3 {

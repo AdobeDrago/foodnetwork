@@ -63,7 +63,7 @@
   display: inline-block;
   width: 30px;
   height: 30px;
-  margin-left: 1px;
+  margin: -9px 0 0 1px;
   vertical-align: text-bottom;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23ccc' d='M21.333 25.333h-14.667v-12h14.667v12zM24 10.667h2.667v10.667h-2.667v-10.667zM10.667 8h16v2.667h-16v-2.667z'/%3E%3C/svg%3E") center / 30px 30px no-repeat;
 }
@@ -77,7 +77,7 @@ main .cards-rail a.cards-rail-more:any-link {
   display: inline-block;
   margin: 0 0 5px;
   font-family: var(--heading-font-family);
-  font-size: var(--body-font-size-m);
+  font-size: 15px;
   font-weight: 400;
   line-height: 15px;
   color: #e6003d;
@@ -124,7 +124,7 @@ main .cards-rail a.cards-rail-more:any-link::after {
   border: 0;
   border-radius: 45px;
   font-family: var(--heading-med-font-family);
-  font-size: var(--body-font-size-m);
+  font-size: 15px;
   font-weight: 400;
   line-height: 15px;
   color: var(--surface-color);
@@ -134,4 +134,36 @@ main .cards-rail a.cards-rail-more:any-link::after {
 .cards-rail .cards-rail-load-more:hover,
 .cards-rail .cards-rail-load-more:focus {
   background-color: #525657;
+}
+
+/* Recipe page rail ("What's Cooking", "Shop With Us"): source
+   .recipePage .rightRail .l-List .m-MediaBlock. Items sit 20px in from the
+   rail edge; .section-rail already pads 14px, so the block adds 6px. */
+.columns-recipe-info-container .cards-rail .cards-rail-list > .cards-rail-card {
+  margin: 0 0 15px;
+  padding: 0 0 0 6px;
+}
+
+.columns-recipe-info-container .cards-rail .cards-rail-card + .cards-rail-card {
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.columns-recipe-info-container .cards-rail:not(.cards-rail-feed) .cards-rail-card:last-child {
+  margin-bottom: 20px;
+}
+
+.columns-recipe-info-container .cards-rail .cards-rail-card-image {
+  width: calc(46.1% + 14px);
+  padding-right: 14px;
+}
+
+main .columns-recipe-info-container .cards-rail a.cards-rail-more:any-link {
+  font-size: 18px;
+  line-height: 18px;
+  text-transform: none;
+}
+
+main .columns-recipe-info-container .cards-rail a.cards-rail-more:any-link::after {
+  content: none;
 }
