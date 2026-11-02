@@ -743,6 +743,12 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
   color: #1c1c1c;
 }
 
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > :is(p:has(+ h1), p:has(> a > picture) + p) a:hover,
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > :is(p:has(+ h1), p:has(> a > picture) + p) a:focus-visible {
+  color: #e20d32;
+  text-decoration: none;
+}
+
 main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(> a > picture) + p + p a:any-link {
   color: #e20d32;
   font-size: 14px;
