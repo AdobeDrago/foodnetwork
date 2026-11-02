@@ -2,7 +2,7 @@ import { getMetadata } from './aem.js';
 
 const FOOD_ORIGIN = 'https://www.foodnetwork.com';
 const IMAGE_ORIGIN = 'https://food.fnr.sndimg.com';
-const RECIPE_PATH = /^\/recipes\/.+-recipe-\d+$/;
+const RECIPE_PATH = /^\/recipes\/.+-\d+$/;
 const PUBLIC_PATH = /^\/(recipes|shows|videos|profiles|how-to|grilling)\//;
 const CARD_LIST_KEYS = ['items', 'recipes', 'results', 'cards', 'entries'];
 
