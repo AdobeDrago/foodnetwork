@@ -122,13 +122,13 @@ function buildControl(action, authoredLabel, authoredHref) {
   control.className = 'recipe-actions-button';
   const accessibleName = action?.title || action?.label || text;
   const iconOnly = type !== 'save' && type !== 'link';
-  const label = labelSpan(text);
+  control.append(iconSpan());
   if (iconOnly) {
+    // name lives on the control; a white text node fails contrast on the gray Email button
     control.setAttribute('aria-label', accessibleName);
-    control.title = accessibleName;
-    label.classList.add('recipe-actions-label-hidden');
+    return { control, type };
   }
-  control.append(iconSpan(), label);
+  control.append(labelSpan(text));
   return { control, type };
 }
 
