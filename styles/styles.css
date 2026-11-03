@@ -348,6 +348,18 @@ main .default-content-wrapper li a:any-link {
   text-decoration: none;
 }
 
+/* Two-column link lists need a 24px tap box. The 20.25px line sits 3.5px
+   from the next row, so the 24px circles overlap. */
+main .default-content-wrapper:has(> ul + ul) li {
+  line-height: 24px;
+}
+
+main .default-content-wrapper:has(> ul + ul) li a:any-link {
+  display: inline-block;
+  line-height: 24px;
+  vertical-align: top;
+}
+
 main .default-content-wrapper li a:hover,
 main .default-content-wrapper li a:focus-visible {
   color: #1c1c1c;
@@ -741,6 +753,12 @@ main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .d
 /* chef name is plain text colour, not a blue link */
 main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > :is(p:has(+ h1), p:has(> a > picture) + p) a:any-link {
   color: #1c1c1c;
+}
+
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > :is(p:has(+ h1), p:has(> a > picture) + p) a:hover,
+main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > :is(p:has(+ h1), p:has(> a > picture) + p) a:focus-visible {
+  color: #e20d32;
+  text-decoration: none;
 }
 
 main > .section.sidebar > .section-main:has(> .columns-recipe-body-wrapper) > .default-content-wrapper:has(> h1) > p:has(> a > picture) + p + p a:any-link {

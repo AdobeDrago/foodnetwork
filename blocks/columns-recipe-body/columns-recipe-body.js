@@ -426,6 +426,15 @@ function decorateLeadRating(block) {
   decorateRating(h1?.nextElementSibling || null);
 }
 
+/** The round chef photo repeats the name link. Live hides it from assistive tech. */
+function hideChefAvatar(block) {
+  const scope = block.closest('.section-main') || block.closest('main');
+  const link = scope?.querySelector('.default-content-wrapper:has(> h1) > p > a:has(picture)');
+  if (!link) return;
+  link.setAttribute('aria-hidden', 'true');
+  link.tabIndex = -1;
+}
+
 /**
  * Columns Recipe Body block
  * One row, two equal cells of plain content: Ingredients | Directions.
@@ -481,6 +490,7 @@ export default async function decorate(block) {
   const recipe = await loadRecipe();
   if (recipe && !bodyIsAuthored(block)) fillRecipeBody(block, recipe);
   if (recipe) applyRecipeChrome(block, recipe);
+  hideChefAvatar(block);
   decorateLeadRating(block);
   decorateBody(block);
 }
