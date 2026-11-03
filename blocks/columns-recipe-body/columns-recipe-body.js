@@ -178,15 +178,16 @@ function courtesyIsAuthored(el) {
 }
 
 /**
- * True when the paragraph under the title is already a rating (plain text or
- * decorated star meter). Unrelated copy after the h1 does not count.
+ * True when the paragraph under the title already has authored copy (rating
+ * text, review count, or a decorated star meter). Any non-empty slot wins so
+ * JSON does not insert a second rating beneath or above it.
  * @param {HTMLElement|null} el
  * @returns {boolean}
  */
 function ratingIsAuthored(el) {
   if (!el || el.tagName !== 'P') return false;
   if (el.classList.contains('columns-recipe-body-rating')) return true;
-  return RATING_RE.test(el.textContent.trim());
+  return !!el.textContent.trim();
 }
 
 function setShowEpisode(footer, recipe) {
@@ -350,7 +351,7 @@ function applyRecipeChrome(block, recipe) {
     const rating = recipeRatingText(recipe);
     const nextP = h1.nextElementSibling?.tagName === 'P' ? h1.nextElementSibling : null;
     if (rating && !ratingIsAuthored(nextP)) {
-      if (nextP && !nextP.textContent.trim()) {
+      if (nextP) {
         nextP.textContent = rating;
       } else {
         const ratingP = document.createElement('p');
