@@ -146,6 +146,49 @@ function ensureLabelParagraph(footer, label, after) {
   return p;
 }
 
+const RATING_RE = /(\d+(?:\.\d+)?)\s*(?:of|out of|\/)\s*5(?:\s*stars?)?/i;
+
+/**
+ * True when a "Label: value" paragraph already has an authored value.
+ * An empty paragraph or a bare "Label" / "Label:" shell still needs a JSON fill.
+ * @param {HTMLElement|null} el
+ * @param {string} label
+ * @returns {boolean}
+ */
+function labelValueAuthored(el, label) {
+  if (!el) return false;
+  const text = el.textContent.trim();
+  if (!text) return false;
+  const match = text.match(new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*:?\\s*(.*)$`, 'i'));
+  if (match) return !!match[1].trim();
+  return true;
+}
+
+/**
+ * True when the courtesy line already names an author. A bare
+ * "Recipe courtesy of" shell still needs a JSON fill.
+ * @param {HTMLElement|null} el
+ * @returns {boolean}
+ */
+function courtesyIsAuthored(el) {
+  if (!el) return false;
+  const text = el.textContent.trim();
+  if (!text) return false;
+  return !/^recipe\s+courtesy\s+of\s*$/i.test(text);
+}
+
+/**
+ * True when the paragraph under the title is already a rating (plain text or
+ * decorated star meter). Unrelated copy after the h1 does not count.
+ * @param {HTMLElement|null} el
+ * @returns {boolean}
+ */
+function ratingIsAuthored(el) {
+  if (!el || el.tagName !== 'P') return false;
+  if (el.classList.contains('columns-recipe-body-rating')) return true;
+  return RATING_RE.test(el.textContent.trim());
+}
+
 function setShowEpisode(footer, recipe) {
   const show = Array.isArray(recipe.shows) ? linkItem(recipe.shows[0]) : null;
   const episode = Array.isArray(recipe.episodes) ? linkItem(recipe.episodes[0]) : null;
@@ -165,21 +208,38 @@ function setShowEpisode(footer, recipe) {
     footer.prepend(pictureP);
   }
   if (pictureP) {
-    setPlainPicture(pictureP.querySelector('picture'), src, show?.title || episode?.title || '');
+    const img = pictureP.querySelector('img');
+    const authoredSrc = (img?.getAttribute('src') || '').trim();
+    if (src && (!authoredSrc || authoredSrc.startsWith('data:') || authoredSrc.startsWith('about:'))) {
+      setPlainPicture(pictureP.querySelector('picture'), src, show?.title || episode?.title || '');
+    }
     const thumbLink = pictureP.querySelector('a');
     const href = episode?.url || show?.url;
-    if (thumbLink && href) thumbLink.href = href;
+    const currentHref = (thumbLink?.getAttribute('href') || '').trim();
+    if (thumbLink && href && (!currentHref || currentHref === '#' || currentHref.startsWith('javascript:'))) {
+      thumbLink.href = href;
+    }
   }
 
   let previous = pictureP;
   if (show) {
-    const p = ensureLabelParagraph(footer, 'Show', previous);
-    fillLabelLink(p, 'Show', show);
-    previous = p;
+    const existing = paragraphStarting(footer, 'Show');
+    if (labelValueAuthored(existing, 'Show')) {
+      previous = existing;
+    } else {
+      const p = ensureLabelParagraph(footer, 'Show', previous);
+      fillLabelLink(p, 'Show', show);
+      previous = p;
+    }
   }
   if (episode) {
-    const p = ensureLabelParagraph(footer, 'Episode', previous);
-    fillLabelLink(p, 'Episode', episode);
+    const existing = paragraphStarting(footer, 'Episode');
+    if (labelValueAuthored(existing, 'Episode')) {
+      previous = existing;
+    } else {
+      const p = ensureLabelParagraph(footer, 'Episode', previous);
+      fillLabelLink(p, 'Episode', episode);
+    }
   }
 }
 
@@ -188,6 +248,10 @@ function setCategories(footer, titles) {
   let label = [...footer.children].find((el) => (
     el.tagName === 'P' && el.querySelector(':scope > strong')?.textContent.trim().toLowerCase().startsWith('categories')
   ));
+  if (label && labelValueAuthored(label, 'Categories')) return;
+  const pills = label?.nextElementSibling;
+  if (pills && pills.textContent.trim()) return;
+
   if (!label) {
     label = document.createElement('p');
     const title = footer.querySelector('h2');
@@ -197,12 +261,12 @@ function setCategories(footer, titles) {
   const strong = label.querySelector(':scope > strong') || document.createElement('strong');
   strong.textContent = 'Categories:';
   label.replaceChildren(strong);
-  let pills = label.nextElementSibling;
-  if (!pills || pills.tagName !== 'P') {
-    pills = document.createElement('p');
-    label.after(pills);
+  let pillsEl = pills?.tagName === 'P' ? pills : null;
+  if (!pillsEl) {
+    pillsEl = document.createElement('p');
+    label.after(pillsEl);
   }
-  pills.replaceChildren(...titles.map((title) => {
+  pillsEl.replaceChildren(...titles.map((title) => {
     const span = document.createElement('span');
     span.className = 'recipe-tag';
     span.textContent = title;
@@ -215,6 +279,7 @@ function setPackage(footer, item) {
   let p = [...footer.children].find((el) => (
     el.tagName === 'P' && el.querySelector(':scope > strong')?.textContent.trim().toLowerCase().startsWith('more from')
   ));
+  if (p && labelValueAuthored(p, 'More From')) return;
   if (!p) {
     p = document.createElement('p');
     const title = [...footer.querySelectorAll('h2')].find((node) => /looking for/i.test(node.textContent));
@@ -264,8 +329,9 @@ function summaryWrapper(scope, block) {
 
 /**
  * Title, rating, credit, categories, package, and show/episode sit in default
- * content. The recipe-detail CSS keys off that markup, so the text is swapped
- * in place. The chef avatar and prev/next bar are left as authored.
+ * content. Authored copy wins; blank shells fill from the recipe JSON (loaded
+ * via the metadata `recipe` path, else the page URL + `.sni.json`). The chef
+ * avatar and prev/next bar are left as authored.
  * @param {HTMLElement} block
  * @param {object} recipe
  */
@@ -274,24 +340,30 @@ function applyRecipeChrome(block, recipe) {
   const title = typeof recipe.title === 'string' ? recipe.title.trim() : '';
   if (scope && title) {
     let h1 = scope.querySelector('.default-content-wrapper h1');
+    const titleAuthored = !!h1?.textContent.trim();
     if (!h1) {
       h1 = document.createElement('h1');
       summaryWrapper(scope, block).append(h1);
     }
-    h1.textContent = title;
+    if (!titleAuthored) h1.textContent = title;
+
     const rating = recipeRatingText(recipe);
-    if (rating) {
-      let ratingP = h1.nextElementSibling;
-      if (!ratingP || ratingP.tagName !== 'P') {
-        ratingP = document.createElement('p');
+    const nextP = h1.nextElementSibling?.tagName === 'P' ? h1.nextElementSibling : null;
+    if (rating && !ratingIsAuthored(nextP)) {
+      if (nextP && !nextP.textContent.trim()) {
+        nextP.textContent = rating;
+      } else {
+        const ratingP = document.createElement('p');
+        ratingP.textContent = rating;
         h1.after(ratingP);
       }
-      ratingP.textContent = rating;
     }
+
     const author = linkItem(recipe.author);
-    if (author) {
-      let courtesy = h1.previousElementSibling;
-      if (!courtesy || courtesy.tagName !== 'P' || courtesy.querySelector('picture')) {
+    let courtesy = h1.previousElementSibling;
+    if (courtesy && (courtesy.tagName !== 'P' || courtesy.querySelector('picture'))) courtesy = null;
+    if (author && !courtesyIsAuthored(courtesy)) {
+      if (!courtesy) {
         courtesy = document.createElement('p');
         h1.before(courtesy);
       }
@@ -305,8 +377,6 @@ function applyRecipeChrome(block, recipe) {
   setCategories(footer, categoryTitles(recipe));
   setPackage(footer, linkItem(recipe.package));
 }
-
-const RATING_RE = /(\d+(?:\.\d+)?)\s*(?:of|out of|\/)\s*5(?:\s*stars?)?/i;
 
 /**
  * Turn the lead "4.7 of 5 stars (860 reviews)" paragraph under the title into
