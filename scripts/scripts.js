@@ -130,10 +130,25 @@ function decorateSections(main) {
  * Splits "sidebar" sections into a main well and a right rail.
  * The rail starts at the heading right before the first cards-rail block.
  * Runs after decorateBlocks so block discovery is unaffected by the extra nesting.
+ * Safe to call again after fragment blocks inject cards-rail content — already-split
+ * sections are left alone.
  * @param {Element} main The container element
  */
-function decorateSidebarSections(main) {
+export function decorateSidebarSections(main) {
   main.querySelectorAll(':scope > .section.sidebar').forEach((section) => {
+    const kids = [...section.children];
+    // Already split into only main + rail — leave alone. A fragment authored as
+    // "sidebar" can inject its own main/rail beside recipe wrappers; unwrap those
+    // so this page section can still split correctly.
+    if (kids.length && kids.every((el) => el.classList.contains('section-main') || el.classList.contains('section-rail'))) {
+      return;
+    }
+    kids.forEach((el) => {
+      if (el.classList.contains('section-main') || el.classList.contains('section-rail')) {
+        el.replaceWith(...el.childNodes);
+      }
+    });
+
     const firstRail = section.querySelector(':scope > div > .cards-rail');
     if (!firstRail) return;
     let railStart = firstRail.parentElement;
@@ -165,7 +180,6 @@ function decorateSidebarSections(main) {
  * Decorates the main element.
  * @param {Element} main The main element
  */
-// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateButtons(main);
