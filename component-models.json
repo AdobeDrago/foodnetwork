@@ -52,6 +52,18 @@
           {
             "name": "Highlight",
             "value": "highlight"
+          },
+          {
+            "name": "Sidebar",
+            "value": "sidebar"
+          },
+          {
+            "name": "White",
+            "value": "white"
+          },
+          {
+            "name": "Centered",
+            "value": "centered"
           }
         ]
       }
