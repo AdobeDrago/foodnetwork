@@ -300,6 +300,19 @@ function setPackage(footer, item) {
 }
 
 /**
+ * Chrome (title, rating, chef) lives in the sidebar main well. Prefer
+ * `.section-main` after the rail split; before fragments create that split,
+ * fall back to the sidebar section so we still see the chef/info wrappers.
+ * @param {HTMLElement} block
+ * @returns {HTMLElement|null}
+ */
+function recipeChromeScope(block) {
+  return block.closest('.section-main')
+    || block.closest('.section.sidebar')
+    || block.closest('main');
+}
+
+/**
  * The title sits in the default content above the info block, after the chef
  * photo. When that heading was cleared in authoring, create it.
  * @param {HTMLElement} scope
@@ -337,7 +350,7 @@ function summaryWrapper(scope, block) {
  * @param {object} recipe
  */
 function applyRecipeChrome(block, recipe) {
-  const scope = block.closest('.section-main') || block.closest('main');
+  const scope = recipeChromeScope(block);
   const title = typeof recipe.title === 'string' ? recipe.title.trim() : '';
   if (scope && title) {
     let h1 = scope.querySelector('.default-content-wrapper h1');
@@ -421,14 +434,14 @@ function decorateRating(p) {
 }
 
 function decorateLeadRating(block) {
-  const scope = block.closest('.section-main') || block.closest('main');
+  const scope = recipeChromeScope(block);
   const h1 = scope?.querySelector('.default-content-wrapper h1');
   decorateRating(h1?.nextElementSibling || null);
 }
 
 /** The round chef photo repeats the name link. Live hides it from assistive tech. */
 function hideChefAvatar(block) {
-  const scope = block.closest('.section-main') || block.closest('main');
+  const scope = recipeChromeScope(block);
   const link = scope?.querySelector('.default-content-wrapper:has(> h1) > p > a:has(picture)');
   if (!link) return;
   link.setAttribute('aria-hidden', 'true');
