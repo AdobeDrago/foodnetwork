@@ -127,6 +127,23 @@ function decorateSections(main) {
 }
 
 /**
+ * Section styles that recipe templates rely on are sometimes dropped when a
+ * page is created from a library template. Re-apply them from block presence so
+ * layout CSS and the main/rail split still run.
+ * @param {Element} main The container element
+ */
+function ensureRecipeSectionStyles(main) {
+  main.querySelectorAll(':scope > .section').forEach((section) => {
+    if (section.querySelector('.columns-recipe-body, .columns-recipe-info')) {
+      section.classList.add('sidebar');
+    }
+    if (section.querySelector('.cards-links')) {
+      section.classList.add('white', 'centered');
+    }
+  });
+}
+
+/**
  * Splits "sidebar" sections into a main well and a right rail.
  * The rail starts at the heading right before the first cards-rail block.
  * Runs after decorateBlocks so block discovery is unaffected by the extra nesting.
@@ -187,6 +204,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  ensureRecipeSectionStyles(main);
   decorateSidebarSections(main);
 }
 
