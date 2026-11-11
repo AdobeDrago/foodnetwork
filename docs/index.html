@@ -557,6 +557,36 @@
     width: 100%;
     height: auto;
   }
+  /* Compact inline screenshots (journey captures, rail crops) */
+  .doc-shots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .doc-shot {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    max-width: 320px;
+  }
+  .doc-shot.doc-shot-wide { max-width: 420px; }
+  .doc-shot.doc-shot-rail { max-width: 260px; }
+  .doc-shot-header {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-700);
+  }
+  .doc-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 
   /* ── FOOTER ── */
   .doc-footer {
@@ -1137,15 +1167,72 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
           <span class="status-badge sb-done">Complete</span>
         </h2>
         <div class="section-rule"></div>
-        <p>Recipe detail pattern: resolve path from URL or authored <code class="code-inline">recipe</code> metadata (slugs with or without <code class="code-inline">-recipe-</code>), one <code class="code-inline">.sni.json</code> fetch, fill title/rating/author/ingredients/directions/categories when empty, keep authored headings and Nutrition Info popover as authored.</p>
+        <p>Recipe detail pattern: resolve path from URL or authored <code class="code-inline">recipe</code> metadata (slugs with or without <code class="code-inline">-recipe-</code>), one <code class="code-inline">.sni.json</code> fetch, fill empty main-well fields from that JSON, and pull shared right-rail content via DA fragments. Authored copy always wins over JSON fill.</p>
+        <p>Sample page: <a href="https://main--foodnetwork--adobedrago.aem.page/recipes/winner-aarti-sequeira1/baked-samosas-with-mint-chutney-recipe-1952533" target="_blank" rel="noopener" style="color:var(--brand-blue);">Baked Samosas with Mint Chutney</a>.</p>
+
+        <h3>Which sections are dynamic?</h3>
+        <table class="spec-table">
+          <thead><tr><th>Page section</th><th>Source</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Author / “Recipe courtesy of”, title, star rating + review count</td>
+              <td><strong>Dynamic</strong> · <code class="code-inline">.sni.json</code></td>
+              <td>Filled from JSON when empty (<code class="code-inline">columns-recipe-body</code>)</td>
+            </tr>
+            <tr>
+              <td>Info bar — Level, Total, Prep, Cook, Yield</td>
+              <td><strong>Dynamic</strong> · <code class="code-inline">.sni.json</code></td>
+              <td><code class="code-inline">columns-recipe-info</code> fills empty cells from JSON; Nutrition Info stays authored</td>
+            </tr>
+            <tr>
+              <td>Ingredients &amp; Directions</td>
+              <td><strong>Dynamic</strong> · <code class="code-inline">.sni.json</code></td>
+              <td>Built from recipe <code class="code-inline">blocks</code> in JSON when the page cells are empty</td>
+            </tr>
+            <tr>
+              <td>What’s Cooking (right rail)</td>
+              <td><strong>Shared</strong> · DA <code class="code-inline">fragment</code></td>
+              <td>Authored once in DA; included via <code class="code-inline">fragment</code> → <code class="code-inline">cards-rail</code> (see <a href="#recipe-fragments" style="color:var(--brand-blue);">Recipe rail fragments</a>)</td>
+            </tr>
+            <tr>
+              <td>Shop with Us (right rail)</td>
+              <td><strong>Shared</strong> · DA <code class="code-inline">fragment</code></td>
+              <td>Authored once in DA; included via <code class="code-inline">fragment</code> → <code class="code-inline">cards-shop</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Flow</h3>
         <table class="spec-table">
           <thead><tr><th>Step</th><th>Path / module</th><th>What happens</th></tr></thead>
           <tbody>
             <tr><td>1</td><td><code class="code-inline">recipePath()</code></td><td>Normalize metadata or pathname to <code class="code-inline">/recipes/…(-recipe)?-&lt;id&gt;</code>.</td></tr>
             <tr><td>2</td><td><code class="code-inline">loadRecipe()</code></td><td>Fetch <code class="code-inline">https://www.foodnetwork.com{path}.sni.json</code> once.</td></tr>
-            <tr><td>3</td><td><code class="code-inline">columns-recipe-info</code> / <code class="code-inline">columns-recipe-body</code></td><td>Fill empty fields; authored content wins; sidebar split via decoration.</td></tr>
+            <tr><td>3</td><td><code class="code-inline">columns-recipe-info</code> / <code class="code-inline">columns-recipe-body</code></td><td>Fill empty fields from JSON; authored content wins; sidebar split via decoration.</td></tr>
+            <tr><td>4</td><td><code class="code-inline">fragment</code></td><td>Inject shared What’s Cooking + Shop with Us rails from DA.</td></tr>
           </tbody>
         </table>
+
+        <h3>Screenshots</h3>
+        <div class="doc-shots">
+          <figure class="doc-shot doc-shot-wide">
+            <div class="doc-shot-header">Dynamic data · .sni.json</div>
+            <img src="images/journey2-sni-json.png" alt="Example .sni.json for Baked Samosas with Mint Chutney showing servings, author, difficulty, and sources">
+          </figure>
+          <figure class="doc-shot doc-shot-wide">
+            <div class="doc-shot-header">Title · rating · info bar (from .sni.json)</div>
+            <img src="images/journey2-title-info.png" alt="Recipe courtesy, title, star rating, and Level/Total/Prep/Cook/Yield info bar filled from .sni.json">
+          </figure>
+          <figure class="doc-shot doc-shot-wide">
+            <div class="doc-shot-header">Ingredients · Directions (from .sni.json)</div>
+            <img src="images/journey2-ingredients-directions.png" alt="Ingredients and Directions columns filled for Baked Samosas with Mint Chutney">
+          </figure>
+          <figure class="doc-shot doc-shot-rail">
+            <div class="doc-shot-header">What’s Cooking · Shop with Us (DA fragments)</div>
+            <img src="images/journey2-rail-fragments.png" alt="What’s Cooking and Shop with Us right-rail sections shared across recipe detail pages">
+          </figure>
+        </div>
+
         <ul class="checklist">
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
@@ -1158,7 +1245,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Authored-first JSON fill</div>
-              <div class="check-note">Watch-promo shells no longer block fill; JSON headings use “Ingredients:” / “Directions:” only when generated.</div>
+              <div class="check-note">Title, rating, info bar, ingredients, and directions fill from <code class="code-inline">.sni.json</code> only when left blank; authored copy wins.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1172,7 +1259,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Shared rail via fragments</div>
-              <div class="check-note"><strong>What’s Cooking</strong> and <strong>Shop with Us</strong> are common across recipe details — authored once in DA and included with the <code class="code-inline">fragment</code> block so every recipe page stays in sync without duplicating that content.</div>
+              <div class="check-note"><strong>What’s Cooking</strong> and <strong>Shop with Us</strong> are common across recipe details — authored once in DA and included with the <code class="code-inline">fragment</code> block.</div>
             </div>
           </li>
         </ul>
