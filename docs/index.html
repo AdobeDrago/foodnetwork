@@ -685,6 +685,7 @@
           <li>Use the EDS block-based model only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>) — no custom block-loader routing beyond stock boilerplate resolution.</li>
           <li>Shared recipe client in <code class="code-inline">scripts/recipe-data.js</code> — path normalization, one <code class="code-inline">.sni.json</code> fetch, suggestion payloads, image URL rewriting to <code class="code-inline">food.fnr.sndimg.com</code>.</li>
           <li>Recipe layout needs: auto-apply <code class="code-inline">sidebar</code> section styles when recipe blocks are present; split sidebar sections into main well + right rail around <code class="code-inline">cards-rail</code> (<code class="code-inline">decorateSidebarSections</code>).</li>
+          <li>Shared recipe-rail content — <strong>What’s Cooking</strong> and <strong>Shop with Us</strong> — is authored once as Document Authoring <code class="code-inline">fragment</code>s and included on every recipe detail page, so authors do not duplicate that common content per recipe.</li>
           <li>DA / Universal Editor compatibility — <code class="code-inline">dapreview</code>, UE host detection, and merged UE models via <code class="code-inline">npm run build:json</code>.</li>
         </ul>
 
@@ -731,10 +732,11 @@
             <tr><td>2 · Authored content first</td><td>JSON fills blanks only; watch-promo shells do not block fill</td><td><span class="nav-status ns-done">Complete</span></td></tr>
             <tr><td>3 · Star ratings</td><td>FN-style star meter + review count on titles/cards</td><td><span class="nav-status ns-done">Complete</span></td></tr>
             <tr><td>4 · Suggestion filters</td><td>Quick &amp; Easy · Highly Rated · Healthy · Surprise Me on detail pages</td><td><span class="nav-status ns-done">Complete</span></td></tr>
-            <tr><td>5 · Recipe page tools</td><td>Actions, reviews, private notes, newsletter, shop cards</td><td><span class="nav-status ns-done">Complete</span></td></tr>
-            <tr><td>6 · Recipe body</td><td>Ingredients/directions layout · a11y polish</td><td><span class="nav-status ns-done">Complete</span></td></tr>
-            <tr><td>7 · Header, footer &amp; brand</td><td>Production-matching chrome + brand tokens</td><td><span class="nav-status ns-done">Complete</span></td></tr>
-            <tr><td>8 · Home &amp; listings</td><td>Editorial homepage + category/listing pages</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>5 · Recipe page tools</td><td>Actions, reviews, private notes, newsletter</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>6 · Shared rail fragments</td><td>What’s Cooking + Shop with Us authored once in DA and included via <code class="code-inline">fragment</code> on recipe details</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>7 · Recipe body</td><td>Ingredients/directions layout · a11y polish</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>8 · Header, footer &amp; brand</td><td>Production-matching chrome + brand tokens</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>9 · Home &amp; listings</td><td>Editorial homepage + category/listing pages</td><td><span class="nav-status ns-done">Complete</span></td></tr>
           </tbody>
         </table>
 
@@ -918,7 +920,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
         </table>
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span><code class="code-inline">blocks/fragment/fragment.js</code> re-imports <code class="code-inline">decorateMain</code> / <code class="code-inline">decorateSidebarSections</code> after injecting fragment HTML so “What’s Cooking” rails keep the recipe sidebar layout.</span>
+          <span><strong>Recipe rail fragments.</strong> On recipe detail pages, <strong>What’s Cooking</strong> and <strong>Shop with Us</strong> are not re-authored per recipe — each page includes a <code class="code-inline">fragment</code> pointing at shared DA content. <code class="code-inline">blocks/fragment/fragment.js</code> loads the fragment, then re-runs <code class="code-inline">decorateMain</code> / <code class="code-inline">decorateSidebarSections</code> so the injected rail still splits correctly into the recipe sidebar layout.</span>
         </div>
       </section>
 
@@ -942,7 +944,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
             <tr><td><code class="code-inline">recipe-actions</code></td><td>Save / Pinterest / Print / Email / Meal Plan toolbar; share URLs use the canonical FN recipe path.</td></tr>
             <tr><td><code class="code-inline">reviews</code></td><td>Star meters, paginated reviews, compose UI; “leave a review” deep-links to foodnetwork.com.</td></tr>
             <tr><td><code class="code-inline">private-notes</code></td><td>LocalStorage notes keyed to recipe path (or page path in preview).</td></tr>
-            <tr><td><code class="code-inline">cards-shop</code></td><td>“Tools You May Need” product grid with outbound sponsored links.</td></tr>
+            <tr><td><code class="code-inline">cards-shop</code></td><td>“Shop with Us” / tools product grid with outbound sponsored links. On recipe details this is typically pulled in via a shared <code class="code-inline">fragment</code> rather than authored on every page.</td></tr>
             <tr><td><code class="code-inline">newsletter</code></td><td>Recipe-of-the-day signup capsule; posts email to FN signup URL.</td></tr>
             <tr><td><code class="code-inline">breadcrumb</code></td><td>Hierarchy trail matching FN recipe breadcrumb patterns.</td></tr>
           </tbody>
@@ -954,7 +956,8 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
           <tbody>
             <tr><td><code class="code-inline">header</code> / <code class="code-inline">footer</code></td><td>FN chrome — mega-menu flyouts, utilities, SVG fallbacks; dark footer with collapsible sections.</td></tr>
             <tr><td><code class="code-inline">hero</code> / <code class="code-inline">hero-boxed</code></td><td>Full-bleed linked hero; boxed SuperLead-style overlay headline (<code class="code-inline">hero-boxed</code>).</td></tr>
-            <tr><td><code class="code-inline">cards</code> / <code class="code-inline">cards-gallery</code> / <code class="code-inline">cards-collage</code> / <code class="code-inline">cards-kicker</code> / <code class="code-inline">cards-feed</code> / <code class="code-inline">cards-profile</code> / <code class="code-inline">cards-links</code> / <code class="code-inline">cards-rail</code></td><td>Editorial card families (gallery, collage feature+stack, kicker promos, article feed + load more, chef profiles, related-page link tiles, right-rail “Recently on TV” with load more).</td></tr>
+            <tr><td><code class="code-inline">cards-rail</code></td><td>Right-rail cards — on recipe details this powers <strong>What’s Cooking</strong> (and related rail lists), usually included through a shared <code class="code-inline">fragment</code>. Also used for feed-style “Recently on TV” rails with load more.</td></tr>
+            <tr><td><code class="code-inline">cards</code> / <code class="code-inline">cards-gallery</code> / <code class="code-inline">cards-collage</code> / <code class="code-inline">cards-kicker</code> / <code class="code-inline">cards-feed</code> / <code class="code-inline">cards-profile</code> / <code class="code-inline">cards-links</code></td><td>Editorial card families (gallery, collage feature+stack, kicker promos, article feed + load more, chef profiles, related-page link tiles).</td></tr>
             <tr><td><code class="code-inline">columns</code> / <code class="code-inline">columns-promo</code></td><td>Multi-column layouts; image + headline + CTA promo columns.</td></tr>
           </tbody>
         </table>
@@ -963,7 +966,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
         <table class="spec-table">
           <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
           <tbody>
-            <tr><td><code class="code-inline">fragment</code></td><td>Includes authored fragment HTML; re-decorates and re-splits sidebars after inject.</td></tr>
+            <tr><td><code class="code-inline">fragment</code></td><td>Includes shared authored HTML (e.g. recipe-rail <strong>What’s Cooking</strong> and <strong>Shop with Us</strong>). Re-decorates and re-splits sidebars after inject so one DA fragment can drive every recipe detail page.</td></tr>
             <tr><td><code class="code-inline">accordion</code> / <code class="code-inline">tabs</code> / <code class="code-inline">table</code> / <code class="code-inline">quote</code> / <code class="code-inline">form</code> / <code class="code-inline">search</code> / <code class="code-inline">carousel</code></td><td>Block-collection primitives used for FAQ, tabbed content, tables, quotes, forms, site search UI, carousels.</td></tr>
             <tr><td><code class="code-inline">embed</code> / <code class="code-inline">video</code> / <code class="code-inline">modal</code></td><td>Third-party embeds, generic video, modal dialogs (also auto-linked from <code class="code-inline">/modals/</code>).</td></tr>
           </tbody>
@@ -1142,6 +1145,13 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
               <div class="check-note">FN-style meter + review count from recipe JSON.</div>
             </div>
           </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Shared rail via fragments</div>
+              <div class="check-note"><strong>What’s Cooking</strong> and <strong>Shop with Us</strong> are common across recipe details — authored once in DA and included with the <code class="code-inline">fragment</code> block so every recipe page stays in sync without duplicating that content.</div>
+            </div>
+          </li>
         </ul>
       </section>
 
@@ -1167,7 +1177,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Companion chrome</div>
-              <div class="check-note"><code class="code-inline">recipe-actions</code>, <code class="code-inline">reviews</code>, <code class="code-inline">private-notes</code>, <code class="code-inline">newsletter</code>, <code class="code-inline">cards-shop</code>.</div>
+              <div class="check-note"><code class="code-inline">recipe-actions</code>, <code class="code-inline">reviews</code>, <code class="code-inline">private-notes</code>, <code class="code-inline">newsletter</code>. Shared <strong>Shop with Us</strong> / <strong>What’s Cooking</strong> rail content comes from fragments (see Journey 2).</div>
             </div>
           </li>
         </ul>
