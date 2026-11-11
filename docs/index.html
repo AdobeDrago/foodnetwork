@@ -1012,7 +1012,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
           Lighthouse comparison — Live vs EDS
         </h2>
         <div class="section-rule"></div>
-        <p>Chrome Lighthouse captures for the production site vs the AdobeDrago EDS preview. EDS homepage lands at <strong>100 / 100 / 100</strong> (Perf / A11y / BP); the Breakfast listing is <strong>100 / 96 / 100</strong>. Live foodnetwork.com scores <strong>86 / 86 / 50</strong> on the same surfaces.</p>
+        <p>Chrome Lighthouse captures for the production site vs the AdobeDrago EDS preview. Both EDS surfaces land at <strong>100 / 100 / 100</strong> (Perf / A11y / BP). Live foodnetwork.com scores <strong>86 / 86 / 50</strong> on the homepage and <strong>93 / 81 / 50</strong> on Meatloaf Recipes.</p>
         <div class="lh-compare">
           <div class="lh-compare-page">
             <div class="lh-compare-page-title">Homepage <span>/ · /</span></div>
@@ -1045,31 +1045,31 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
           </div>
 
           <div class="lh-compare-page">
-            <div class="lh-compare-page-title">Breakfast Recipes <span>/recipes/breakfast</span></div>
+            <div class="lh-compare-page-title">Meatloaf Recipes <span>/recipes/main-dish/meatloaf</span></div>
             <div class="lh-compare-cols">
               <div class="lh-compare-side">
                 <div class="lh-compare-side-header">
                   <span class="lh-compare-label">Live</span>
                   <div class="lh-scores">
-                    <span class="lh-score lh-score-ok">Perf 86</span>
-                    <span class="lh-score lh-score-ok">A11y 86</span>
+                    <span class="lh-score lh-score-good">Perf 93</span>
+                    <span class="lh-score lh-score-ok">A11y 81</span>
                     <span class="lh-score lh-score-ok">BP 50</span>
                     <span class="lh-score lh-score-ok">Agentic 1/2</span>
                   </div>
                 </div>
-                <img src="images/live-breakfast.jpg" alt="Lighthouse audit for live www.foodnetwork.com/recipes/breakfast">
+                <img src="images/live-meatloaf.jpg" alt="Lighthouse audit for live www.foodnetwork.com/recipes/main-dish/meatloaf">
               </div>
               <div class="lh-compare-side">
                 <div class="lh-compare-side-header">
                   <span class="lh-compare-label">EDS</span>
                   <div class="lh-scores">
                     <span class="lh-score lh-score-good">Perf 100</span>
-                    <span class="lh-score lh-score-good">A11y 96</span>
+                    <span class="lh-score lh-score-good">A11y 100</span>
                     <span class="lh-score lh-score-good">BP 100</span>
                     <span class="lh-score lh-score-good">Agentic 2/2</span>
                   </div>
                 </div>
-                <img src="images/eds-breakfast.jpg" alt="Lighthouse audit for EDS /recipes/breakfast">
+                <img src="images/eds-meatloaf.jpg" alt="Lighthouse audit for EDS /recipes/main-dish/meatloaf">
               </div>
             </div>
           </div>
