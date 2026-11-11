@@ -652,7 +652,7 @@
       </a>
       <a class="sidebar-link" href="#j3-progress">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
-        Suggestions, video &amp; chrome
+        Suggestions &amp; recipe chrome
       </a>
       <a class="sidebar-link" href="#j4-progress">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
@@ -668,7 +668,7 @@
       <div class="page-hero" id="overview">
         <div class="page-hero-eyebrow">Food Network · EDS Migration POV</div>
         <h1>Food Network EDS Pilot</h1>
-        <p class="page-hero-sub">A November 2026 demo POV validating Food Network’s migration to <strong>Edge Delivery Services (EDS)</strong> — production-matching brand chrome, recipe detail pages filled from live Food Network JSON with authored content taking priority, and the companion experiences (suggestion filters, FN video playback, reviews, notes, shop, newsletter) that complete a recipe page.</p>
+        <p class="page-hero-sub">Documentation for Food Network’s migration to <strong>Edge Delivery Services (EDS)</strong> — production-matching brand chrome, recipe detail pages filled from live Food Network JSON with authored content taking priority, and the companion experiences (suggestion filters, reviews, notes, shop, newsletter) that complete a recipe page.</p>
       </div>
 
       <section class="doc-section">
@@ -676,7 +676,7 @@
         <ul class="req-list">
           <li>Prove a <strong>recipe detail migration path</strong> where EDS pages resolve a Food Network recipe slug (or authored <code class="code-inline">recipe</code> metadata), fetch <code class="code-inline">.sni.json</code> once via <code class="code-inline">scripts/recipe-data.js</code>, and fill empty info/body fields while <strong>authored copy always wins</strong>.</li>
           <li>Prove <strong>site chrome parity</strong> with <code class="code-inline">foodnetwork.com</code> — header flyouts, utilities, dark footer, Franklin Gothic URW type, and brand tokens authored through Document Authoring fragments.</li>
-          <li>Prove <strong>dynamic discovery &amp; media</strong> on recipe pages: live suggestion filters (Quick &amp; Easy / Highly Rated / Healthy / Surprise Me), inline Food Network HLS video via <code class="code-inline">video-playlist</code>, plus actions, reviews, private notes, shop, and newsletter blocks.</li>
+          <li>Prove <strong>dynamic discovery</strong> on recipe pages: live suggestion filters (Quick &amp; Easy / Highly Rated / Healthy / Surprise Me), plus actions, reviews, private notes, shop, and newsletter blocks.</li>
           <li>Prove <strong>home &amp; listing</strong> surfaces (editorial homepage, category/recipe hub pages) can ship alongside detail demos on the same EDS codebase.</li>
         </ul>
 
@@ -689,7 +689,7 @@
         </ul>
 
         <h3>Journeys</h3>
-        <p>Status below reflects the November 2026 demo POV in <code class="code-inline">docs/foodnetwork-demo.html</code> (“Successful Migration …” framing). Confirm with the team if any journey should move off Complete.</p>
+        <p>Status below reflects the current build. Confirm with the team if any journey should move off Complete.</p>
         <table class="spec-table">
           <thead>
             <tr><th>Journey</th><th>Validates</th><th>Status</th><th>Preview</th></tr>
@@ -708,8 +708,8 @@
               <td><a href="https://main--foodnetwork--adobedrago.aem.page/recipes/food-network-kitchen/candy-corn-waffles-3852440" target="_blank" rel="noopener" style="color:var(--brand-blue);">Candy Corn Waffles</a></td>
             </tr>
             <tr>
-              <td><a href="#j3-progress" style="color:var(--brand-blue);">3 · Suggestions, video &amp; chrome</a></td>
-              <td>Live filters · FN HLS video · actions / reviews / notes / shop / newsletter</td>
+              <td><a href="#j3-progress" style="color:var(--brand-blue);">3 · Suggestions &amp; recipe chrome</a></td>
+              <td>Live filters · actions / reviews / notes / shop / newsletter</td>
               <td><span class="nav-status ns-done">Complete</span></td>
               <td><a href="https://main--foodnetwork--adobedrago.aem.page/recipes/alton-brown/french-toast-recipe-1942216" target="_blank" rel="noopener" style="color:var(--brand-blue);">French Toast</a></td>
             </tr>
@@ -723,7 +723,7 @@
         </table>
 
         <h3>Where the build stands today</h3>
-        <p>Demo workstreams called out in the November 2026 Food Network Demo deck:</p>
+        <p>Current workstreams:</p>
         <table class="spec-table">
           <thead><tr><th>Workstream</th><th>What it covers</th><th>Status</th></tr></thead>
           <tbody>
@@ -732,7 +732,7 @@
             <tr><td>3 · Star ratings</td><td>FN-style star meter + review count on titles/cards</td><td><span class="nav-status ns-done">Complete</span></td></tr>
             <tr><td>4 · Suggestion filters</td><td>Quick &amp; Easy · Highly Rated · Healthy · Surprise Me on detail pages</td><td><span class="nav-status ns-done">Complete</span></td></tr>
             <tr><td>5 · Recipe page tools</td><td>Actions, reviews, private notes, newsletter, shop cards</td><td><span class="nav-status ns-done">Complete</span></td></tr>
-            <tr><td>6 · Video &amp; recipe body</td><td>Inline FN video · ingredients/directions layout · a11y polish</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>6 · Recipe body</td><td>Ingredients/directions layout · a11y polish</td><td><span class="nav-status ns-done">Complete</span></td></tr>
             <tr><td>7 · Header, footer &amp; brand</td><td>Production-matching chrome + brand tokens</td><td><span class="nav-status ns-done">Complete</span></td></tr>
             <tr><td>8 · Home &amp; listings</td><td>Editorial homepage + category/listing pages</td><td><span class="nav-status ns-done">Complete</span></td></tr>
           </tbody>
@@ -745,7 +745,7 @@
             <tr><td>GitHub repo</td><td><code class="code-inline">AdobeDrago/foodnetwork</code> · default branch <code class="code-inline">main</code></td></tr>
             <tr><td>Base</td><td><code class="code-inline">aem-block-collection</code> / AEM boilerplate lineage (<code class="code-inline">@adobe/aem-block-collection</code> in <code class="code-inline">package.json</code>), DA-compatible</td></tr>
             <tr><td>Dev model</td><td>EDS block-based only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>)</td></tr>
-            <tr><td>Backend services</td><td>None in-repo (no Cloudflare Workers). Live data from <code class="code-inline">www.foodnetwork.com</code> JSON / playback endpoints and <code class="code-inline">food.fnr.sndimg.com</code> images</td></tr>
+            <tr><td>Backend services</td><td>None in-repo (no Cloudflare Workers). Live data from <code class="code-inline">www.foodnetwork.com</code> JSON and <code class="code-inline">food.fnr.sndimg.com</code> images</td></tr>
             <tr><td>Reference site</td><td><code class="code-inline">https://www.foodnetwork.com</code></td></tr>
             <tr><td>EDS demo host</td><td><code class="code-inline">main--foodnetwork--adobedrago.aem.page</code></td></tr>
             <tr><td>Testing</td><td>Lint-only CI (<code class="code-inline">.github/workflows/main.yaml</code>) — no automated test suite in the site root</td></tr>
@@ -802,7 +802,7 @@
             <span class="url-card-label"><span class="dot dot-blue"></span>Detail · classic</span>
             <span class="url-card-title">French Toast</span>
             <span class="url-card-url">…/french-toast-recipe-1942216</span>
-            <span class="url-card-desc">Full recipe chrome · video · actions</span>
+            <span class="url-card-desc">Full recipe chrome · actions</span>
           </a>
           <a class="url-card" href="https://main--foodnetwork--adobedrago.aem.page/recipes/winner-aarti-sequeira1/baked-samosas-with-mint-chutney-recipe-1952533" target="_blank" rel="noopener">
             <span class="url-card-label"><span class="dot dot-green"></span>Detail</span>
@@ -836,7 +836,7 @@
             <span class="url-card-label"><span class="dot dot-orange"></span>Demo deck</span>
             <span class="url-card-title">Food Network Demo</span>
             <span class="url-card-url">docs/foodnetwork-demo.html</span>
-            <span class="url-card-desc">Nov 2026 slide deck (also Food_Network_Demo.pdf)</span>
+            <span class="url-card-desc">Slide deck (also Food_Network_Demo.pdf)</span>
           </a>
         </div>
       </section>
@@ -951,7 +951,6 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
             <tr><td><code class="code-inline">columns-recipe-info</code></td><td>Cook time / yield / nutrition popover bar. Empty cells fill from <code class="code-inline">loadRecipe()</code>; authored values win.</td></tr>
             <tr><td><code class="code-inline">columns-recipe-body</code></td><td>Title, rating stars, chef photo, ingredients, directions, categories, package/show metadata from JSON when empty; sidebar layout partner.</td></tr>
             <tr><td><code class="code-inline">cards-recipe</code></td><td>Recipe capsule cards; on detail pages wires live suggestion filters via <code class="code-inline">loadSuggestions</code>.</td></tr>
-            <tr><td><code class="code-inline">video-playlist</code></td><td>Featured player + optional rail; YouTube/Vimeo/media files inline; FN recipe assets stream via HLS like foodnetwork.com.</td></tr>
             <tr><td><code class="code-inline">recipe-actions</code></td><td>Save / Pinterest / Print / Email / Meal Plan toolbar; share URLs use the canonical FN recipe path.</td></tr>
             <tr><td><code class="code-inline">reviews</code></td><td>Star meters, paginated reviews, compose UI; “leave a review” deep-links to foodnetwork.com.</td></tr>
             <tr><td><code class="code-inline">private-notes</code></td><td>LocalStorage notes keyed to recipe path (or page path in preview).</td></tr>
@@ -1163,24 +1162,17 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
           <span class="section-icon icon-green">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
           </span>
-          Journey 3 — Suggestions, video &amp; recipe chrome
+          Journey 3 — Suggestions &amp; recipe chrome
           <span class="status-badge sb-done">Complete</span>
         </h2>
         <div class="section-rule"></div>
-        <p>Related-recipe discovery, Food Network playback, and companion blocks that complete a detail page.</p>
+        <p>Related-recipe discovery and companion blocks that complete a detail page.</p>
         <ul class="checklist">
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Live suggestion filters</div>
               <div class="check-note"><code class="code-inline">cards-recipe</code> + <code class="code-inline">loadSuggestions</code> — Quick &amp; Easy, Highly Rated, Healthy, Surprise Me when <code class="code-inline">columns-recipe-body</code> is present. Authored cards remain the default rail.</div>
-            </div>
-          </li>
-          <li class="check-item">
-            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Video playlist</div>
-              <div class="check-note"><code class="code-inline">video-playlist</code> — featured player, optional rail, FN HLS playback.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1193,7 +1185,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
         </ul>
         <div class="notice tip">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
-          <span><strong>Demo click path:</strong> open Candy Corn Waffles → Nutrition Info → suggestion filters → Save/Print/notes/reviews → play the recipe video rail.</span>
+          <span><strong>Demo click path:</strong> open Candy Corn Waffles → Nutrition Info → suggestion filters → Save/Print/notes/reviews.</span>
         </div>
       </section>
 
