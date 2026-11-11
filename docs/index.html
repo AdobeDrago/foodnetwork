@@ -557,6 +557,36 @@
     width: 100%;
     height: auto;
   }
+  /* Compact inline screenshots (journey captures, rail crops) */
+  .doc-shots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .doc-shot {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    max-width: 320px;
+  }
+  .doc-shot.doc-shot-wide { max-width: 420px; }
+  .doc-shot.doc-shot-rail { max-width: 260px; }
+  .doc-shot-header {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-700);
+  }
+  .doc-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 
   /* ── FOOTER ── */
   .doc-footer {
@@ -1184,54 +1214,23 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
         </table>
 
         <h3>Screenshots</h3>
-        <div class="lh-compare">
-          <div class="lh-compare-page">
-            <div class="lh-compare-page-title">Dynamic data source <span>.sni.json</span></div>
-            <div class="lh-compare-cols">
-              <div class="lh-compare-side">
-                <div class="lh-compare-side-header">
-                  <span class="lh-compare-label">Food Network JSON</span>
-                </div>
-                <img src="images/journey2-sni-json.png" alt="Example .sni.json for Baked Samosas with Mint Chutney showing servings, author, difficulty, and sources">
-              </div>
-            </div>
-          </div>
-
-          <div class="lh-compare-page">
-            <div class="lh-compare-page-title">Recipe detail layout <span>main well + right rail</span></div>
-            <div class="lh-compare-cols">
-              <div class="lh-compare-side">
-                <div class="lh-compare-side-header">
-                  <span class="lh-compare-label">EDS page</span>
-                </div>
-                <img src="images/journey2-recipe-detail.jpg" alt="EDS recipe detail showing title, rating, info bar, and What’s Cooking / Shop with Us rails">
-              </div>
-            </div>
-          </div>
-
-          <div class="lh-compare-page">
-            <div class="lh-compare-page-title">Dynamic body sections <span>Ingredients · Directions</span></div>
-            <div class="lh-compare-cols">
-              <div class="lh-compare-side">
-                <div class="lh-compare-side-header">
-                  <span class="lh-compare-label">Filled from .sni.json</span>
-                </div>
-                <img src="images/journey2-ingredients-directions.png" alt="Ingredients and Directions columns filled for Baked Samosas with Mint Chutney">
-              </div>
-            </div>
-          </div>
-
-          <div class="lh-compare-page">
-            <div class="lh-compare-page-title">Shared rail fragments <span>What’s Cooking · Shop with Us</span></div>
-            <div class="lh-compare-cols">
-              <div class="lh-compare-side">
-                <div class="lh-compare-side-header">
-                  <span class="lh-compare-label">DA fragments on every recipe</span>
-                </div>
-                <img src="images/journey2-rail-fragments.png" alt="What’s Cooking and Shop with Us right-rail sections shared across recipe detail pages">
-              </div>
-            </div>
-          </div>
+        <div class="doc-shots">
+          <figure class="doc-shot doc-shot-wide">
+            <div class="doc-shot-header">Dynamic data · .sni.json</div>
+            <img src="images/journey2-sni-json.png" alt="Example .sni.json for Baked Samosas with Mint Chutney showing servings, author, difficulty, and sources">
+          </figure>
+          <figure class="doc-shot doc-shot-wide">
+            <div class="doc-shot-header">Recipe detail · main well + rail</div>
+            <img src="images/journey2-recipe-detail.jpg" alt="EDS recipe detail showing title, rating, info bar, and What’s Cooking / Shop with Us rails">
+          </figure>
+          <figure class="doc-shot doc-shot-wide">
+            <div class="doc-shot-header">Ingredients · Directions (JSON fill)</div>
+            <img src="images/journey2-ingredients-directions.png" alt="Ingredients and Directions columns filled for Baked Samosas with Mint Chutney">
+          </figure>
+          <figure class="doc-shot doc-shot-rail">
+            <div class="doc-shot-header">What’s Cooking · Shop with Us</div>
+            <img src="images/journey2-rail-fragments.png" alt="What’s Cooking and Shop with Us right-rail sections shared across recipe detail pages">
+          </figure>
         </div>
 
         <ul class="checklist">
