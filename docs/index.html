@@ -626,6 +626,10 @@
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
         Page decoration
       </a>
+      <a class="sidebar-link" href="#recipe-fragments">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.75A.75.75 0 012.75 2h6.5a.75.75 0 010 1.5h-6.5A.75.75 0 012 2.75zm0 4A.75.75 0 012.75 6h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 6.75zm0 4a.75.75 0 01.75-.75h6.5a.75.75 0 010 1.5h-6.5a.75.75 0 01-.75-.75z"/></svg>
+        Recipe rail fragments
+      </a>
       <a class="sidebar-link" href="#eds-blocks">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11zm8.4 1.3l-.1 1.6a.2.2 0 00.32.17l.55-.42.47.36a.2.2 0 00.32-.17l-.13-2.03h.8v11.4H4.4V2.3h6.5z"/></svg>
         EDS blocks
@@ -685,8 +689,8 @@
           <li>Use the EDS block-based model only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>) — no custom block-loader routing beyond stock boilerplate resolution.</li>
           <li>Shared recipe client in <code class="code-inline">scripts/recipe-data.js</code> — path normalization, one <code class="code-inline">.sni.json</code> fetch, suggestion payloads, image URL rewriting to <code class="code-inline">food.fnr.sndimg.com</code>.</li>
           <li>Recipe layout needs: auto-apply <code class="code-inline">sidebar</code> section styles when recipe blocks are present; split sidebar sections into main well + right rail around <code class="code-inline">cards-rail</code> (<code class="code-inline">decorateSidebarSections</code>).</li>
-          <li>Shared recipe-rail content — <strong>What’s Cooking</strong> and <strong>Shop with Us</strong> — is authored once as Document Authoring <code class="code-inline">fragment</code>s and included on every recipe detail page, so authors do not duplicate that common content per recipe.</li>
-          <li>DA / Universal Editor compatibility — <code class="code-inline">dapreview</code>, UE host detection, and merged UE models via <code class="code-inline">npm run build:json</code>.</li>
+          <li>Shared recipe-rail content — <strong>What’s Cooking</strong> and <strong>Shop with Us</strong> — is authored once in Document Authoring as <code class="code-inline">fragment</code>s and included on every recipe detail page (see <a href="#recipe-fragments" style="color:var(--brand-blue);">Recipe rail fragments</a>).</li>
+          <li>Document Authoring workflow — content is authored in DA (<code class="code-inline">dapreview</code> for live preview against local code).</li>
         </ul>
 
         <h3>Journeys</h3>
@@ -847,7 +851,7 @@
               <div class="code-block">git clone https://github.com/AdobeDrago/foodnetwork.git
 cd foodnetwork
 npm install</div>
-              <p>Installs ESLint / Stylelint, Husky, and UE JSON merge tooling from <code class="code-inline">package.json</code>.</p>
+              <p>Installs ESLint / Stylelint and other dev dependencies from <code class="code-inline">package.json</code>.</p>
             </div>
           </li>
           <li class="step">
@@ -861,14 +865,6 @@ aem up</div>
                 <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
                 <span><strong>Alternate.</strong> Without a global install: <code class="code-inline">npx -y @adobe/aem-cli up --no-open --forward-browser-logs</code>.</span>
               </div>
-            </div>
-          </li>
-          <li class="step">
-            <div class="step-num"></div>
-            <div class="step-body">
-              <div class="step-title">Rebuild Universal Editor JSON (when models change)</div>
-              <div class="code-block">npm run build:json</div>
-              <p>Merges <code class="code-inline">ue/models/*.json</code> into the root <code class="code-inline">component-models.json</code>, <code class="code-inline">component-definition.json</code>, and <code class="code-inline">component-filters.json</code>.</p>
             </div>
           </li>
         </ol>
@@ -911,16 +907,43 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
           <thead><tr><th>Behavior</th><th>What triggers it</th></tr></thead>
           <tbody>
             <tr><td><code class="code-inline">buildHeroBlock</code></td><td>Auto-builds a <code class="code-inline">hero</code> from a leading picture + <code class="code-inline">h1</code>. Skips pictures inside authored blocks and <strong>skips recipe pages</strong> that already have <code class="code-inline">columns-recipe-info</code> / <code class="code-inline">columns-recipe-body</code> (lead photo stays above the title).</td></tr>
-            <tr><td><code class="code-inline">decorateSections</code></td><td>Wraps section children, applies section-metadata styles/datasets (UE/DA richtext-aware).</td></tr>
+            <tr><td><code class="code-inline">decorateSections</code></td><td>Wraps section children, applies section-metadata styles/datasets (DA richtext-aware).</td></tr>
             <tr><td><code class="code-inline">ensureRecipeSectionStyles</code></td><td>Re-adds <code class="code-inline">sidebar</code> (and related) classes when recipe/info/body or <code class="code-inline">cards-links</code> blocks are present — templates sometimes drop these styles.</td></tr>
             <tr><td><code class="code-inline">decorateSidebarSections</code></td><td>Splits <code class="code-inline">.section.sidebar</code> into <code class="code-inline">.section-main</code> + <code class="code-inline">.section-rail</code> starting at the first <code class="code-inline">cards-rail</code>. Safe to re-run after fragments inject rails.</td></tr>
             <tr><td><code class="code-inline">autolinkModals</code></td><td>Clicks to <code class="code-inline">/modals/</code> open the modal block instead of navigating.</td></tr>
-            <tr><td>DA / UE hooks</td><td><code class="code-inline">dapreview</code> query param loads DA preview; <code class="code-inline">*.ue.da.live</code> / stage hosts load <code class="code-inline">ue/scripts/ue.js</code>; sidekick loads on <code class="code-inline">aem-sidekick</code>.</td></tr>
+            <tr><td>DA preview hooks</td><td><code class="code-inline">dapreview</code> query param loads DA live preview; sidekick loads on <code class="code-inline">aem-sidekick</code>.</td></tr>
           </tbody>
         </table>
-        <div class="notice info">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span><strong>Recipe rail fragments.</strong> On recipe detail pages, <strong>What’s Cooking</strong> and <strong>Shop with Us</strong> are not re-authored per recipe — each page includes a <code class="code-inline">fragment</code> pointing at shared DA content. <code class="code-inline">blocks/fragment/fragment.js</code> loads the fragment, then re-runs <code class="code-inline">decorateMain</code> / <code class="code-inline">decorateSidebarSections</code> so the injected rail still splits correctly into the recipe sidebar layout.</span>
+      </section>
+
+      <section class="doc-section" id="recipe-fragments">
+        <h2>
+          <span class="section-icon icon-seafoam">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.75A.75.75 0 012.75 2h6.5a.75.75 0 010 1.5h-6.5A.75.75 0 012 2.75zm0 4A.75.75 0 012.75 6h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 6.75zm0 4a.75.75 0 01.75-.75h6.5a.75.75 0 010 1.5h-6.5a.75.75 0 01-.75-.75z"/></svg>
+          </span>
+          Recipe rail fragments — What’s Cooking &amp; Shop with Us
+        </h2>
+        <div class="section-rule"></div>
+        <p>On recipe detail pages, <strong>What’s Cooking</strong> and <strong>Shop with Us</strong> are shared content that appears on every recipe. They are <strong>authored once in Document Authoring</strong> and pulled into each recipe page with the <code class="code-inline">fragment</code> block — authors do not copy that rail content onto every recipe document.</p>
+        <table class="spec-table">
+          <thead><tr><th>Rail</th><th>How it ships</th><th>Why fragment</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>What’s Cooking</strong></td>
+              <td>Shared DA fragment → <code class="code-inline">cards-rail</code> in the recipe right rail</td>
+              <td>Same editorial promo list across all recipe details; update once in DA</td>
+            </tr>
+            <tr>
+              <td><strong>Shop with Us</strong></td>
+              <td>Shared DA fragment → <code class="code-inline">cards-shop</code> (tools / shop grid)</td>
+              <td>Same commerce rail across all recipe details; update once in DA</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top:12px;">At runtime, <code class="code-inline">blocks/fragment/fragment.js</code> fetches the fragment’s <code class="code-inline">.plain.html</code>, injects it into the page, then re-runs <code class="code-inline">decorateMain</code> / <code class="code-inline">decorateSidebarSections</code> so the injected rail still splits into the recipe sidebar layout correctly.</p>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          <span>Recipe-specific content (info bar, body, suggestions, actions, reviews) stays on the recipe page. Only the common rails use fragments.</span>
         </div>
       </section>
 
@@ -1095,7 +1118,7 @@ npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.c
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">DA-authored nav/footer fragments</div>
-              <div class="check-note">Published via Document Authoring; UE models under <code class="code-inline">ue/models/</code>.</div>
+              <div class="check-note">Nav and footer published via Document Authoring fragments.</div>
             </div>
           </li>
         </ul>
