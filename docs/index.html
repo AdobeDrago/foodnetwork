@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Network — EDS Migration Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Brand — swap these four for the project's own brand if it has one;
+       otherwise leave the Adobe Drago default navy/blue below. */
+    --brand-navy: #1c1c1c;
+    --brand-blue: #ff6633;
+    --brand-blue-hover: #e55528;
+    --brand-text: #1c1c1c;
+    --brand-grey-text: #6b6b6b;
+    --brand-pale-blue: #fff4ef;
+    --accent: var(--brand-blue);
+
+    --gray-50: #ffffff;
+    --gray-75: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #eaeaea;
+    --gray-300: #e1e1e1;
+    --gray-400: #cacaca;
+    --gray-500: #b3b3b3;
+    --gray-600: #8e8e8e;
+    --gray-700: #6e6e6e;
+    --gray-800: #4b4b4b;
+    --gray-900: #2c2c2c;
+
+    --font: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --mono: 'Source Code Pro', 'Fira Mono', 'Courier New', monospace;
+    --sidebar-width: 248px;
+    --content-max: 860px;
+    --header-h: 56px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ── */
+  .topnav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    z-index: 100;
+    box-shadow: 0 1px 0 var(--gray-200);
+  }
+  .topnav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--brand-navy);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .topnav-logo .mark {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .topnav-divider { width: 1px; height: 20px; background: var(--gray-300); }
+  .topnav-title {
+    color: var(--gray-800);
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .topnav-badge {
+    margin-left: auto;
+    background: var(--brand-pale-blue);
+    color: var(--brand-blue);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; margin-top: var(--header-h); min-height: calc(100vh - var(--header-h)); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    position: sticky;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+    border-right: 1px solid var(--gray-200);
+    background: var(--gray-75);
+    padding: 24px 0 40px;
+  }
+  .sidebar-section { margin-bottom: 8px; }
+  .sidebar-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-600);
+    padding: 8px 20px 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    font-size: 13px;
+    color: var(--gray-800);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+  }
+  .sidebar-link:hover { background: var(--gray-200); color: var(--gray-900); }
+  .sidebar-link.active {
+    background: var(--brand-pale-blue);
+    color: var(--brand-blue);
+    border-left-color: var(--brand-blue);
+    font-weight: 700;
+  }
+  .sidebar-link .icon { width: 16px; height: 16px; opacity: 0.6; flex-shrink: 0; }
+  .sidebar-link.active .icon { opacity: 1; }
+
+  /* ── MAIN ── */
+  .main { flex: 1; min-width: 0; padding: 48px 56px 80px; }
+  .main-inner { max-width: var(--content-max); }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    scroll-margin-top: var(--header-h);
+    margin-bottom: 48px;
+  }
+  .page-hero-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brand-blue);
+    margin-bottom: 8px;
+  }
+  .page-hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--brand-navy);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .page-hero-sub { font-size: 16px; color: var(--gray-700); max-width: 640px; line-height: 1.5; }
+
+  /* ── SECTIONS ── */
+  .doc-section { margin-bottom: 56px; scroll-margin-top: calc(var(--header-h) + 24px); }
+  .doc-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--brand-navy);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .section-rule { height: 1px; background: var(--gray-200); margin: 12px 0 24px; }
+  .doc-section h3 { font-size: 14px; font-weight: 700; color: var(--gray-900); margin: 24px 0 8px; }
+  .doc-section p { font-size: 14px; color: var(--gray-800); margin-bottom: 12px; line-height: 1.65; }
+
+  /* ── SECTION ICON BADGE ── */
+  .section-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .icon-blue   { background: #e9f1fc; color: var(--brand-blue); }
+  .icon-navy   { background: #e6eef7; color: var(--brand-navy); }
+  .icon-green  { background: #eaf6f1; color: #268e6c; }
+  .icon-purple { background: #f3edfb; color: #7240ab; }
+  .icon-seafoam{ background: #e6f4f4; color: #16878c; }
+  .icon-orange { background: #fff4e5; color: #da7b11; }
+
+  /* ── URL CARDS ── */
+  .url-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .url-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .url-card:hover { border-color: var(--brand-blue); box-shadow: 0 0 0 1px var(--brand-blue); }
+  .url-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .url-card-label .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot-blue   { background: var(--brand-blue); }
+  .dot-navy   { background: var(--brand-navy); }
+  .dot-green  { background: #268e6c; }
+  .dot-orange { background: #da7b11; }
+  .url-card-title { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+  .url-card-url { font-size: 12px; font-family: var(--mono); color: var(--brand-blue); word-break: break-all; }
+  .url-card-desc { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+
+  /* ── STEPS ── */
+  .steps { counter-reset: step; list-style: none; display: flex; flex-direction: column; gap: 0; position: relative; }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 15px; top: 30px; bottom: 30px;
+    width: 1px;
+    background: var(--gray-300);
+  }
+  .step { display: flex; gap: 16px; padding-bottom: 24px; position: relative; }
+  .step:last-child { padding-bottom: 0; }
+  .step-num {
+    counter-increment: step;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-num::after { content: counter(step); }
+  .step-body { padding-top: 5px; flex: 1; }
+  .step-title { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+  .step-body p { font-size: 13px; color: var(--gray-700); margin-bottom: 8px; }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--gray-900);
+    color: #d4d4d4;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 8px 0 4px;
+    white-space: pre;
+  }
+  .code-block .cmt  { color: #6a9955; }
+  .code-block .str  { color: #ce9178; }
+  .code-block .kw   { color: #569cd6; }
+  .code-block .var  { color: #9cdcfe; }
+  .code-inline {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    color: var(--gray-900);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* ── NOTICES ── */
+  .notice {
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .notice-icon { flex-shrink: 0; margin-top: 1px; }
+  .notice.info     { background: #e9f1fc; color: #0d51b5; border-left: 3px solid var(--brand-blue); }
+  .notice.tip      { background: #eaf6f1; color: #1a6b50; border-left: 3px solid #268e6c; }
+  .notice.warning  { background: #fff4e5; color: #8a4b08; border-left: 3px solid #da7b11; }
+  /* .todo is NOT part of the original DRiV template — added by this skill
+     to flag skipped/placeholder content distinctly from a normal warning. */
+  .notice.todo {
+    background: repeating-linear-gradient(45deg, #fff8ec, #fff8ec 10px, #fdf1d8 10px, #fdf1d8 20px);
+    color: #8a4b08;
+    border: 1px dashed #da7b11;
+    border-left: 3px dashed #da7b11;
+  }
+  .notice.todo strong { text-transform: uppercase; letter-spacing: 0.04em; font-size: 11px; }
+
+  /* ── SPEC TABLE ── */
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+  .spec-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-600);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--gray-200);
+    background: var(--gray-75);
+  }
+  .spec-table td { padding: 9px 12px; border-bottom: 1px solid var(--gray-200); color: var(--gray-800); vertical-align: top; }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { font-weight: 700; color: var(--gray-900); }
+  .spec-table.blocks-matrix td:first-child {
+    font-weight: 700;
+    color: var(--gray-900);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .spec-table.blocks-matrix td:nth-child(2),
+  .spec-table.blocks-matrix td:nth-child(3) {
+    text-align: center;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .spec-table.blocks-matrix .mark-yes { color: #268e6c; }
+  .spec-table.blocks-matrix .mark-no { color: #c0392b; }
+  .spec-table.blocks-matrix td:last-child {
+    font-weight: 400;
+    color: var(--gray-800);
+    font-family: inherit;
+    font-size: 13px;
+  }
+
+  /* ── PROJECT SWITCHER (only needed when the doc covers >1 project) ── */
+  .sidebar-project {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-800);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+  }
+  .sidebar-project:hover { background: var(--gray-200); color: var(--gray-900); }
+  .sidebar-project.active {
+    background: var(--brand-pale-blue);
+    color: var(--brand-blue);
+    border-left-color: var(--brand-blue);
+  }
+  .project-divider {
+    scroll-margin-top: calc(var(--header-h) + 24px);
+    margin: 56px 0 32px;
+    padding: 20px 0 0;
+    border-top: 2px solid var(--gray-200);
+  }
+  .project-divider:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .project-divider-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brand-blue);
+    margin-bottom: 6px;
+  }
+  .project-divider h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--brand-navy);
+    margin-bottom: 8px;
+  }
+  .project-divider p {
+    font-size: 14px;
+    color: var(--gray-700);
+    max-width: 640px;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+
+  /* ── STATUS BADGE / SIDEBAR PILL ── */
+  .nav-status {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 1px 6px;
+    border-radius: 8px;
+    text-transform: uppercase;
+  }
+  .ns-gap      { background: #fff4e5; color: #8a4b08; }
+  .ns-progress { background: #fff4e5; color: #8a4b08; }
+  .ns-planned  { background: var(--gray-200); color: var(--gray-600); }
+  .ns-done     { background: #eaf6f1; color: #1a6b50; }
+
+  .status-badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+  }
+  .sb-warn     { background: #fff4e5; color: #8a4b08; }
+  .sb-progress { background: #fff4e5; color: #8a4b08; }
+  .sb-planned  { background: var(--gray-100); color: var(--gray-600); }
+  .sb-ok,
+  .sb-done     { background: #eaf6f1; color: #1a6b50; }
+
+  .req-list { margin: 8px 0 0 18px; font-size: 13px; color: var(--gray-700); }
+  .req-list li { margin-bottom: 4px; }
+
+  /* ── PROGRESS CHECKLIST ── */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 4px 0; }
+  .check-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+  }
+  .check-mark {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .check-mark svg { width: 12px; height: 12px; }
+  .cm-done    { background: #eaf6f1; color: #268e6c; }
+  .cm-partial { background: #fff4e5; color: #da7b11; }
+  .cm-todo    { background: var(--gray-100); color: var(--gray-500); }
+  .check-body { flex: 1; }
+  .check-title { font-weight: 700; font-size: 13px; color: var(--gray-900); }
+  .check-note  { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+  /* ── LIGHTHOUSE COMPARISON ── */
+  .lh-compare { display: flex; flex-direction: column; gap: 24px; margin: 16px 0; }
+  .lh-compare-page {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+    overflow: hidden;
+  }
+  .lh-compare-page-title {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .lh-compare-page-title span {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: var(--mono);
+    color: var(--gray-600);
+    margin-left: 8px;
+  }
+  .lh-compare-cols {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  .lh-compare-side {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .lh-compare-side + .lh-compare-side {
+    border-top: 1px solid var(--gray-200);
+  }
+  .lh-compare-side-header {
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--gray-200);
+    background: #fff;
+  }
+  .lh-compare-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #000;
+  }
+  .lh-scores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-left: auto;
+  }
+  .lh-score {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .lh-score-good { background: #eaf6f1; color: #1a6b50; }
+  .lh-score-ok   { background: #fff4e5; color: #8a4b08; }
+  .lh-score-bad  { background: #fdecea; color: #a1281c; }
+  .lh-compare-side img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    border-top: 1px solid var(--gray-200);
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 12px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 24px 20px 60px; }
+    .page-hero h1 { font-size: 24px; }
+    .url-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head><body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="topnav-logo" href="#overview">
+    <span class="mark">FN</span>
+    Food Network
+  </a>
+  <div class="topnav-divider"></div>
+  <span class="topnav-title">Recipes, brand chrome &amp; live JSON — AEM → EDS Migration</span>
+  <span class="topnav-badge">Docs</span>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <nav class="sidebar" aria-label="Page navigation">
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Getting Started</div>
+      <a class="sidebar-link" href="#overview">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+        Overview
+      </a>
+      <a class="sidebar-link" href="#references">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+        Key references
+      </a>
+      <a class="sidebar-link" href="#setup">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Install &amp; run
+      </a>
+      <a class="sidebar-link" href="#linting">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
+        Linting &amp; CI
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Architecture</div>
+      <a class="sidebar-link" href="#block-routing">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+        Block-loading routing
+      </a>
+      <a class="sidebar-link" href="#page-decoration">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+        Page decoration
+      </a>
+      <a class="sidebar-link" href="#eds-blocks">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11zm8.4 1.3l-.1 1.6a.2.2 0 00.32.17l.55-.42.47.36a.2.2 0 00.32-.17l-.13-2.03h.8v11.4H4.4V2.3h6.5z"/></svg>
+        EDS blocks
+      </a>
+      <a class="sidebar-link" href="#supporting-modules">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+        Supporting modules
+      </a>
+      <a class="sidebar-link" href="#lighthouse-compare">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+        Lighthouse comparison
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Journeys</div>
+      <a class="sidebar-link" href="#j1-progress">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Header, footer &amp; brand
+      </a>
+      <a class="sidebar-link" href="#j2-progress">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Recipe detail pages
+      </a>
+      <a class="sidebar-link" href="#j3-progress">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Suggestions, video &amp; chrome
+      </a>
+      <a class="sidebar-link" href="#j4-progress">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Home &amp; listings
+      </a>
+    </div>
+
+  </nav>
+
+  <main class="main">
+    <div class="main-inner">
+
+      <div class="page-hero" id="overview">
+        <div class="page-hero-eyebrow">Food Network · EDS Migration POV</div>
+        <h1>Food Network EDS Pilot</h1>
+        <p class="page-hero-sub">A November 2026 demo POV validating Food Network’s migration to <strong>Edge Delivery Services (EDS)</strong> — production-matching brand chrome, recipe detail pages filled from live Food Network JSON with authored content taking priority, and the companion experiences (suggestion filters, FN video playback, reviews, notes, shop, newsletter) that complete a recipe page.</p>
+      </div>
+
+      <section class="doc-section">
+        <h3>Purpose</h3>
+        <ul class="req-list">
+          <li>Prove a <strong>recipe detail migration path</strong> where EDS pages resolve a Food Network recipe slug (or authored <code class="code-inline">recipe</code> metadata), fetch <code class="code-inline">.sni.json</code> once via <code class="code-inline">scripts/recipe-data.js</code>, and fill empty info/body fields while <strong>authored copy always wins</strong>.</li>
+          <li>Prove <strong>site chrome parity</strong> with <code class="code-inline">foodnetwork.com</code> — header flyouts, utilities, dark footer, Franklin Gothic URW type, and brand tokens authored through Document Authoring fragments.</li>
+          <li>Prove <strong>dynamic discovery &amp; media</strong> on recipe pages: live suggestion filters (Quick &amp; Easy / Highly Rated / Healthy / Surprise Me), inline Food Network HLS video via <code class="code-inline">video-playlist</code>, plus actions, reviews, private notes, shop, and newsletter blocks.</li>
+          <li>Prove <strong>home &amp; listing</strong> surfaces (editorial homepage, category/recipe hub pages) can ship alongside detail demos on the same EDS codebase.</li>
+        </ul>
+
+        <h3>Core engineering requirements</h3>
+        <ul class="req-list">
+          <li>Use the EDS block-based model only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>) — no custom block-loader routing beyond stock boilerplate resolution.</li>
+          <li>Shared recipe client in <code class="code-inline">scripts/recipe-data.js</code> — path normalization, one <code class="code-inline">.sni.json</code> fetch, suggestion payloads, image URL rewriting to <code class="code-inline">food.fnr.sndimg.com</code>.</li>
+          <li>Recipe layout needs: auto-apply <code class="code-inline">sidebar</code> section styles when recipe blocks are present; split sidebar sections into main well + right rail around <code class="code-inline">cards-rail</code> (<code class="code-inline">decorateSidebarSections</code>).</li>
+          <li>DA / Universal Editor compatibility — <code class="code-inline">dapreview</code>, UE host detection, and merged UE models via <code class="code-inline">npm run build:json</code>.</li>
+        </ul>
+
+        <h3>Journeys</h3>
+        <p>Status below reflects the November 2026 demo POV in <code class="code-inline">docs/foodnetwork-demo.html</code> (“Successful Migration …” framing). Confirm with the team if any journey should move off Complete.</p>
+        <table class="spec-table">
+          <thead>
+            <tr><th>Journey</th><th>Validates</th><th>Status</th><th>Preview</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="#j1-progress" style="color:var(--brand-blue);">1 · Header, footer &amp; brand</a></td>
+              <td>FN nav/footer chrome · DA fragments · Franklin Gothic · brand tokens</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--foodnetwork--adobedrago.aem.page/" target="_blank" rel="noopener" style="color:var(--brand-blue);">Homepage</a></td>
+            </tr>
+            <tr>
+              <td><a href="#j2-progress" style="color:var(--brand-blue);">2 · Recipe detail pages</a></td>
+              <td>Path resolution · <code class="code-inline">.sni.json</code> fill · authored-first info/body · star ratings</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--foodnetwork--adobedrago.aem.page/recipes/food-network-kitchen/candy-corn-waffles-3852440" target="_blank" rel="noopener" style="color:var(--brand-blue);">Candy Corn Waffles</a></td>
+            </tr>
+            <tr>
+              <td><a href="#j3-progress" style="color:var(--brand-blue);">3 · Suggestions, video &amp; chrome</a></td>
+              <td>Live filters · FN HLS video · actions / reviews / notes / shop / newsletter</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--foodnetwork--adobedrago.aem.page/recipes/alton-brown/french-toast-recipe-1942216" target="_blank" rel="noopener" style="color:var(--brand-blue);">French Toast</a></td>
+            </tr>
+            <tr>
+              <td><a href="#j4-progress" style="color:var(--brand-blue);">4 · Home &amp; listings</a></td>
+              <td>Editorial homepage · recipe category / hub grids</td>
+              <td><span class="nav-status ns-done">Complete</span></td>
+              <td><a href="https://main--foodnetwork--adobedrago.aem.page/recipes" target="_blank" rel="noopener" style="color:var(--brand-blue);">/recipes</a> · <a href="https://main--foodnetwork--adobedrago.aem.page/recipes/breakfast" target="_blank" rel="noopener" style="color:var(--brand-blue);">breakfast</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Where the build stands today</h3>
+        <p>Demo workstreams called out in the November 2026 Food Network Demo deck:</p>
+        <table class="spec-table">
+          <thead><tr><th>Workstream</th><th>What it covers</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>1 · Recipe path resolution</td><td>FN slugs with/without <code class="code-inline">-recipe-</code>; optional authored <code class="code-inline">recipe</code> metadata</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>2 · Authored content first</td><td>JSON fills blanks only; watch-promo shells do not block fill</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>3 · Star ratings</td><td>FN-style star meter + review count on titles/cards</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>4 · Suggestion filters</td><td>Quick &amp; Easy · Highly Rated · Healthy · Surprise Me on detail pages</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>5 · Recipe page tools</td><td>Actions, reviews, private notes, newsletter, shop cards</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>6 · Video &amp; recipe body</td><td>Inline FN video · ingredients/directions layout · a11y polish</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>7 · Header, footer &amp; brand</td><td>Production-matching chrome + brand tokens</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+            <tr><td>8 · Home &amp; listings</td><td>Editorial homepage + category/listing pages</td><td><span class="nav-status ns-done">Complete</span></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Repository</h3>
+        <table class="spec-table">
+          <tbody>
+            <tr><td>Effort</td><td>Food Network → Edge Delivery Services migration POV (recipes, brand chrome, live JSON)</td></tr>
+            <tr><td>GitHub repo</td><td><code class="code-inline">AdobeDrago/foodnetwork</code> · default branch <code class="code-inline">main</code></td></tr>
+            <tr><td>Base</td><td><code class="code-inline">aem-block-collection</code> / AEM boilerplate lineage (<code class="code-inline">@adobe/aem-block-collection</code> in <code class="code-inline">package.json</code>), DA-compatible</td></tr>
+            <tr><td>Dev model</td><td>EDS block-based only (<code class="code-inline">scripts/aem.js</code> + <code class="code-inline">scripts/scripts.js</code>)</td></tr>
+            <tr><td>Backend services</td><td>None in-repo (no Cloudflare Workers). Live data from <code class="code-inline">www.foodnetwork.com</code> JSON / playback endpoints and <code class="code-inline">food.fnr.sndimg.com</code> images</td></tr>
+            <tr><td>Reference site</td><td><code class="code-inline">https://www.foodnetwork.com</code></td></tr>
+            <tr><td>EDS demo host</td><td><code class="code-inline">main--foodnetwork--adobedrago.aem.page</code></td></tr>
+            <tr><td>Testing</td><td>Lint-only CI (<code class="code-inline">.github/workflows/main.yaml</code>) — no automated test suite in the site root</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="doc-section" id="references">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+          </span>
+          Key references
+        </h2>
+        <div class="section-rule"></div>
+
+        <h3>Live — production (migration source)</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://www.foodnetwork.com/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Production</span>
+            <span class="url-card-title">Food Network</span>
+            <span class="url-card-url">www.foodnetwork.com</span>
+            <span class="url-card-desc">Reference site · recipe JSON · header/footer source of truth</span>
+          </a>
+          <a class="url-card" href="https://www.foodnetwork.com/recipes" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-orange"></span>Recipes hub</span>
+            <span class="url-card-title">Recipes</span>
+            <span class="url-card-url">www.foodnetwork.com/recipes</span>
+            <span class="url-card-desc">Category / listing patterns mirrored on EDS</span>
+          </a>
+        </div>
+
+        <h3>EDS demo — AdobeDrago preview</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://main--foodnetwork--adobedrago.aem.page/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Home</span>
+            <span class="url-card-title">EDS Homepage</span>
+            <span class="url-card-url">main--foodnetwork--adobedrago.aem.page/</span>
+            <span class="url-card-desc">Header / footer / brand chrome</span>
+          </a>
+          <a class="url-card" href="https://main--foodnetwork--adobedrago.aem.page/recipes" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-green"></span>Listings</span>
+            <span class="url-card-title">Recipes hub</span>
+            <span class="url-card-url">…/recipes</span>
+            <span class="url-card-desc">Category &amp; listing surfaces</span>
+          </a>
+          <a class="url-card" href="https://main--foodnetwork--adobedrago.aem.page/recipes/food-network-kitchen/candy-corn-waffles-3852440" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-orange"></span>Detail · no -recipe-</span>
+            <span class="url-card-title">Candy Corn Waffles</span>
+            <span class="url-card-url">…/candy-corn-waffles-3852440</span>
+            <span class="url-card-desc">Path without <code class="code-inline">-recipe-</code> · filters · JSON fill</span>
+          </a>
+          <a class="url-card" href="https://main--foodnetwork--adobedrago.aem.page/recipes/alton-brown/french-toast-recipe-1942216" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Detail · classic</span>
+            <span class="url-card-title">French Toast</span>
+            <span class="url-card-url">…/french-toast-recipe-1942216</span>
+            <span class="url-card-desc">Full recipe chrome · video · actions</span>
+          </a>
+          <a class="url-card" href="https://main--foodnetwork--adobedrago.aem.page/recipes/winner-aarti-sequeira1/baked-samosas-with-mint-chutney-recipe-1952533" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-green"></span>Detail</span>
+            <span class="url-card-title">Baked Samosas</span>
+            <span class="url-card-url">…/baked-samosas-…-1952533</span>
+            <span class="url-card-desc">Additional migrated recipe sample</span>
+          </a>
+          <a class="url-card" href="https://main--foodnetwork--adobedrago.aem.page/recipes/demo-recipe-page" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>Authored path</span>
+            <span class="url-card-title">Demo recipe page</span>
+            <span class="url-card-url">…/recipes/demo-recipe-page</span>
+            <span class="url-card-desc">Uses authored <code class="code-inline">recipe</code> metadata to bind a slug</span>
+          </a>
+        </div>
+
+        <h3>Authoring &amp; repo</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://da.live/#/adobedrago/foodnetwork/" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-blue"></span>Document Authoring</span>
+            <span class="url-card-title">DA content</span>
+            <span class="url-card-url">da.live/#/adobedrago/foodnetwork/</span>
+            <span class="url-card-desc">Org/site convention (no <code class="code-inline">fstab.yaml</code> in repo)</span>
+          </a>
+          <a class="url-card" href="https://github.com/AdobeDrago/foodnetwork" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-navy"></span>GitHub</span>
+            <span class="url-card-title">AdobeDrago/foodnetwork</span>
+            <span class="url-card-url">github.com/AdobeDrago/foodnetwork</span>
+            <span class="url-card-desc">Code sync · blocks · scripts</span>
+          </a>
+          <a class="url-card" href="foodnetwork-demo.html" target="_blank" rel="noopener">
+            <span class="url-card-label"><span class="dot dot-orange"></span>Demo deck</span>
+            <span class="url-card-title">Food Network Demo</span>
+            <span class="url-card-url">docs/foodnetwork-demo.html</span>
+            <span class="url-card-desc">Nov 2026 slide deck (also Food_Network_Demo.pdf)</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="doc-section" id="setup">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Install &amp; run
+        </h2>
+        <div class="section-rule"></div>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Clone and install</div>
+              <div class="code-block">git clone https://github.com/AdobeDrago/foodnetwork.git
+cd foodnetwork
+npm install</div>
+              <p>Installs ESLint / Stylelint, Husky, and UE JSON merge tooling from <code class="code-inline">package.json</code>.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Run the AEM CLI</div>
+              <div class="code-block">sudo npm install -g @adobe/aem-cli
+aem up</div>
+              <p>Starts the standard EDS local dev server at <code class="code-inline">http://localhost:3000</code>, serving local code against Document Authoring content (<a href="https://da.live/#/adobedrago/foodnetwork/" target="_blank" rel="noopener" style="color:var(--brand-blue);">da.live/#/adobedrago/foodnetwork/</a>). There is no <code class="code-inline">fstab.yaml</code> in this repo — mount follows the Adobe Drago org/site convention.</p>
+              <div class="notice tip" style="margin-top:12px;">
+                <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+                <span><strong>Alternate.</strong> Without a global install: <code class="code-inline">npx -y @adobe/aem-cli up --no-open --forward-browser-logs</code>.</span>
+              </div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Rebuild Universal Editor JSON (when models change)</div>
+              <div class="code-block">npm run build:json</div>
+              <p>Merges <code class="code-inline">ue/models/*.json</code> into the root <code class="code-inline">component-models.json</code>, <code class="code-inline">component-definition.json</code>, and <code class="code-inline">component-filters.json</code>.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="doc-section" id="linting">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
+          </span>
+          Linting &amp; CI
+        </h2>
+        <div class="section-rule"></div>
+        <div class="code-block">npm run lint       <span class="cmt"># runs lint:js + lint:css</span>
+npm run lint:js    <span class="cmt"># ESLint (airbnb-base) across the repo</span>
+npm run lint:css   <span class="cmt"># Stylelint on blocks/**/*.css + styles/*.css</span></div>
+        <p style="margin-top:12px;"><code class="code-inline">.github/workflows/main.yaml</code> runs <code class="code-inline">npm ci</code> then <code class="code-inline">npm run lint</code> on every push — it does <strong>not</strong> run a build, deploy, or test step. There is no automated test suite in the EDS site root.</p>
+      </section>
+
+      <section class="doc-section" id="block-routing">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+          </span>
+          Block-loading routing
+        </h2>
+        <div class="section-rule"></div>
+        <p>Block resolution in <code class="code-inline">scripts/aem.js</code> follows stock <code class="code-inline">aem-boilerplate</code> / block-collection behavior: each decorated block loads <code class="code-inline">/blocks/{name}/{name}.js</code> and <code class="code-inline">.css</code> from <code class="code-inline">codeBasePath</code>. There is <strong>no custom block-name remapping or alternate loader</strong> in this project — Food Network customizations live in page decoration (<code class="code-inline">scripts/scripts.js</code>) and in the block modules themselves.</p>
+      </section>
+
+      <section class="doc-section" id="page-decoration">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+          </span>
+          Page decoration (<code class="code-inline">scripts/scripts.js</code>)
+        </h2>
+        <div class="section-rule"></div>
+        <table class="spec-table">
+          <thead><tr><th>Behavior</th><th>What triggers it</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">buildHeroBlock</code></td><td>Auto-builds a <code class="code-inline">hero</code> from a leading picture + <code class="code-inline">h1</code>. Skips pictures inside authored blocks and <strong>skips recipe pages</strong> that already have <code class="code-inline">columns-recipe-info</code> / <code class="code-inline">columns-recipe-body</code> (lead photo stays above the title).</td></tr>
+            <tr><td><code class="code-inline">decorateSections</code></td><td>Wraps section children, applies section-metadata styles/datasets (UE/DA richtext-aware).</td></tr>
+            <tr><td><code class="code-inline">ensureRecipeSectionStyles</code></td><td>Re-adds <code class="code-inline">sidebar</code> (and related) classes when recipe/info/body or <code class="code-inline">cards-links</code> blocks are present — templates sometimes drop these styles.</td></tr>
+            <tr><td><code class="code-inline">decorateSidebarSections</code></td><td>Splits <code class="code-inline">.section.sidebar</code> into <code class="code-inline">.section-main</code> + <code class="code-inline">.section-rail</code> starting at the first <code class="code-inline">cards-rail</code>. Safe to re-run after fragments inject rails.</td></tr>
+            <tr><td><code class="code-inline">autolinkModals</code></td><td>Clicks to <code class="code-inline">/modals/</code> open the modal block instead of navigating.</td></tr>
+            <tr><td>DA / UE hooks</td><td><code class="code-inline">dapreview</code> query param loads DA preview; <code class="code-inline">*.ue.da.live</code> / stage hosts load <code class="code-inline">ue/scripts/ue.js</code>; sidekick loads on <code class="code-inline">aem-sidekick</code>.</td></tr>
+          </tbody>
+        </table>
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><code class="code-inline">blocks/fragment/fragment.js</code> re-imports <code class="code-inline">decorateMain</code> / <code class="code-inline">decorateSidebarSections</code> after injecting fragment HTML so “What’s Cooking” rails keep the recipe sidebar layout.</span>
+        </div>
+      </section>
+
+      <section class="doc-section" id="eds-blocks">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 001 2.5v11A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0013.5 1h-11zm8.4 1.3l-.1 1.6a.2.2 0 00.32.17l.55-.42.47.36a.2.2 0 00.32-.17l-.13-2.03h.8v11.4H4.4V2.3h6.5z"/></svg>
+          </span>
+          EDS blocks
+        </h2>
+        <div class="section-rule"></div>
+        <p>35 decorateable folders under <code class="code-inline">blocks/</code>. Food Network–specific surfaces are grouped first; stock block-collection blocks follow.</p>
+
+        <h3>Recipe detail &amp; data-driven</h3>
+        <table class="spec-table">
+          <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">columns-recipe-info</code></td><td>Cook time / yield / nutrition popover bar. Empty cells fill from <code class="code-inline">loadRecipe()</code>; authored values win.</td></tr>
+            <tr><td><code class="code-inline">columns-recipe-body</code></td><td>Title, rating stars, chef photo, ingredients, directions, categories, package/show metadata from JSON when empty; sidebar layout partner.</td></tr>
+            <tr><td><code class="code-inline">cards-recipe</code></td><td>Recipe capsule cards; on detail pages wires live suggestion filters via <code class="code-inline">loadSuggestions</code>.</td></tr>
+            <tr><td><code class="code-inline">video-playlist</code></td><td>Featured player + optional rail; YouTube/Vimeo/media files inline; FN recipe assets stream via HLS like foodnetwork.com.</td></tr>
+            <tr><td><code class="code-inline">recipe-actions</code></td><td>Save / Pinterest / Print / Email / Meal Plan toolbar; share URLs use the canonical FN recipe path.</td></tr>
+            <tr><td><code class="code-inline">reviews</code></td><td>Star meters, paginated reviews, compose UI; “leave a review” deep-links to foodnetwork.com.</td></tr>
+            <tr><td><code class="code-inline">private-notes</code></td><td>LocalStorage notes keyed to recipe path (or page path in preview).</td></tr>
+            <tr><td><code class="code-inline">cards-shop</code></td><td>“Tools You May Need” product grid with outbound sponsored links.</td></tr>
+            <tr><td><code class="code-inline">newsletter</code></td><td>Recipe-of-the-day signup capsule; posts email to FN signup URL.</td></tr>
+            <tr><td><code class="code-inline">breadcrumb</code></td><td>Hierarchy trail matching FN recipe breadcrumb patterns.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Editorial / home / listings</h3>
+        <table class="spec-table">
+          <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">header</code> / <code class="code-inline">footer</code></td><td>FN chrome — mega-menu flyouts, utilities, SVG fallbacks; dark footer with collapsible sections.</td></tr>
+            <tr><td><code class="code-inline">hero</code> / <code class="code-inline">hero-boxed</code></td><td>Full-bleed linked hero; boxed SuperLead-style overlay headline (<code class="code-inline">hero-boxed</code>).</td></tr>
+            <tr><td><code class="code-inline">cards</code> / <code class="code-inline">cards-gallery</code> / <code class="code-inline">cards-collage</code> / <code class="code-inline">cards-kicker</code> / <code class="code-inline">cards-feed</code> / <code class="code-inline">cards-profile</code> / <code class="code-inline">cards-links</code> / <code class="code-inline">cards-rail</code></td><td>Editorial card families (gallery, collage feature+stack, kicker promos, article feed + load more, chef profiles, related-page link tiles, right-rail “Recently on TV” with load more).</td></tr>
+            <tr><td><code class="code-inline">columns</code> / <code class="code-inline">columns-promo</code></td><td>Multi-column layouts; image + headline + CTA promo columns.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Stock / shared utilities</h3>
+        <table class="spec-table">
+          <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">fragment</code></td><td>Includes authored fragment HTML; re-decorates and re-splits sidebars after inject.</td></tr>
+            <tr><td><code class="code-inline">accordion</code> / <code class="code-inline">tabs</code> / <code class="code-inline">table</code> / <code class="code-inline">quote</code> / <code class="code-inline">form</code> / <code class="code-inline">search</code> / <code class="code-inline">carousel</code></td><td>Block-collection primitives used for FAQ, tabbed content, tables, quotes, forms, site search UI, carousels.</td></tr>
+            <tr><td><code class="code-inline">embed</code> / <code class="code-inline">video</code> / <code class="code-inline">modal</code></td><td>Third-party embeds, generic video, modal dialogs (also auto-linked from <code class="code-inline">/modals/</code>).</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="doc-section" id="supporting-modules">
+        <h2>
+          <span class="section-icon icon-orange">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+          </span>
+          Supporting modules (<code class="code-inline">scripts/</code>)
+        </h2>
+        <div class="section-rule"></div>
+        <table class="spec-table">
+          <thead><tr><th>Module</th><th>Exports / purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">recipe-data.js</code></td><td><code class="code-inline">recipePath</code>, <code class="code-inline">loadRecipe</code>, <code class="code-inline">loadSuggestions</code>, <code class="code-inline">formatMinutes</code>, <code class="code-inline">foodImageUrl</code>, ingredient/direction helpers, rating text. Consumed by <code class="code-inline">columns-recipe-*</code>, <code class="code-inline">cards-recipe</code>, <code class="code-inline">recipe-actions</code>, <code class="code-inline">reviews</code>, <code class="code-inline">private-notes</code>.</td></tr>
+            <tr><td><code class="code-inline">scripts.js</code></td><td>Page bootstrap; exports <code class="code-inline">decorateMain</code>, <code class="code-inline">decorateSidebarSections</code> for fragments.</td></tr>
+            <tr><td><code class="code-inline">aem.js</code></td><td>Stock EDS helpers (decorate/load blocks, sections, header/footer, RUM, pictures).</td></tr>
+            <tr><td><code class="code-inline">delayed.js</code></td><td>Delayed-load stub (empty beyond the import hook).</td></tr>
+            <tr><td><code class="code-inline">context.js</code></td><td>DA context editing helpers (<code class="code-inline">contenteditable</code> on headings/paragraphs). Loaded by DA conventions rather than a static importer in blocks.</td></tr>
+            <tr><td><code class="code-inline">sidekick.js</code></td><td>Sidekick experimentation plugin toggle. Imports <code class="code-inline">NX_ORIGIN</code> from <code class="code-inline">scripts.js</code> — that export is currently missing in this checkout (worth a follow-up if Sidekick experiments are needed).</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="doc-section" id="lighthouse-compare">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.25a.75.75 0 01.75.75v2.69l1.78 1.78a.75.75 0 11-1.06 1.06l-2-2A.75.75 0 017.25 8.5v-3a.75.75 0 01.75-.75z"/></svg>
+          </span>
+          Lighthouse comparison — Live vs EDS
+        </h2>
+        <div class="section-rule"></div>
+        <p>Chrome Lighthouse captures for the production site vs the AdobeDrago EDS preview. EDS homepage lands at <strong>100 / 100 / 100</strong> (Perf / A11y / BP); the Breakfast listing is <strong>100 / 96 / 100</strong>. Live foodnetwork.com scores <strong>86 / 86 / 50</strong> on the same surfaces.</p>
+        <div class="lh-compare">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Homepage <span>/ · /</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 86</span>
+                    <span class="lh-score lh-score-ok">A11y 86</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-ok">Agentic 1/2</span>
+                  </div>
+                </div>
+                <img src="images/live-homepage.jpg" alt="Lighthouse audit for live www.foodnetwork.com homepage">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 100</span>
+                    <span class="lh-score lh-score-good">BP 100</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/eds-homepage.jpg" alt="Lighthouse audit for EDS Food Network homepage">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Breakfast Recipes <span>/recipes/breakfast</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 86</span>
+                    <span class="lh-score lh-score-ok">A11y 86</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-ok">Agentic 1/2</span>
+                  </div>
+                </div>
+                <img src="images/live-breakfast.jpg" alt="Lighthouse audit for live www.foodnetwork.com/recipes/breakfast">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 96</span>
+                    <span class="lh-score lh-score-good">BP 100</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/eds-breakfast.jpg" alt="Lighthouse audit for EDS /recipes/breakfast">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="j1-progress">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Journey 1 — Header, footer &amp; brand
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Site chrome migrated to match foodnetwork.com: logo, primary nav, search, Saves, Shopping List, profile utilities, desktop hover flyouts (including TV schedule rows), mobile hamburger, dark footer, and Franklin Gothic URW via <code class="code-inline">styles/brand.css</code> tokens (accent <code class="code-inline">#f63</code>, teal <code class="code-inline">#5ac0b8</code>).</p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Header matches production patterns</div>
+              <div class="check-note"><code class="code-inline">blocks/header</code> — flyouts, utilities, local SVG fallbacks when DA images fail.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Footer + brand tokens</div>
+              <div class="check-note"><code class="code-inline">blocks/footer</code> + <code class="code-inline">styles/brand.css</code> / fonts under <code class="code-inline">fonts/</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">DA-authored nav/footer fragments</div>
+              <div class="check-note">Published via Document Authoring; UE models under <code class="code-inline">ue/models/</code>.</div>
+            </div>
+          </li>
+        </ul>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          <span>Sample surfaces: <a href="https://main--foodnetwork--adobedrago.aem.page/" target="_blank" rel="noopener" style="color:var(--brand-blue);">homepage</a>, <a href="https://main--foodnetwork--adobedrago.aem.page/recipes" target="_blank" rel="noopener" style="color:var(--brand-blue);">/recipes</a>.</span>
+        </div>
+      </section>
+
+      <section class="doc-section" id="j2-progress">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Journey 2 — Recipe detail pages
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Recipe detail pattern: resolve path from URL or authored <code class="code-inline">recipe</code> metadata (slugs with or without <code class="code-inline">-recipe-</code>), one <code class="code-inline">.sni.json</code> fetch, fill title/rating/author/ingredients/directions/categories when empty, keep authored headings and Nutrition Info popover as authored.</p>
+        <table class="spec-table">
+          <thead><tr><th>Step</th><th>Path / module</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><code class="code-inline">recipePath()</code></td><td>Normalize metadata or pathname to <code class="code-inline">/recipes/…(-recipe)?-&lt;id&gt;</code>.</td></tr>
+            <tr><td>2</td><td><code class="code-inline">loadRecipe()</code></td><td>Fetch <code class="code-inline">https://www.foodnetwork.com{path}.sni.json</code> once.</td></tr>
+            <tr><td>3</td><td><code class="code-inline">columns-recipe-info</code> / <code class="code-inline">columns-recipe-body</code></td><td>Fill empty fields; authored content wins; sidebar split via decoration.</td></tr>
+          </tbody>
+        </table>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Path resolution + authored metadata</div>
+              <div class="check-note">Including demo page at <code class="code-inline">/recipes/demo-recipe-page</code>.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Authored-first JSON fill</div>
+              <div class="check-note">Watch-promo shells no longer block fill; JSON headings use “Ingredients:” / “Directions:” only when generated.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Star ratings</div>
+              <div class="check-note">FN-style meter + review count from recipe JSON.</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="doc-section" id="j3-progress">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Journey 3 — Suggestions, video &amp; recipe chrome
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Related-recipe discovery, Food Network playback, and companion blocks that complete a detail page.</p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Live suggestion filters</div>
+              <div class="check-note"><code class="code-inline">cards-recipe</code> + <code class="code-inline">loadSuggestions</code> — Quick &amp; Easy, Highly Rated, Healthy, Surprise Me when <code class="code-inline">columns-recipe-body</code> is present. Authored cards remain the default rail.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Video playlist</div>
+              <div class="check-note"><code class="code-inline">video-playlist</code> — featured player, optional rail, FN HLS playback.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Companion chrome</div>
+              <div class="check-note"><code class="code-inline">recipe-actions</code>, <code class="code-inline">reviews</code>, <code class="code-inline">private-notes</code>, <code class="code-inline">newsletter</code>, <code class="code-inline">cards-shop</code>.</div>
+            </div>
+          </li>
+        </ul>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          <span><strong>Demo click path:</strong> open Candy Corn Waffles → Nutrition Info → suggestion filters → Save/Print/notes/reviews → play the recipe video rail.</span>
+        </div>
+      </section>
+
+      <section class="doc-section" id="j4-progress">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Journey 4 — Home &amp; listings
+          <span class="status-badge sb-done">Complete</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Editorial homepage and recipe category/listing pages published alongside the detail demos, using the card/hero/promo block families.</p>
+        <ul class="checklist">
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Homepage editorial</div>
+              <div class="check-note"><code class="code-inline">hero</code> / <code class="code-inline">hero-boxed</code>, collage, kicker, gallery, feed patterns.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Category / hub listings</div>
+              <div class="check-note">e.g. <code class="code-inline">/recipes</code>, <code class="code-inline">/recipes/breakfast</code> on the EDS preview host.</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <div class="doc-footer">
+        <span>Food Network — AEM → Edge Delivery Services · docs/</span>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+(() => {
+  const links = document.querySelectorAll('.sidebar-link[href^="#"], .sidebar-project[href^="#"]');
+  const sections = new Map();
+  links.forEach((link) => {
+    const target = document.getElementById(link.getAttribute('href').slice(1));
+    if (target) sections.set(target, link);
+  });
+
+  const setActive = (link) => {
+    links.forEach((l) => l.classList.toggle('active', l === link));
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries.filter((entry) => entry.isIntersecting);
+    if (!visible.length) return;
+    visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    setActive(sections.get(visible[0].target));
+  }, { rootMargin: '-64px 0px -70% 0px', threshold: 0 });
+
+  sections.forEach((_, target) => observer.observe(target));
+})();
+</script>
+</body>
+</html>
